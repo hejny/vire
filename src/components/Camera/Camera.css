@@ -8,10 +8,10 @@
   background: black;
 }
 
-.Camera button{
+.Camera .snap{
   position: fixed;
-  bottom: 30px;
-  left: calc( 50vw - 50px);
+  bottom: calc( 30px + 10px);
+  left: calc( 50vw - 50px - 10px);
 
   width: 100px;
   height: 100px;
@@ -25,12 +25,7 @@
 
 }
 
-.Camera:active button{
-  border: 30px solid rgba(30,30,30,20%);
+.Camera:active .snap{
+  border: 20px solid rgba(30,30,30,20%);
 
-}
-
-
-button:active{
-  outline: none;
 }

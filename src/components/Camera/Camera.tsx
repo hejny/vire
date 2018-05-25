@@ -22,7 +22,7 @@ export class Camera extends React.Component {
           screenshotFormat="image/jpeg"
           
         />
-        <button></button>
+        <div className="snap"></div>
       </div>
     );
   }
