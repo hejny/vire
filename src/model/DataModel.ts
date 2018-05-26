@@ -73,6 +73,12 @@ export class DataModel {
         this.loadPreferencesHtml();
     }
 
+    loadAnswersFromSmartDots(answers: (boolean | null)[]) {
+        this.answers = answers;
+        this.phase = AppScreen.RESULTS;
+        this.loadPreferencesHtml();
+    }
+
     @computed
     get answersQuery(): string {
         if (!this.answers) {

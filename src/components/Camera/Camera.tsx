@@ -31,11 +31,13 @@ class Color {
 }
 
 const targetColors = [
-    new Color(0, 0, 0),
-    new Color(255, 255, 255),
     new Color(169, 19, 2),
     new Color(29, 112, 8),
+    new Color(255, 255, 255),
+    new Color(0, 0, 0),
 ];
+
+const MIRROR = true;
 
 export const Camera = observer(
     class extends React.Component<{ dataModel: DataModel }, {}> {
@@ -70,6 +72,7 @@ export const Camera = observer(
                     bufferCanvas.width,
                     bufferCanvas.height,
                 );
+                MIRROR; //todo
                 var frame = bufferCtx.getImageData(x - 5, y - 5, 10, 10);
 
                 let color1 = new Color();
@@ -88,31 +91,40 @@ export const Camera = observer(
                 return color1;
             }
 
-            function detectColor(targetColors: Color[], x: number, y: number) {
-                const size = 30;
+            function detectColor(
+                targetColors: Color[],
+                x: number,
+                y: number,
+            ): number {
+                const size = 17;
                 const color = getPointColor(x, y);
                 const targetColor = color.nearestColor(...targetColors);
 
                 //if(color.distance(targetColor)<130){
-                drawCtx.beginPath();
-                drawCtx.fillRect(x - size / 2, y - size / 2, size, size);
+                //drawCtx.beginPath();
                 drawCtx.fillStyle = targetColor.toCss();
+                drawCtx.fillRect(x - size / 2, y - size / 2, size, size);
                 //console.log( targetColor.toCss());
-                drawCtx.fill();
+                //drawCtx.fill();
 
                 //}
+
+                return targetColors.indexOf(targetColor);
             }
 
             targetColors;
             detectColor;
 
             const rect = this.overlayElementImg.getBoundingClientRect();
-            console.log(rect);
+
+            const answers: (boolean | null)[] = [];
 
             const size = { x: 2, y: 10 };
             for (let y = 0; y < size.y; y++) {
+                let colorIndex1, colorIndex2;
+
                 for (let x = 0; x < size.x; x++) {
-                    detectColor(
+                    const colorIndex = detectColor(
                         targetColors,
                         (rect.right + rect.left) / 2 +
                             (rect.right - rect.left) *
@@ -123,10 +135,38 @@ export const Camera = observer(
                                 (y / size.y - 0.45) *
                                 0.95,
                     );
+
+                    if (x === 0) {
+                        colorIndex1 = colorIndex;
+                    } else if (x === 1) {
+                        colorIndex2 = colorIndex;
+                    }
                 }
+
+                let rowAnswer = null;
+
+                if (colorIndex1 === 1 && colorIndex2 === 2) {
+                    rowAnswer = true;
+                } else if (colorIndex1 === 2 && colorIndex2 === 0) {
+                    rowAnswer = false;
+                }
+
+                answers.push(rowAnswer);
             }
 
-            requestAnimationFrame(() => this.validate());
+            console.log(answers);
+
+            if (
+                answers.filter((answer) => answer !== true && answer !== false)
+                    .length > 3
+            ) {
+                setTimeout(
+                    () => requestAnimationFrame(() => this.validate()),
+                    30,
+                );
+            } else {
+                this.props.dataModel.loadAnswersFromSmartDots(answers);
+            }
         }
 
         render() {
