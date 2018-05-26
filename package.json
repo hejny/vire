@@ -4,8 +4,10 @@
   "private": true,
   "homepage": "https://election-calculator.github.io/election-calculator-frontend",
   "dependencies": {
+    "@types/html2canvas": "0.0.33",
     "@types/jspdf": "^1.1.31",
     "@types/react-webcam": "^0.3.0",
+    "html2canvas": "^1.0.0-alpha.12",
     "jspdf": "^1.4.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
