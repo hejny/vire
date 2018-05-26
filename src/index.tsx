@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { App } from './components/App/App';
-import { DataModel } from './DataModel';
+import { DataModel } from './model/DataModel';
 
 const dataModel = new DataModel();
 

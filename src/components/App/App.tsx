@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {observer} from 'mobx-react';
-import { DataModel } from '../../DataModel';
+import { DataModel } from '../../model/DataModel';
 import './App.css';
 import { Camera } from '../Camera/Camera';
 import { Results } from '../Results/Results';

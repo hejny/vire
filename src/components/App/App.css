@@ -2,6 +2,24 @@ body{
     font-family: 'Roboto', sans-serif;
 }
 
+button:hover, .button:hover, input[type="submit"]:hover {
+    background-color: #37beff;
+}
+button, .button, input[type="submit"] {
+    display: inline-block;
+    border: none;
+    padding: 0 10px;
+    margin: 2px;
+    min-width: 100px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    border-radius: 3px;
+    background-color: #0098ff;
+    color: white;
+    cursor: pointer;
+}
+
 .App{
 
   

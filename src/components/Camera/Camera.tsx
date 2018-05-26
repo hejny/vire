@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Webcam from 'react-webcam';
 import './Camera.css';
 import { observer } from 'mobx-react';
-import { DataModel } from '../../DataModel';
+import { DataModel } from '../../model/DataModel';
 
 export const Camera = observer(class extends React.Component<{dataModel:DataModel},{}>{
     private webcam: any;

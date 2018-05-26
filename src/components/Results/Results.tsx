@@ -2,11 +2,9 @@ import * as React from 'react';
 import {observer} from 'mobx-react';
 import './Results.css';
 import { print } from '../../tools/print';
-import { DataModel } from '../../DataModel';
+import { DataModel } from '../../model/DataModel';
+import { Party } from '../../model/Party';
 
-class Party {
-    constructor(public title: string, public shortcut: string, public icon: string) {}
-}
 
 const parties:Party[] = [
     new Party(
@@ -50,7 +48,11 @@ export const Results = observer((props: {dataModel:DataModel})=>{
             <h1>Volební kalkulačka 2017</h1>
 
             <button onClick={print}>
-                Print
+                Vytisknout
+            </button>
+
+            <button onClick={()=>props.dataModel.phase=1}>
+                Znovu
             </button>
 
 
