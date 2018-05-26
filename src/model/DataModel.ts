@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { observable, computed } from 'mobx';
 import * as superagent from 'superagent';
 import { QUESTION_ID_ORDER } from '../config';
 
@@ -41,7 +41,8 @@ export class DataModel {
         this.loadPreferencesHtml();
     }
 
-    async loadPreferencesHtml() {
+    @computed get answersQuery():string{
+
         if (!this.answers) {
             throw new Error(
                 `loadPreferencesHtml should be called after loadAnswersFromImage.`,
@@ -67,9 +68,13 @@ export class DataModel {
         });
 
         //'{"1":-1,"11":1}'
+        return JSON.stringify(query);
+    }
+
+    async loadPreferencesHtml() {
         const result = await superagent
             .get(`https://volebnikalkulacka.cz/hackathon-2018/?key=hackathon`)
-            .send({ q: JSON.stringify(query) });
+            .send({ q: this.answersQuery,key: 'hackathon'});//todo dynamic event
         this.preferencesHtml = result.body;
     }
 }

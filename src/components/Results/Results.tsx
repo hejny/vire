@@ -14,8 +14,9 @@ export const Results = observer((props: { dataModel: DataModel }) => {
             <h1>Volební kalkulačka 2017</h1>
 
             <button onClick={print}>Vytisknout</button>
-
             <button onClick={() => (props.dataModel.phase = 1)}>Znovu</button>
+            <a href={`https://volebnikalkulacka.cz/cs/volby-2017/results?q=${encodeURIComponent(props.dataModel.answersQuery)}`}><button>Volební kalkulačka</button></a>
+
 
             {props.dataModel.answers!.some(correctAnswer) && (
                 <div className="warning">
