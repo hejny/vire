@@ -1,13 +1,17 @@
 import * as React from 'react';
 import * as Webcam from 'react-webcam';
 import './Camera.css';
+import { observer } from 'mobx-react';
+import { DataModel } from '../../DataModel';
 
-export class Camera extends React.Component {
+export const Camera = observer(class extends React.Component<{dataModel:DataModel},{}>{
     private webcam: any;
 
     capture() {
         const imageSrc = this.webcam.getScreenshot();
         console.log(imageSrc);
+
+        this.props.dataModel.phase = 2;
     }
 
     render() {
@@ -24,4 +28,4 @@ export class Camera extends React.Component {
             </div>
         );
     }
-}
+})

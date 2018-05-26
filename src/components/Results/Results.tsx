@@ -1,7 +1,8 @@
 import * as React from 'react';
-import * as jsPDF from 'jspdf';
-import * as html2canvas from 'html2canvas';
+import {observer} from 'mobx-react';
 import './Results.css';
+import { print } from '../../tools/print';
+import { DataModel } from '../../DataModel';
 
 class Party {
     constructor(public title: string, public shortcut: string, public icon: string) {}
@@ -31,7 +32,7 @@ const parties:Party[] = [
 ]
 
 
-export function Results({  }: {}) {
+export const Results = observer((props: {dataModel:DataModel})=>{
     let results: { party: Party; percent: number }[] = [];
 
     for(let i=0;i<10;i++){
@@ -48,32 +49,9 @@ export function Results({  }: {}) {
         <div className="Results" id="results">
             <h1>Volební kalkulačka 2017</h1>
 
-            <button onClick={()=>{
-
-
-
-                var quotes = document.getElementById('results');//todo better
-
-                html2canvas(quotes!);
-                
-
-
-                /*var doc = new jsPDF();
-
-                doc.setFontSize(40)
-                doc.text(35, 25, 'Paranyan loves jsPDF')
-                doc.addImage('http://localhost:3000/test.jpg', 'JPEG', 15, 40, 180, 160)
-                doc.save('a4.pdf');*/
-
-                alert('111');
-
-
-
-            }}>
+            <button onClick={print}>
                 Print
             </button>
-
-            <a href="/volby.pdf" download>Download link</a>
 
 
             <ul>
@@ -89,4 +67,4 @@ export function Results({  }: {}) {
             </ul>
         </div>
     );
-}
+})
