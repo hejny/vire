@@ -9,9 +9,7 @@ export const Camera = observer(class extends React.Component<{dataModel:DataMode
 
     capture() {
         const imageSrc = this.webcam.getScreenshot();
-        console.log(imageSrc);
-
-        this.props.dataModel.phase = 2;
+        this.props.dataModel.loadAnswersFromImage(imageSrc);
     }
 
     render() {
