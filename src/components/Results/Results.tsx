@@ -32,7 +32,7 @@ export const Results = observer((props: { dataModel: DataModel }) => {
                 </div>
             )}
 
-            <div>
+            <div id="print">
                 {props.dataModel.preferencesHtml ? (
                     <div
                         dangerouslySetInnerHTML={{

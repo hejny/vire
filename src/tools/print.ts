@@ -6,9 +6,13 @@ export function print() {
     jsPDF;
     html2canvas;
 
-    //var quotes = document.getElementById('results');//todo better
-    //html2canvas(quotes!);
+    const printElement = document.getElementById('print');//todo better
+    const printCanvas = html2canvas(printElement!);
 
+    console.log(printCanvas);
+
+
+    
     /*var doc = new jsPDF();
     doc.setFontSize(40)
     doc.text(35, 25, 'Paranyan loves jsPDF')
