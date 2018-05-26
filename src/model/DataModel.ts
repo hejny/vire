@@ -1,13 +1,12 @@
 import { observable, computed } from 'mobx';
 import * as superagent from 'superagent';
-import { QUESTION_ID_ORDER } from '../config';
+import { QUESTION_ID_ORDER, SAMPLE_IMAGE } from '../config';
 
 export enum AppScreen {
     CAMERA,
     UPLOADING,
     RESULTS,
 }
-
 
 export class DataModel {
     @observable phase: AppScreen;
@@ -21,9 +20,17 @@ export class DataModel {
     }
 
     restart() {
+        /**/
         this.phase = AppScreen.CAMERA;
         this.answers = null;
         this.preferencesHtml = null;
+        /**/
+        /*/
+        this.phase = AppScreen.RESULTS;
+        this.answers = [true,null,false,true,true,false,false,null,false,true];
+        this.preferencesHtml = null;
+        this.loadPreferencesHtml();
+        /**/
     }
 
     async loadAnswersFromImage(imageData: string) {
@@ -31,18 +38,19 @@ export class DataModel {
 
         const result = await superagent
             .post(`http://139.59.151.87/v1.0.0/recognize`)
-            .set("Content-Type", "application/octet-stream")
-            .send(imageData)
+            .set('Content-Type', 'application/octet-stream')
+            .send(imageData.split('base64,')[1])
+            //.send(SAMPLE_IMAGE);
 
-
-            //.set('Content-Type', 'neco/prasarna-cuncovina')
-            //.attach("file", file.file, file.file.name)
-            //.set('Content-Type', 'multipart/form-data')
-            //.field("image",imageData)
-            //.attach('image', dataURLtoFile(imageData,'image.jpeg' ))
-            //.send();
-            //.send({'image': imageData})
-        const answers = JSON.parse(result.body);
+        //.set('Content-Type', 'neco/prasarna-cuncovina')
+        //.attach("file", file.file, file.file.name)
+        //.set('Content-Type', 'multipart/form-data')
+        //.field("image",imageData)
+        //.attach('image', dataURLtoFile(imageData,'image.jpeg' ))
+        //.send();
+        //.send({'image': imageData})
+        //console.log(result);
+        const answers = JSON.parse(result.text);
 
         //todo check answers;
 
@@ -51,8 +59,8 @@ export class DataModel {
         this.loadPreferencesHtml();
     }
 
-    @computed get answersQuery():string{
-
+    @computed
+    get answersQuery(): string {
         if (!this.answers) {
             throw new Error(
                 `loadPreferencesHtml should be called after loadAnswersFromImage.`,
@@ -83,8 +91,8 @@ export class DataModel {
 
     async loadPreferencesHtml() {
         const result = await superagent
-            .get(`https://volebnikalkulacka.cz/hackathon-2018/?key=hackathon`)
-            .send({ q: this.answersQuery,key: 'hackathon'});//todo dynamic event
-        this.preferencesHtml = result.body;
+            .get(`https://volebnikalkulacka.cz/hackathon-2018/`)
+            .query({ q: this.answersQuery, x: 'x', key: 'hackathon' }); //todo dynamic event
+        this.preferencesHtml = result.text;
     }
 }

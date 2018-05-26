@@ -14,9 +14,15 @@ export const Results = observer((props: { dataModel: DataModel }) => {
             <h1>Volební kalkulačka 2017</h1>
 
             <button onClick={print}>Vytisknout</button>
-            <button onClick={() => (props.dataModel.phase = 1)}>Znovu</button>
-            <a href={`https://volebnikalkulacka.cz/cs/volby-2017/results?q=${encodeURIComponent(props.dataModel.answersQuery)}`}><button>Volební kalkulačka</button></a>
-
+            <button onClick={() => props.dataModel.restart()}>Znovu</button>
+            <a
+                href={`https://volebnikalkulacka.cz/cs/volby-2017/results?q=${encodeURIComponent(
+                    props.dataModel.answersQuery,
+                )}`}
+                target="_blank"
+            >
+                <button>Volební kalkulačka</button>
+            </a>
 
             {props.dataModel.answers!.some(correctAnswer) && (
                 <div className="warning">
@@ -25,7 +31,7 @@ export const Results = observer((props: { dataModel: DataModel }) => {
                             (answer, answerIndex) =>
                                 correctAnswer(answer)
                                     ? null
-                                    : answerIndex.toString(),
+                                    : (answerIndex + 1).toString(),
                         )
                         .filter((part) => part)
                         .join(', ')}) jsme nemohli načíst nebo jste je
