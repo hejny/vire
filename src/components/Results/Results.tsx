@@ -7,7 +7,7 @@ import { Loading } from '../Loading/Loading';
 
 export const Results = observer((props: { dataModel: DataModel }) => {
     const correctAnswer = (answer: boolean | null) =>
-        answer !== true || answer !== false;
+        answer === true || answer === false;
 
     return (
         <div className="Results" id="results">
