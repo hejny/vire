@@ -70,13 +70,14 @@ export class DataModel {
         }
 
         if (QUESTION_ID_ORDER.length !== this.answers.length) {
-            throw new Error(
+            console.warn(
                 `On sheet there was ${
                     this.answers.length
                 } answers but in config are ${
                     QUESTION_ID_ORDER.length
                 } answers.`,
             );
+            return '{}';
         }
 
         const query = {};

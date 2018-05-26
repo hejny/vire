@@ -39,17 +39,24 @@ export const Results = observer((props: { dataModel: DataModel }) => {
                 </div>
             )}
 
-            <div id="print">
-                {props.dataModel.preferencesHtml ? (
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: props.dataModel.preferencesHtml,
-                        }}
-                    />
-                ) : (
-                    <Loading />
-                )}
-            </div>
+            {props.dataModel.answers!.length === 0 ? (
+                <div className="warning">
+                    Bohužel se nám nepovedla načíst ani jedna odpověď. Zkuste to
+                    prosím znovu.
+                </div>
+            ) : (
+                <div id="print">
+                    {props.dataModel.preferencesHtml ? (
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: props.dataModel.preferencesHtml,
+                            }}
+                        />
+                    ) : (
+                        <Loading />
+                    )}
+                </div>
+            )}
         </div>
     );
 });

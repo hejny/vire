@@ -18,8 +18,9 @@ export const Camera = observer(
                 <div className={'Camera'} onClick={() => this.capture()}>
                     <Webcam
                         audio={false}
-                        width={window.innerWidth}
-                        height={window.innerHeight}
+                        width={1024}
+                        //width={window.innerWidth}
+                        //height={window.innerHeight}
                         ref={(webcam) => (this.webcam = webcam)}
                         screenshotFormat="image/jpeg"
                     />
