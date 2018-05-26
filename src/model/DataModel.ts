@@ -26,7 +26,7 @@ export class DataModel {
     restart() {
         viewport.setAttribute(
             'content',
-            'width=device-width, initial-scale=.3',
+            'width=device-width, initial-scale=0.6',
         );
 
         /**/
