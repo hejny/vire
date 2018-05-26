@@ -191,7 +191,7 @@ export const Camera = observer(
                     />
                     <div className="Overlay">
                         <img
-                            src="/overlay.png"
+                            src="./overlay.png"
                             ref={(overlayElementImg) =>
                                 (this.overlayElementImg = overlayElementImg!)
                             }
