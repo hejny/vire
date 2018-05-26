@@ -2,6 +2,8 @@ import { observable, computed } from 'mobx';
 import * as superagent from 'superagent';
 import { QUESTION_ID_ORDER, SAMPLE_IMAGE } from '../config';
 
+SAMPLE_IMAGE;
+
 export enum AppScreen {
     CAMERA,
     UPLOADING,
@@ -39,8 +41,8 @@ export class DataModel {
         const result = await superagent
             .post(`http://139.59.151.87/v1.0.0/recognize`)
             .set('Content-Type', 'application/octet-stream')
-            .send(imageData.split('base64,')[1])
-            //.send(SAMPLE_IMAGE);
+            .send(imageData.split('base64,')[1]);
+        //.send(SAMPLE_IMAGE);
 
         //.set('Content-Type', 'neco/prasarna-cuncovina')
         //.attach("file", file.file, file.file.name)
