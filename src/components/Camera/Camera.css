@@ -9,12 +9,40 @@
 }
 
 .Camera video{
+  z-index: 10;
   position: fixed;
   top: 0;
   left: 0;
 
   width: 100vw;
   height: 100vh;
+}
+
+.Camera .DrawCanvas{
+  z-index: 20;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+}
+
+.Camera .Overlay{
+  z-index: 30;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+  
+  text-align: center;
+}
+
+.Camera .Overlay img{
+  
+  height: 100%;
 }
 
 

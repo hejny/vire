@@ -10,7 +10,7 @@ export enum AppScreen {
     RESULTS,
 }
 
-const viewport = document.querySelector('meta[name=viewport]')!;
+//const viewport = document.querySelector('meta[name=viewport]')!;
 
 export class DataModel {
     @observable phase: AppScreen;
@@ -24,10 +24,10 @@ export class DataModel {
     }
 
     restart() {
-        viewport.setAttribute(
+        /*viewport.setAttribute(
             'content',
             'width=device-width, initial-scale=0.6',
-        );
+        );*/
 
         /**/
         this.phase = AppScreen.CAMERA;
@@ -43,10 +43,10 @@ export class DataModel {
     }
 
     async loadAnswersFromImage(imageData: string) {
-        viewport.setAttribute(
+        /*viewport.setAttribute(
             'content',
             'width=device-width, initial-scale=1.0',
-        );
+        );*/
 
         this.phase = AppScreen.UPLOADING;
 
