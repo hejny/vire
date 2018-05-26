@@ -8,6 +8,7 @@ export enum AppScreen {
     RESULTS,
 }
 
+
 export class DataModel {
     @observable phase: AppScreen;
     @observable answers: (boolean | null)[] | null;
@@ -29,9 +30,18 @@ export class DataModel {
         this.phase = AppScreen.UPLOADING;
 
         const result = await superagent
-            .get(`xxxxxxx`)
-            .set('Content-Type', 'multipart/form-data')
-            .send({ image: imageData });
+            .post(`http://139.59.151.87/v1.0.0/recognize`)
+            .set("Content-Type", "application/octet-stream")
+            .send(imageData)
+
+
+            //.set('Content-Type', 'neco/prasarna-cuncovina')
+            //.attach("file", file.file, file.file.name)
+            //.set('Content-Type', 'multipart/form-data')
+            //.field("image",imageData)
+            //.attach('image', dataURLtoFile(imageData,'image.jpeg' ))
+            //.send();
+            //.send({'image': imageData})
         const answers = JSON.parse(result.body);
 
         //todo check answers;
