@@ -4,7 +4,9 @@
   "private": true,
   "homepage": "https://election-calculator.github.io/election-calculator-frontend",
   "dependencies": {
+    "@types/jspdf": "^1.1.31",
     "@types/react-webcam": "^0.3.0",
+    "jspdf": "^1.4.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-scripts-ts": "2.16.0",

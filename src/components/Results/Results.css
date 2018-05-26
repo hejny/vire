@@ -1,0 +1,40 @@
+
+.Results{
+
+
+}
+
+.Results ul{
+    list-style: none;
+    padding: 0;
+}
+
+.Results ul li{
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+}
+
+.Results ul li img{
+    width: 40px;
+    margin: 0;
+}
+
+
+.Results ul li h1{
+    margin: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 2em;
+    display: inline-block;
+}
+
+.Results ul li .percent{
+    margin: 0;
+    font-size: 2em;
+}
+
+.Results ul li h2{
+    font-size: 1.2em;
+    font-weight: normal;
+    margin: 0;
+}
