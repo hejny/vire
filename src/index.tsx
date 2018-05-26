@@ -6,5 +6,7 @@ import { DataModel } from './model/DataModel';
 
 const dataModel = new DataModel();
 
-ReactDOM.render(<App dataModel={dataModel} />, document.getElementById('root') as HTMLElement);
+ReactDOM.render(<App dataModel={dataModel} />, document.getElementById(
+    'root',
+) as HTMLElement);
 registerServiceWorker();

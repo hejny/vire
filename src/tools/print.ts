@@ -1,16 +1,13 @@
 import * as jsPDF from 'jspdf';
 import * as html2canvas from 'html2canvas';
 
-export function print(){
-
-
+export function print() {
     //todo
-    jsPDF;html2canvas;
+    jsPDF;
+    html2canvas;
 
     //var quotes = document.getElementById('results');//todo better
     //html2canvas(quotes!);
-    
-
 
     /*var doc = new jsPDF();
     doc.setFontSize(40)

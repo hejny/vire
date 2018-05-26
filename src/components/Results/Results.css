@@ -4,6 +4,7 @@
 
 }
 
+/*
 .Results ul{
     list-style: none;
     padding: 0;
@@ -37,4 +38,10 @@
     font-size: 1.2em;
     font-weight: normal;
     margin: 0;
+}
+*/
+
+.Results .warning{
+    padding: 4px;
+    background-color: bisque;
 }
