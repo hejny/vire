@@ -29,14 +29,14 @@ export class DataModel {
             'width=device-width, initial-scale=0.6',
         );*/
 
-        /**/
+        /*/
         this.phase = AppScreen.CAMERA;
         this.answers = null;
         this.preferencesHtml = null;
         /**/
-        /*/
+        /**/
         this.phase = AppScreen.RESULTS;
-        this.answers = [true,null,false,true,true,false,false,null,false,true];
+        this.answers = [null,false,false,false,true,null,true,false,null,true];
         this.preferencesHtml = null;
         this.loadPreferencesHtml();
         /**/
@@ -101,7 +101,7 @@ export class DataModel {
         const query = {};
 
         this.answers.forEach((answer, i) => {
-            if (answer) {
+            if (answer===true||answer===false) {
                 query[QUESTION_ID_ORDER[i].toString()] = answer ? 1 : -1;
             }
         });

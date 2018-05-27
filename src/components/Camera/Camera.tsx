@@ -154,7 +154,7 @@ export const Camera = observer(
                 answers.push(rowAnswer);
             }
 
-            console.log(answers);
+            //console.log(answers);
 
             if (
                 answers.filter((answer) => answer !== true && answer !== false)

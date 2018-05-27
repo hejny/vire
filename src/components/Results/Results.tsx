@@ -11,7 +11,7 @@ export const Results = observer((props: { dataModel: DataModel }) => {
 
     return (
         <div className="Results" id="results">
-            <h1>Volební kalkulačka 2017</h1>
+            <h1>Volební kalkulačka</h1>
 
             <button onClick={print}>Vytisknout</button>
             <button onClick={() => props.dataModel.restart()}>Znovu</button>
