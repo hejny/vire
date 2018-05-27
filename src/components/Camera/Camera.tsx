@@ -3,6 +3,8 @@ import * as Webcam from 'react-webcam';
 import './Camera.css';
 import { observer } from 'mobx-react';
 import { DataModel } from '../../model/DataModel';
+import { TOLLERANCE } from '../../config';
+
 
 class Color {
     constructor(
@@ -158,7 +160,7 @@ export const Camera = observer(
 
             if (
                 answers.filter((answer) => answer !== true && answer !== false)
-                    .length > 3
+                    .length > TOLLERANCE
             ) {
                 setTimeout(
                     () => requestAnimationFrame(() => this.validate()),

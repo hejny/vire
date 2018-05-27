@@ -25,11 +25,14 @@ export async function print() {
 
     var images = printElement.getElementsByTagName('img');
     for (let i = 0, l = images.length; i < l; i++){
-        
+
         const image = images[i];
-        const result = await superagent.get(image.src).responseType('blob');
-        const dataUrl = await blobToDataURL(result.body);
-        image.src = dataUrl;
+        
+        if(image.src.substring(0,5)!=='data:'){
+            const result = await superagent.get(image.src).responseType('blob');
+            const dataUrl = await blobToDataURL(result.body);
+            image.src = dataUrl;
+        }
     }
 
     //---------
@@ -37,9 +40,9 @@ export async function print() {
 
     const printCanvas = await html2canvas(printElement!,{allowTaint:false});
 
-    console.log(printCanvas);
+    //console.log(printCanvas);
 
-    document.body.appendChild(printCanvas);
+    //document.body.appendChild(printCanvas);
 
 
     //---------
@@ -50,9 +53,12 @@ export async function print() {
 
     // only jpeg is supported by jsPDF
     var imgData = printCanvas.toDataURL("image/jpeg", 1.0);
-    var pdf = new jsPDF('p', 'mm', [width, height] as any);
 
-    pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
+    //todo config 3.5
+    var pdf = new jsPDF('p', 'mm', [width, height*1.2+3.5] as any);
+
+    //todo count 1.2
+    pdf.addImage(imgData, 'JPEG', 0, 0, width*1.2, height*1.2);
     pdf.save("download.pdf");
 
     

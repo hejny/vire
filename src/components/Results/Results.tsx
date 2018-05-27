@@ -9,6 +9,10 @@ export const Results = observer((props: { dataModel: DataModel }) => {
     const correctAnswer = (answer: boolean | null) =>
         answer === true || answer === false;
 
+        const externalUrl = `https://volebnikalkulacka.cz/cs/hackathon-2018/results/?q=${encodeURIComponent(
+            props.dataModel.answersQuery,
+        )}`;
+
     return (
         <div className="Results" id="results">
             <h1>Volební kalkulačka</h1>
@@ -16,9 +20,7 @@ export const Results = observer((props: { dataModel: DataModel }) => {
             <button onClick={print}>Vytisknout</button>
             <button onClick={() => props.dataModel.restart()}>Znovu</button>
             <a
-                href={`https://volebnikalkulacka.cz/cs/volby-2017/results?q=${encodeURIComponent(
-                    props.dataModel.answersQuery,
-                )}`}
+                href={externalUrl}
                 target="_blank"
             >
                 <button>Volební kalkulačka</button>
@@ -55,6 +57,10 @@ export const Results = observer((props: { dataModel: DataModel }) => {
                     ) : (
                         <Loading />
                     )}
+
+                    Výsledky byly vyhodnoceny pomocí <b>VolebníKalkulačka.cz</b>, pokud si je chcete prohlédnout detailněji zadejte:
+                    <img src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(externalUrl)}`}/>
+
                 </div>
             )}
         </div>
