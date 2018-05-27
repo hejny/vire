@@ -10,20 +10,17 @@ export const Results = observer((props: { dataModel: DataModel }) => {
     const correctAnswer = (answer: boolean | null) =>
         answer === true || answer === false;
 
-        const externalUrl = `https://volebnikalkulacka.cz/cs/hackathon-2018/results/?q=${encodeURIComponent(
-            props.dataModel.answersQuery,
-        )}`;
+    const externalUrl = `https://volebnikalkulacka.cz/cs/hackathon-2018/results/?q=${encodeURIComponent(
+        props.dataModel.answersQuery,
+    )}`;
 
     return (
         <div className="Results" id="results">
-            <h1>Volební kalkulačka</h1>
+            {/*<h1>Volební kalkulačka</h1>*/}
 
             <button onClick={print}>Vytisknout</button>
             <button onClick={() => props.dataModel.restart()}>Znovu</button>
-            <a
-                href={externalUrl}
-                target="_blank"
-            >
+            <a href={externalUrl} target="_blank">
                 <button>Volební kalkulačka</button>
             </a>
 
@@ -49,31 +46,40 @@ export const Results = observer((props: { dataModel: DataModel }) => {
                 </div>
             ) : (
                 <div id="print">
+                    <h1>Volební kalkulačka</h1>
                     {props.dataModel.preferencesHtml ? (
                         <div
                             dangerouslySetInnerHTML={{
                                 __html: props.dataModel.preferencesHtml,
                             }}
-                            ref={(div)=>div!.querySelector('style')!.innerHTML=''}
+                            ref={(div) =>
+                                (div!.querySelector('style')!.innerHTML = '')
+                            }
                         />
                     ) : (
                         <Loading />
                     )}
+                    <div className="footer">
+                        Výsledky byly vyhodnoceny pomocí{' '}
+                        <b>VolebníKalkulačka.cz</b>, pokud si je chcete
+                        prohlédnout detailněji zadejte:
+                        <canvas
+                            className={`qr`}
+                            ref={(canvas) => {
+                                //console.log(canvas);
+                                if (!canvas) return;
 
-                    Výsledky byly vyhodnoceny pomocí <b>VolebníKalkulačka.cz</b>, pokud si je chcete prohlédnout detailněji zadejte:
-
-                    <canvas ref={(canvas)=>{
-
-                        //console.log(canvas);
-                        if(!canvas)return;
-                                     
-                        QRCode.toCanvas(canvas, externalUrl, function (error) {
-                        if (error) console.error(error)
-                        console.log('success!');
-                        })
-                    }}></canvas>
+                                QRCode.toCanvas(canvas, externalUrl, function(
+                                    error,
+                                ) {
+                                    if (error) console.error(error);
+                                    console.log('success!');
+                                });
+                            }}
+                        />
+                        .
+                    </div>
                     {/*<img src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(externalUrl)}`}/>*/}
-
                 </div>
             )}
         </div>

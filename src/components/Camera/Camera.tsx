@@ -5,7 +5,6 @@ import { observer } from 'mobx-react';
 import { DataModel } from '../../model/DataModel';
 import { TOLLERANCE } from '../../config';
 
-
 class Color {
     constructor(
         public r: number = 0,

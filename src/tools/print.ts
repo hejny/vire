@@ -2,15 +2,14 @@ import * as jsPDF from 'jspdf';
 import * as html2canvas from 'html2canvas';
 import * as superagent from 'superagent';
 
-
-function blobToDataURL(blob:Blob):Promise<string> {
-    return new Promise((resolve,reject)=>{
+function blobToDataURL(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
         var a = new FileReader();
         a.onload = function(e) {
             resolve((e.target as any).result);
-        }
+        };
         a.readAsDataURL(blob);
-    }); 
+    });
 }
 
 export async function print() {
@@ -21,14 +20,13 @@ export async function print() {
     const printElement = document.querySelector('#print') as HTMLElement; //todo better
     console.log(printElement);
 
-     //---------
+    //---------
 
     var images = printElement.getElementsByTagName('img');
-    for (let i = 0, l = images.length; i < l; i++){
-
+    for (let i = 0, l = images.length; i < l; i++) {
         const image = images[i];
-        
-        if(image.src.substring(0,5)!=='data:'){
+
+        if (image.src.substring(0, 5) !== 'data:') {
             const result = await superagent.get(image.src).responseType('blob');
             const dataUrl = await blobToDataURL(result.body);
             image.src = dataUrl;
@@ -38,30 +36,28 @@ export async function print() {
     //---------
     /**/
 
-    const printCanvas = await html2canvas(printElement!,{allowTaint:false});
+    const printCanvas = await html2canvas(printElement!, { allowTaint: false });
 
     //console.log(printCanvas);
 
     //document.body.appendChild(printCanvas);
 
-
     //---------
     /**/
 
     const width = 58;
-    const height = printCanvas.height*width/printCanvas.width;
+    const height = printCanvas.height * width / printCanvas.width;
 
     // only jpeg is supported by jsPDF
-    var imgData = printCanvas.toDataURL("image/jpeg", 1.0);
+    var imgData = printCanvas.toDataURL('image/jpeg', 1.0);
 
     //todo config 3.5
-    var pdf = new jsPDF('p', 'mm', [width, height*1.2+3.5] as any);
+    var pdf = new jsPDF('p', 'mm', [width, height + 3.5] as any);
 
     //todo count 1.2
-    pdf.addImage(imgData, 'JPEG', 0, 0, width*1.2, height*1.2);
-    pdf.save("download.pdf");
+    pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
+    pdf.save('download.pdf');
 
-    
     //console.log(printCanvas.toDataURL());
 
     /*var doc = new jsPDF();

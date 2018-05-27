@@ -50,27 +50,51 @@
 
 
 
-.print{
+#print{
     font-family: 'Open Sans', sans-serif;
 }
-    .table{
+
+#print h1{
+    width:100%;
+    text-align: center;
+    font-size: 3em;
+}
+#print .table{
         width:100%;
         margin-top:50px;
+        margin-bottom:50px;
         border-collapse: collapse;
-    }
-    .underline {
-        border-bottom: 5px solid black;
-    }
-    .underline:last-child{
-        border-bottom: none;
-    }
-    .logo {width: 384px;}
-    .percentage {
-        text-align:right;
-        position:relative;
-        bottom: 16px;
-        right: 85px;
-        font-size: 40px;
-        font-weight: bold;
-        width: 110px
-    }
+}
+#print .underline {
+    border-bottom: 5px solid black;
+    
+}
+
+#print .logo {
+    /*width: 384px;*/
+    width: calc(100vw - 30px);/*todo better*/
+}
+#print .percentage {
+    text-align:right;
+    position:relative;
+    bottom: 20px;
+    right: 65px;
+    font-size: 30px;
+    font-weight: bold;
+    width: 110px
+}
+
+#print .footer {
+    display: block;
+    width: 100%;
+    font-size: 2em;
+}
+
+
+#print .footer canvas {
+
+    display: block;
+    width: 100vw!important;
+    height: 100vw!important;
+    margin-bottom: 70px;
+}
