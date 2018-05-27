@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as QRCode from 'qrcode';
 import { observer } from 'mobx-react';
 import './Results.css';
 import { print } from '../../tools/print';
@@ -53,13 +54,25 @@ export const Results = observer((props: { dataModel: DataModel }) => {
                             dangerouslySetInnerHTML={{
                                 __html: props.dataModel.preferencesHtml,
                             }}
+                            ref={(div)=>div!.querySelector('style')!.innerHTML=''}
                         />
                     ) : (
                         <Loading />
                     )}
 
                     Výsledky byly vyhodnoceny pomocí <b>VolebníKalkulačka.cz</b>, pokud si je chcete prohlédnout detailněji zadejte:
-                    <img src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(externalUrl)}`}/>
+
+                    <canvas ref={(canvas)=>{
+
+                        //console.log(canvas);
+                        if(!canvas)return;
+                                     
+                        QRCode.toCanvas(canvas, externalUrl, function (error) {
+                        if (error) console.error(error)
+                        console.log('success!');
+                        })
+                    }}></canvas>
+                    {/*<img src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(externalUrl)}`}/>*/}
 
                 </div>
             )}

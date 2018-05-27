@@ -18,7 +18,7 @@ export async function print() {
     jsPDF;
     html2canvas;
 
-    const printElement = document.querySelector('#print table') as HTMLElement; //todo better
+    const printElement = document.querySelector('#print') as HTMLElement; //todo better
     console.log(printElement);
 
      //---------

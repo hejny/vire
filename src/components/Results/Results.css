@@ -45,3 +45,32 @@
     padding: 4px;
     background-color: bisque;
 }
+
+
+
+
+
+.print{
+    font-family: 'Open Sans', sans-serif;
+}
+    .table{
+        width:100%;
+        margin-top:50px;
+        border-collapse: collapse;
+    }
+    .underline {
+        border-bottom: 5px solid black;
+    }
+    .underline:last-child{
+        border-bottom: none;
+    }
+    .logo {width: 384px;}
+    .percentage {
+        text-align:right;
+        position:relative;
+        bottom: 16px;
+        right: 85px;
+        font-size: 40px;
+        font-weight: bold;
+        width: 110px
+    }

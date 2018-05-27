@@ -1,8 +1,7 @@
 import { observable, computed } from 'mobx';
 import * as superagent from 'superagent';
-import { QUESTION_ID_ORDER, SAMPLE_IMAGE } from '../config';
+import { QUESTION_ID_ORDER } from '../config';
 
-SAMPLE_IMAGE;
 
 export enum AppScreen {
     CAMERA,
