@@ -24,7 +24,7 @@ export const Results = observer((props: { dataModel: DataModel }) => {
                 <button>Volební kalkulačka</button>
             </a>
 
-            {props.dataModel.answers!.some(correctAnswer) && (
+            {props.dataModel.answers!.some((answer) => !correctAnswer) && (
                 <div className="warning">
                     Některé odpovědi({props.dataModel
                         .answers!.map(
@@ -52,9 +52,10 @@ export const Results = observer((props: { dataModel: DataModel }) => {
                             dangerouslySetInnerHTML={{
                                 __html: props.dataModel.preferencesHtml,
                             }}
-                            ref={(div) =>
-                                (div!.querySelector('style')!.innerHTML = '')
-                            }
+                            ref={(div) => {
+                                if (!div) return;
+                                div.querySelector('style')!.innerHTML = '';
+                            }}
                         />
                     ) : (
                         <Loading />
