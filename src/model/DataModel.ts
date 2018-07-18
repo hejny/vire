@@ -1,5 +1,6 @@
 import { observable, computed } from 'mobx';
 import { Image } from 'detection/src/detection/Image';
+import { nextFrame } from '../tools/nextFrame';
 
 export enum AppScreen {
     CAMERA,
@@ -16,7 +17,22 @@ export class DataModel {
     @observable imageInput: Image;
     @observable imageProcessed: Image;
     
-    processImage() {
+    async processImage(image: Image) {
+
+        this.phase = AppScreen.PROCESSING;
+        this.percent = 0;
+        this.imageInput = image;
+
+        await nextFrame();
+
+        const imageResizedPurged = image.resizePurge(image.size.scale(300 / image.size.x));
+        const imageResizedPurgedNoGaps = imageResizedPurged.removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps().removeGaps();
+
+        
+        this.phase = AppScreen.RESULT;
+        this.percent = 1;
+        this.imageProcessed=imageResizedPurgedNoGaps;
+
     }
 
 }
