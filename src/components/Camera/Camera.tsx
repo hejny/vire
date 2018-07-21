@@ -3,7 +3,14 @@ import * as Webcam from 'react-webcam';
 import './Camera.css';
 import { observer } from 'mobx-react';
 import { DataModel } from '../../model/DataModel';
-import * as Detection from '../../../detection/src/';
+import * as Detection from '../../detection';
+
+
+console.log(Detection);
+console.log(typeof Detection);
+console.log("ahoj");
+
+
 
 export const Camera = observer(
     class extends React.Component<{ dataModel: DataModel }, {}> {
@@ -12,16 +19,9 @@ export const Camera = observer(
         private overlayElementImg: HTMLElement;
 
         snap() {
-            //const imageSrc = this.webcam.getScreenshot();
-            //this.props.dataModel.loadAnswersFromImage(imageSrc);
+            //const screenshot = this.webcam.getScreenshot();
 
-            //const video = this.webcam.video;
-            //video.getImageData();
-
-            console.log(this.webcam);
-            const screenshot = this.webcam.getScreenshot();
-            console.log(screenshot);
-
+            //console.log(this.webcam)
 
             const ctx = this.webcam.getCanvas()!.getContext('2d')!;
             var frame = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -43,7 +43,9 @@ export const Camera = observer(
             const image = new Detection.Image(table);
 
 
-            console.log(image);
+            //console.log(image);
+
+            this.props.dataModel.processImage(image);
 
             
         }

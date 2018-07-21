@@ -1,5 +1,5 @@
 import { observable, computed } from 'mobx';
-import { Image } from 'detection/src/detection/Image';
+import * as Detection from '../detection';
 import { nextFrame } from '../tools/nextFrame';
 
 export enum AppScreen {
@@ -12,13 +12,14 @@ export class DataModel {
     @observable phase: AppScreen = AppScreen.CAMERA;
     @observable percent: number;
 
-    @observable imageInput: Image;
-    @observable imageProcessed: Image;
+    @observable imageInput: Detection.Image;
+    @observable imageProcessed: Detection.Image;
 
-    async processImage(image: Image) {
-        this.phase = AppScreen.PROCESSING;
+    async processImage(image: Detection.Image) {
+        
         this.percent = 0;
         this.imageInput = image;
+        this.phase = AppScreen.PROCESSING;
 
         await nextFrame();
 
@@ -79,8 +80,9 @@ export class DataModel {
             .removeGaps()
             .removeGaps();
 
-        this.phase = AppScreen.RESULT;
+       
         this.percent = 1;
         this.imageProcessed = imageResizedPurgedNoGaps;
+        this.phase = AppScreen.RESULT;
     }
 }
