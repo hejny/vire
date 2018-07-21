@@ -52,6 +52,7 @@
 
 
 .Camera .snap{
+  z-index: 40;
   position: fixed;
   bottom: calc( 30px + 10px);
   left: calc( 50vw - 50px - 10px);

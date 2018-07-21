@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import { DataModel, AppScreen } from '../../model/DataModel';
 import './App.css';
 import { Camera } from '../Camera/Camera';
-import { Results } from '../Results/Results';
-import { Loading } from '../Loading/Loading';
+import { Processing } from '../Processing/Processing';
+import { Result } from '../Result/Result';
 
 export const App = observer((props: { dataModel: DataModel }) => {
     return (
@@ -12,9 +12,11 @@ export const App = observer((props: { dataModel: DataModel }) => {
             {props.dataModel.phase === AppScreen.CAMERA && (
                 <Camera dataModel={props.dataModel} />
             )}
-            {props.dataModel.phase === AppScreen.UPLOADING && <Loading />}
-            {props.dataModel.phase === AppScreen.RESULTS && (
-                <Results dataModel={props.dataModel} />
+            {props.dataModel.phase === AppScreen.PROCESSING && (
+                <Processing dataModel={props.dataModel} />
+            )}
+            {props.dataModel.phase === AppScreen.RESULT && (
+                <Result dataModel={props.dataModel} />
             )}
         </div>
     );
