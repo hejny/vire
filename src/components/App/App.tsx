@@ -9,13 +9,13 @@ import { Result } from '../Result/Result';
 export const App = observer((props: { dataModel: DataModel }) => {
     return (
         <div className="App">
-            {props.dataModel.phase === AppScreen.CAMERA && (
+            {props.dataModel.screen === AppScreen.CAMERA && (
                 <Camera dataModel={props.dataModel} />
             )}
-            {props.dataModel.phase === AppScreen.PROCESSING && (
+            {props.dataModel.screen === AppScreen.PROCESSING && (
                 <Processing dataModel={props.dataModel} />
             )}
-            {props.dataModel.phase === AppScreen.RESULT && (
+            {props.dataModel.screen === AppScreen.RESULT && (
                 <Result dataModel={props.dataModel} />
             )}
         </div>

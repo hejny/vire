@@ -9,17 +9,22 @@ export enum AppScreen {
 }
 
 export class DataModel {
-    @observable phase: AppScreen = AppScreen.CAMERA;
+    @observable screen: AppScreen = AppScreen.CAMERA;
     @observable percent: number;
 
     @observable imageInput: Detection.Image;
     @observable imageProcessed: Detection.Image;
 
+
+    restart(){
+        this.screen = AppScreen.CAMERA;
+    }
+
     async processImage(image: Detection.Image) {
         
         this.percent = 0;
         this.imageInput = image;
-        this.phase = AppScreen.PROCESSING;
+        this.screen = AppScreen.PROCESSING;
 
         await nextFrame();
 
@@ -83,6 +88,6 @@ export class DataModel {
        
         this.percent = 1;
         this.imageProcessed = imageResizedPurgedNoGaps;
-        this.phase = AppScreen.RESULT;
+        this.screen = AppScreen.RESULT;
     }
 }
