@@ -1,3 +1,0 @@
-[submodule "detection"]
-	path = ./src/detection
-	url = git@gitlab.com:vireapp/detection.git
