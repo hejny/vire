@@ -63,14 +63,14 @@ export default class Rectangle {
         );
     }
 
-    clone() {
+    get clone() {
         return new Rectangle(this.center, this.size, this.rotation,this.borderRadius);
     }
 
     cloneDeep() {
         return new Rectangle(
-            this.center.clone(),
-            this.size.clone(),
+            this.center.clone,
+            this.size.clone,
             this.rotation,
             this.borderRadius
         );

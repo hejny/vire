@@ -41,6 +41,33 @@ export class Image {
 
     constructor(public pixels: Color[][]) {}
 
+    get clone():Image{
+        const table: Color[][] = [];
+        for (let y = 0; y < this.size.y; y++) {
+            const row: Color[] = [];
+            table.push(row);
+            for (let x = 0; x < this.size.x; x++) {
+                row.push(this.pixels[y][x]);
+            }
+        }
+        return new Image(table);
+    }
+
+    equals(image: Image):boolean{
+        if(!this.size.equals(image.size)){
+            return false;
+        }
+        for (let y = 0; y < this.size.y; y++) {
+            for (let x = 0; x < this.size.x; x++) {
+                const point = new Vector2(x, y);
+                if(!this.getPointColor(point).equals(image.getPointColor(point))){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     createCanvas(islands:VectorSet[] = []){
         const canvasElement = document.createElement('canvas');
         canvasElement.width = this.size.x;
@@ -68,6 +95,11 @@ export class Image {
         return canvasElement;
     }
 
+    //todo fromDataUrl without canvas
+    toDataURL():string{
+        return this.createCanvas().toDataURL();//todo without canvas
+    }
+    
     get size() {
         return new Vector2(this.pixels[0].length, this.pixels.length);
     }
@@ -82,7 +114,27 @@ export class Image {
         return points;
     }
 
+    get flipVertical():Image{
+        const table: Color[][] = [];
+        for (let y = 0; y < this.size.y; y++) {
+            table.push(this.pixels[this.size.y-y-1]);
+        }
+        return new Image(table);
+    }
 
+    get flipHorizontal():Image{
+        const table: Color[][] = [];
+        for (let y = 0; y < this.size.y; y++) {
+            const row: Color[] = [];
+            table.push(row);
+            for (let x = 0; x < this.size.x; x++) {
+                row.push(this.pixels[y][this.size.x-x-1]);
+            }
+        }
+        return new Image(table);
+    }
+
+    /*
     get darkPoints():VectorSet{
 
         const averageColorLightness = this.averageColor.lightness/1.6;
@@ -100,6 +152,7 @@ export class Image {
         }
         return points;
     }
+    /**/
 
     get blackPoints():VectorSet{
         const points = new VectorSet();
@@ -143,6 +196,11 @@ export class Image {
 
     getPointColor(point: Vector2): Color {
         return this.pixels[point.y][point.x];
+    }
+
+    setPointColor(point: Vector2, color: Color):this {
+        this.pixels[point.y][point.x] = color;
+        return this;
     }
 
     /**/
@@ -263,7 +321,7 @@ export class Image {
                    }else{
                         lighter++;
                    }
-                   if(color.lightness<areaAverageColorLightness/1.2){
+                   if(color.lightness<areaAverageColorLightness/1.1){
                     filled++;
 
                     
@@ -280,7 +338,7 @@ export class Image {
 
 
     
-
+    /*
     isPointCovered(point: Vector2): boolean {
 
         const size = new Vector2(5,5);//todo CONST
@@ -317,6 +375,7 @@ export class Image {
 
         return count>=TRESHOLD_COUNT;
     }
+    /**/
 
     /*isPointCovered(point: Vector2): boolean {
 
@@ -358,6 +417,7 @@ export class Image {
         return max.lightness-min.lightness>0.3;
     }*/
 
+    /*
     detectPoints(): VectorSet {
         const averageColor = this.averageColor;
         const detectedPoints = new VectorSet([]);
@@ -398,6 +458,7 @@ export class Image {
 
         return detectedPoints;
     }
+    /**/
 
     /**/
     resize(size: Vector2):Image{
@@ -428,6 +489,7 @@ export class Image {
     }
     /**/
 
+    /*
     purge():Image{
         const averageColorLightness= this.averageColor.lightness / 1.2;
 
@@ -444,6 +506,7 @@ export class Image {
         }
         return new Image(table);
     }
+    /**/
 
     resizePurge(size: Vector2):Image{
         const table: Color[][] = [];
@@ -470,16 +533,62 @@ export class Image {
         return new Image(table);
     }
 
-    replacePatters():Image{
 
+    findPatternUniqueFlip(pattern: Image):VectorSet{
+        if(pattern.size.x%2!==1 && pattern.size.y%2!==1){
+            throw new Error(`Pattern should have 2n+1 size;`);
+        }
+        return new VectorSet(this.points.points.filter((point)=>{
+            for (let y = 0; y < pattern.size.y; y++) {
+                for (let x = 0; x < pattern.size.x; x++) {
+                    const detectionPoint = point.add(new Vector2(
+                        x-Math.floor(pattern.size.x/2),
+                        y-Math.floor(pattern.size.y/2)
+                    ));
+                    if(!this.isPoint(detectionPoint)){
+                        return false;
+                    }
+                    if(!this.getPointColor(detectionPoint).equals(pattern.getPointColor(new Vector2(x,y)))){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }));
+    }
+
+    findPattern(pattern: Image):VectorSet{
         const patterns = [
-`
+            pattern,
+            pattern.flipHorizontal,
+            pattern.flipVertical,
+            pattern.flipHorizontal.flipVertical,
+        ];
+        //todo optimize filter only unique patterns
+        return patterns.reduce((detected,pattern)=>detected.union(this.findPatternUniqueFlip(pattern)),new VectorSet()).unique;
+    }
+    
+    replacePattern(pattern: Image,color: Color):Image{
+        const image = this.clone;
+        this.findPattern(pattern).points.forEach((point)=>{
+            image.setPointColor(point,color);
+        });
+        return image;
+    }
 
-`,
+    replacePatterns(patterns: Image[],color: Color):Image{
+        let lastImage = this;
+        for(let i=0;i<10;i++){//todo limit
+            const currentImage = patterns.reduce((image,pattern)=>image.replacePattern(pattern,color),lastImage);
+            if(currentImage.equals(lastImage)){
+                return currentImage;
+            }
+        }
+        return lastImage;
+        //throw new Error(`Limit on replacePatterns.`);
+    }
 
-        ]
-
-
+    /*removeGaps():Image{
         const table: Color[][] = [];
 
         
@@ -521,50 +630,9 @@ export class Image {
         }
         return new Image(table);
     }
+    */
 
-    removeGaps():Image{
-        const table: Color[][] = [];
-
-        
-        for (let y = 0; y < this.size.y; y++) {
-            const row: Color[] = [];
-            table.push(row);
-            for (let x = 0; x < this.size.x; x++) {
-
-                const point = new Vector2(x, y);
-                
-                if(this.getPointColor(point)===Color.WHITE){
-
-                    const filledNeighbours = 
-                    [
-                        Vector2.UP,
-                        Vector2.DOWN,
-                        Vector2.LEFT,
-                        Vector2.RIGHT
-
-                    ].reduce((sum,direction)=>{
-                        const neibourghPoint = point.add(direction);
-
-                        if(this.isPoint(neibourghPoint)){
-                            return sum+(this.getPointColor(neibourghPoint)===Color.BLACK?1:0);
-                        }else{
-                            return sum;
-                        }
-
-
-                    },0);
-
-                    row.push((filledNeighbours>=3)?Color.BLACK: Color.WHITE);
-
-                }else{
-                    row.push(Color.BLACK);
-                }
-
-            }
-        }
-        return new Image(table);
-    }
-
+    /*
     removeNoise():Image{
         const table: Color[][] = [];
 
@@ -616,6 +684,7 @@ export class Image {
         }
         return new Image(table);
     }
+    */
 
     areNeighbors(point1:Vector2,point2:Vector2){
         return Math.abs(this.getPointColor(point1).lightness - this.getPointColor(point2).lightness)<0.07;

@@ -16,7 +16,7 @@ export class AbstractTemplate implements ITemplate{
     }
 
     snapRectangle(rectangle:Rectangle):Rectangle{
-        rectangle = rectangle.clone();
+        rectangle = rectangle.clone;
         {
             const {x,y} = rectangle.topLeft;
             rectangle.topLeft = new Vector2(

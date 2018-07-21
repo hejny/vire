@@ -102,7 +102,7 @@ export class VectorSet {
         return this;
     }
 
-    unique():VectorSet {
+    get unique():VectorSet {
         const vectorSet2 = new VectorSet();
         vectorSet2.addUnique(...this.points);
         return vectorSet2;

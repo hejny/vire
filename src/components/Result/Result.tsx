@@ -9,7 +9,7 @@ export const Result = observer((props: { dataModel: DataModel }) => {
         <button onClick={()=>props.dataModel.restart()}>
             Again
         </button>
-        <img src={props.dataModel.imageProcessed.createCanvas().toDataURL()}/>
+        <img src={props.dataModel.imageProcessed.toDataURL()}/>
     
 
 

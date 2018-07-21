@@ -31,63 +31,24 @@ export class DataModel {
         const imageResizedPurged = image.resizePurge(
             image.size.scale(300 / image.size.x),
         );
-        const imageResizedPurgedNoGaps = imageResizedPurged
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps()
-            .removeGaps();
+ 
 
-       
+
+
+        const _ = Detection.Color.WHITE;
+        const $ = Detection.Color.BLACK;
+        const imageResizedPurgedNoGaps = imageResizedPurged.replacePatterns([new Detection.Image([
+            [$,_,_],
+            [_,_,_],
+            [_,_,$],
+        ])],$);
+  
+
+
         this.percent = 1;
         this.imageProcessed = imageResizedPurgedNoGaps;
         this.screen = AppScreen.RESULT;
+
+
     }
 }
