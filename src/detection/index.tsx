@@ -1,10 +1,10 @@
-import { Image } from './detection/Image';
-import { Color } from './detection/Color';
-import { Wireframe } from './detection/Wireframe';
+import { Image } from './Image';
+import { Color } from './Color';
+import { Wireframe } from './Wireframe';
 
 const space = global as any || window as any;
 
-space.imageDetection = {
+space.Detection = {
     Image, Wireframe, Color
 }
 
