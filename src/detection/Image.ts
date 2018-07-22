@@ -321,7 +321,7 @@ export class Image {
                    }else{
                         lighter++;
                    }
-                   if(color.lightness<areaAverageColorLightness/1.1){
+                   if(color.lightness<areaAverageColorLightness/1.05){
                     filled++;
 
                     
@@ -512,7 +512,8 @@ export class Image {
         const table: Color[][] = [];
 
         const area = new Vector2( this.size.x / size.x, this.size.y / size.y).scale(1);
-          
+        //console.log(area);
+    
         for (let y = 0; y < size.y; y++) {
             const row: Color[] = [];
             table.push(row);

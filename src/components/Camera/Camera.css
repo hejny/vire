@@ -8,7 +8,14 @@
   background: black;
 }
 
-.Camera video{
+.Camera .real{
+  visibility: hidden; 
+}
+.Camera .mock{
+  visibility: visible;  
+}
+
+.Camera .screen video,img{
   z-index: 10;
   position: fixed;
   top: 0;
@@ -18,41 +25,57 @@
   height: 100vh;
 }
 
-.Camera .DrawCanvas{
-  z-index: 20;
+/*==================================================*/
+
+.Camera .overlay .cover{
+  z-index: 40;
   position: fixed;
+  background: rgba(0,0,0,50%);
+
+}
+
+.Camera .overlay .left, .Camera .overlay .right{
   top: 0;
   left: 0;
-
-  width: 100vw;
-  height: 100vh;
+  right: 0;
+  bottom: 0;
 }
 
-.Camera .Overlay{
-  z-index: 30;
-  position: fixed;
+.Camera .overlay .left{
+  right: calc( 50vw + 100px );
+}
+.Camera .overlay .right{
+  left: calc( 50vw + 100px );
+}
+
+.Camera .overlay .top, .Camera .overlay .bottom{
   top: 0;
-  left: 0;
-
-  width: 100vw;
-  height: 100vh;
-
-  display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: center;
-	align-items: center;
-	align-content: stretch;
+  bottom: 0;
+  right: calc( 50vw - 100px );
+  left: calc( 50vw - 100px );
 }
 
-.Camera .Overlay img{
-  
-  height: 80%;
+.Camera .overlay .top{
+  bottom: calc( 50vh + 100px );
+}
+.Camera .overlay .bottom{
+  top: calc( 50vh + 100px );
 }
 
+.Camera .overlay .window{
+  z-index: 41;
+  position: fixed;
+  border: 2px solid red;
+  top: calc( 50vh - 100px );
+  bottom: calc( 50vh - 100px );
+  right: calc( 50vw - 100px );
+  left: calc( 50vw - 100px );
+}
+
+/*==================================================*/
 
 .Camera .snap{
-  z-index: 40;
+  z-index: 50;
   position: fixed;
   bottom: calc( 30px + 10px);
   left: calc( 50vw - 50px - 10px);

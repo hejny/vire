@@ -28,20 +28,45 @@ export class DataModel {
 
         await nextFrame();
 
-        const imageResizedPurged = image.resizePurge(
-            image.size.scale(300 / image.size.x),
+        const imageResizedPurged = image
+        /**/
+        .resizePurge(
+            image.size
+            //image.size.scale(300 / image.size.x),
         );
+        /**/
  
 
 
 
         const _ = Detection.Color.WHITE;
         const $ = Detection.Color.BLACK;
-        const imageResizedPurgedNoGaps = imageResizedPurged.replacePatterns([new Detection.Image([
+        const imageResizedPurgedNoGaps = imageResizedPurged
+        
+        /*
+        .replacePatterns([new Detection.Image([
+            [_,_,_],
+            [_,$,_],
+            [_,_,_],
+        ]),new Detection.Image([
+            [_,_,_],
+            [_,$,_],
+            [_,$,_],
+        ]),new Detection.Image([
+            [_,_,_],
+            [_,$,_],
+            [_,_,$],
+        ])],_)
+        .replacePatterns([new Detection.Image([
             [$,_,_],
             [_,_,_],
             [_,_,$],
+        ]),new Detection.Image([
+            [_,$,_],
+            [_,_,_],
+            [_,$,_],
         ])],$);
+        /**/
   
 
 

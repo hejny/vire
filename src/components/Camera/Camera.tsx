@@ -53,21 +53,28 @@ export const Camera = observer(
         render() {
             return (
                 <div className="Camera" onClick={() => this.snap()}>
-                    <Webcam
-                        audio={false}
-                        width={window.innerWidth}
-                        height={window.innerHeight}
-                        ref={(webcam: Webcam) => (this.webcam = webcam)}
-                        screenshotFormat="image/jpeg"
-                    />
-                    {/*<div className="Overlay">
-                        <img
-                            src="./overlay.png"
-                            ref={(overlayElementImg) =>
-                                (this.overlayElementImg = overlayElementImg!)
-                            }
-                        />-->
-                    </div>*/}
+
+                    <div className="screen real">
+                        <Webcam
+                            audio={false}
+                            width={window.innerWidth}
+                            height={window.innerHeight}
+                            ref={(webcam: Webcam) => (this.webcam = webcam)}
+                            screenshotFormat="image/jpeg"
+                        />
+                    </div>
+
+                    <div className="screen mock">
+                        <img src="/mock/IMG_2982.JPG"/>
+                    </div>
+
+                    <div className="overlay">
+                        <div className="cover left"/> 
+                        <div className="cover right"/> 
+                        <div className="cover top"/> 
+                        <div className="cover bottom"/> 
+                        <div className="window"/>   
+                    </div>
 
                     <div className="snap" />
                 </div>
