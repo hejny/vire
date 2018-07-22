@@ -1,9 +1,8 @@
 import { Color } from './Color';
 import { VectorSet } from './VectorSet';
-import Vector2 from './Vector2';
+import { Vector2 } from './Vector2';
 
 export class Image {
-
     //todo from canvas
 
     static fromCtx(ctx: CanvasRenderingContext2D): Image {
@@ -37,11 +36,9 @@ export class Image {
         return new Image(table);
     }
 
-
-
     constructor(public pixels: Color[][]) {}
 
-    get clone():Image{
+    get clone(): Image {
         const table: Color[][] = [];
         for (let y = 0; y < this.size.y; y++) {
             const row: Color[] = [];
@@ -53,14 +50,18 @@ export class Image {
         return new Image(table);
     }
 
-    equals(image: Image):boolean{
-        if(!this.size.equals(image.size)){
+    equals(image: Image): boolean {
+        if (!this.size.equals(image.size)) {
             return false;
         }
         for (let y = 0; y < this.size.y; y++) {
             for (let x = 0; x < this.size.x; x++) {
                 const point = new Vector2(x, y);
-                if(!this.getPointColor(point).equals(image.getPointColor(point))){
+                if (
+                    !this.getPointColor(point).equals(
+                        image.getPointColor(point),
+                    )
+                ) {
                     return false;
                 }
             }
@@ -68,7 +69,7 @@ export class Image {
         return true;
     }
 
-    createCanvas(islands:VectorSet[] = []){
+    createCanvas(islands: VectorSet[] = []) {
         const canvasElement = document.createElement('canvas');
         canvasElement.width = this.size.x;
         canvasElement.height = this.size.y;
@@ -84,7 +85,7 @@ export class Image {
 
         //todo maybe to other method
         for (const island of islands) {
-            const detectionColor = Color.Random();//new Color(0, 255, 0);//Color.Random();
+            const detectionColor = Color.Random(); //new Color(0, 255, 0);//Color.Random();
             for (const point of island.points) {
                 //const color = this.getPointColor(point);
                 ctx.fillStyle = detectionColor.css;
@@ -96,39 +97,39 @@ export class Image {
     }
 
     //todo fromDataUrl without canvas
-    toDataURL():string{
-        return this.createCanvas().toDataURL();//todo without canvas
+    toDataURL(): string {
+        return this.createCanvas().toDataURL(); //todo without canvas
     }
-    
+
     get size() {
         return new Vector2(this.pixels[0].length, this.pixels.length);
     }
 
-    get points():VectorSet{
+    get points(): VectorSet {
         const points = new VectorSet();
         for (let y = 0; y < this.size.y; y++) {
             for (let x = 0; x < this.size.x; x++) {
-                points.add(new Vector2(x,y));
+                points.add(new Vector2(x, y));
             }
         }
         return points;
     }
 
-    get flipVertical():Image{
+    get flipVertical(): Image {
         const table: Color[][] = [];
         for (let y = 0; y < this.size.y; y++) {
-            table.push(this.pixels[this.size.y-y-1]);
+            table.push(this.pixels[this.size.y - y - 1]);
         }
         return new Image(table);
     }
 
-    get flipHorizontal():Image{
+    get flipHorizontal(): Image {
         const table: Color[][] = [];
         for (let y = 0; y < this.size.y; y++) {
             const row: Color[] = [];
             table.push(row);
             for (let x = 0; x < this.size.x; x++) {
-                row.push(this.pixels[y][this.size.x-x-1]);
+                row.push(this.pixels[y][this.size.x - x - 1]);
             }
         }
         return new Image(table);
@@ -154,12 +155,12 @@ export class Image {
     }
     /**/
 
-    get blackPoints():VectorSet{
+    get blackPoints(): VectorSet {
         const points = new VectorSet();
         for (let y = 0; y < this.size.y; y++) {
             for (let x = 0; x < this.size.x; x++) {
-                const point = new Vector2(x,y);
-                if(this.getPointColor(point)===Color.BLACK){
+                const point = new Vector2(x, y);
+                if (this.getPointColor(point) === Color.BLACK) {
                     points.add(point);
                 }
             }
@@ -198,7 +199,7 @@ export class Image {
         return this.pixels[point.y][point.x];
     }
 
-    setPointColor(point: Vector2, color: Color):this {
+    setPointColor(point: Vector2, color: Color): this {
         this.pixels[point.y][point.x] = color;
         return this;
     }
@@ -249,12 +250,10 @@ export class Image {
     }
     /**/
 
-
     getAreaDarkColor(point: Vector2, size: Vector2): Color {
-
         const tmpTestedPoints = [];
 
-        let maxColor = new Color(255,255,255);
+        let maxColor = new Color(255, 255, 255);
         //maxColor = new Color(0,0,0);
 
         for (
@@ -274,28 +273,26 @@ export class Image {
 
                 if (this.isPoint(point)) {
                     const color = this.getPointColor(point);
-                   if(color.lightness<maxColor.lightness){
-                        maxColor=color;
-                   }
+                    if (color.lightness < maxColor.lightness) {
+                        maxColor = color;
+                    }
                 }
             }
         }
-        
 
         return maxColor;
     }
 
-
     isAreaCovered(point: Vector2, size: Vector2): boolean {
-
         const tmpTestedPoints = [];
 
-        const areaAverageColorLightness = this.getAreaAverageColor(point, size).lightness;
+        const areaAverageColorLightness = this.getAreaAverageColor(point, size)
+            .lightness;
         let all = 0;
         let filled = 0;
         let darker = 0;
         let lighter = 0;
-        let maxColor = new Color(255,255,255);
+        let maxColor = new Color(255, 255, 255);
 
         for (
             let y = Math.floor(point.y - size.y / 2);
@@ -316,28 +313,24 @@ export class Image {
                     const color = this.getPointColor(point);
 
                     all++;
-                   if(color.lightness<areaAverageColorLightness){
+                    if (color.lightness < areaAverageColorLightness) {
                         darker++;
-                   }else{
+                    } else {
                         lighter++;
-                   }
-                   if(color.lightness<areaAverageColorLightness/1.05){
-                    filled++;
-
-                    
-               }
-               if(color.lightness<maxColor.lightness){
-                maxColor=color;
-           }
+                    }
+                    if (color.lightness < areaAverageColorLightness / 1.05) {
+                        filled++;
+                    }
+                    if (color.lightness < maxColor.lightness) {
+                        maxColor = color;
+                    }
                 }
             }
         }
-       
-        return filled>all*.1//||maxColor.lightness<0.2;
+
+        return filled > all * 0.1; //||maxColor.lightness<0.2;
     }
 
-
-    
     /*
     isPointCovered(point: Vector2): boolean {
 
@@ -461,13 +454,12 @@ export class Image {
     /**/
 
     /**/
-    resize(size: Vector2):Image{
+    resize(size: Vector2): Image {
         const table: Color[][] = [];
 
-        const area = new Vector2( this.size.x / size.x, this.size.y / size.y);
+        const area = new Vector2(this.size.x / size.x, this.size.y / size.y);
         console.log(area);
 
-        
         for (let y = 0; y < size.y; y++) {
             const row: Color[] = [];
             table.push(row);
@@ -508,12 +500,15 @@ export class Image {
     }
     /**/
 
-    resizePurge(size: Vector2):Image{
+    resizePurge(size: Vector2): Image {
         const table: Color[][] = [];
 
-        const area = new Vector2( this.size.x / size.x, this.size.y / size.y).scale(1);
+        const area = new Vector2(
+            this.size.x / size.x,
+            this.size.y / size.y,
+        ).scale(1);
         //console.log(area);
-    
+
         for (let y = 0; y < size.y; y++) {
             const row: Color[] = [];
             table.push(row);
@@ -525,7 +520,11 @@ export class Image {
                     point.y / size.y * this.size.y,
                 );
 
-                row.push(this.isAreaCovered(pointOld, area)?Color.BLACK: Color.WHITE);
+                row.push(
+                    this.isAreaCovered(pointOld, area)
+                        ? Color.BLACK
+                        : Color.WHITE,
+                );
                 //pointOld
                 //row.push(this.getAreaColor(pointOld,area));
                 //row.push(new Color());
@@ -534,31 +533,38 @@ export class Image {
         return new Image(table);
     }
 
-
-    findPatternUniqueFlip(pattern: Image):VectorSet{
-        if(pattern.size.x%2!==1 && pattern.size.y%2!==1){
+    findPatternUniqueFlip(pattern: Image): VectorSet {
+        if (pattern.size.x % 2 !== 1 && pattern.size.y % 2 !== 1) {
             throw new Error(`Pattern should have 2n+1 size;`);
         }
-        return new VectorSet(this.points.points.filter((point)=>{
-            for (let y = 0; y < pattern.size.y; y++) {
-                for (let x = 0; x < pattern.size.x; x++) {
-                    const detectionPoint = point.add(new Vector2(
-                        x-Math.floor(pattern.size.x/2),
-                        y-Math.floor(pattern.size.y/2)
-                    ));
-                    if(!this.isPoint(detectionPoint)){
-                        return false;
-                    }
-                    if(!this.getPointColor(detectionPoint).equals(pattern.getPointColor(new Vector2(x,y)))){
-                        return false;
+        return new VectorSet(
+            this.points.points.filter((point) => {
+                for (let y = 0; y < pattern.size.y; y++) {
+                    for (let x = 0; x < pattern.size.x; x++) {
+                        const detectionPoint = point.add(
+                            new Vector2(
+                                x - Math.floor(pattern.size.x / 2),
+                                y - Math.floor(pattern.size.y / 2),
+                            ),
+                        );
+                        if (!this.isPoint(detectionPoint)) {
+                            return false;
+                        }
+                        if (
+                            !this.getPointColor(detectionPoint).equals(
+                                pattern.getPointColor(new Vector2(x, y)),
+                            )
+                        ) {
+                            return false;
+                        }
                     }
                 }
-            }
-            return true;
-        }));
+                return true;
+            }),
+        );
     }
 
-    findPattern(pattern: Image):VectorSet{
+    findPattern(pattern: Image): VectorSet {
         const patterns = [
             pattern,
             pattern.flipHorizontal,
@@ -566,22 +572,30 @@ export class Image {
             pattern.flipHorizontal.flipVertical,
         ];
         //todo optimize filter only unique patterns
-        return patterns.reduce((detected,pattern)=>detected.union(this.findPatternUniqueFlip(pattern)),new VectorSet()).unique;
+        return patterns.reduce(
+            (detected, pattern) =>
+                detected.union(this.findPatternUniqueFlip(pattern)),
+            new VectorSet(),
+        ).unique;
     }
-    
-    replacePattern(pattern: Image,color: Color):Image{
+
+    replacePattern(pattern: Image, color: Color): Image {
         const image = this.clone;
-        this.findPattern(pattern).points.forEach((point)=>{
-            image.setPointColor(point,color);
+        this.findPattern(pattern).points.forEach((point) => {
+            image.setPointColor(point, color);
         });
         return image;
     }
 
-    replacePatterns(patterns: Image[],color: Color):Image{
+    replacePatterns(patterns: Image[], color: Color): Image {
         let lastImage = this;
-        for(let i=0;i<10;i++){//todo limit
-            const currentImage = patterns.reduce((image,pattern)=>image.replacePattern(pattern,color),lastImage);
-            if(currentImage.equals(lastImage)){
+        for (let i = 0; i < 10; i++) {
+            //todo limit
+            const currentImage = patterns.reduce(
+                (image, pattern) => image.replacePattern(pattern, color),
+                lastImage,
+            );
+            if (currentImage.equals(lastImage)) {
                 return currentImage;
             }
         }
@@ -687,43 +701,52 @@ export class Image {
     }
     */
 
-    areNeighbors(point1:Vector2,point2:Vector2){
-        return Math.abs(this.getPointColor(point1).lightness - this.getPointColor(point2).lightness)<0.07;
+    areNeighbors(point1: Vector2, point2: Vector2) {
+        return (
+            Math.abs(
+                this.getPointColor(point1).lightness -
+                    this.getPointColor(point2).lightness,
+            ) < 0.07
+        );
     }
 
-    areExactNeighbors(point1:Vector2,point2:Vector2){
+    areExactNeighbors(point1: Vector2, point2: Vector2) {
         return this.getPointColor(point1) === this.getPointColor(point2);
     }
 
     async separateIslands(
-        percentCallback: (percent: number, islands: VectorSet[]) => Promise<void>,
+        percentCallback: (
+            percent: number,
+            islands: VectorSet[],
+        ) => Promise<void>,
     ): Promise<VectorSet[]> {
-
-        await percentCallback(0,[]);
+        await percentCallback(0, []);
 
         const pointsTotal = this.size.x * this.size.y;
 
-
-        const islands:VectorSet[] = [];
+        const islands: VectorSet[] = [];
         let unassignedPoints = this.blackPoints;
-        
 
-        while(unassignedPoints.length!==0){
-
+        while (unassignedPoints.length !== 0) {
             const landingPoint = unassignedPoints.points[0];
             const island = await floodIteration(
                 this,
                 new VectorSet([landingPoint]),
                 new VectorSet([landingPoint]),
-                async (island)=>await percentCallback((island.length+(pointsTotal-unassignedPoints.length))/pointsTotal,[...islands,island])
+                async (island) =>
+                    await percentCallback(
+                        (island.length +
+                            (pointsTotal - unassignedPoints.length)) /
+                            pointsTotal,
+                        [...islands, island],
+                    ),
             );
             unassignedPoints = unassignedPoints.substract(island);
             islands.push(island);
         }
 
-        await percentCallback(1,islands);
+        await percentCallback(1, islands);
         return islands;
-
     }
 
     /*
@@ -768,55 +791,57 @@ export class Image {
         return [island]
     }
     */
-
-
 }
-
 
 async function floodIteration(
     image: Image,
-    pointsInner:VectorSet,
-    pointsInnerBorder:VectorSet,
-    iterationCallback: (island: VectorSet)=>Promise<void>,
-    iterationLevel = 0
-
-): Promise<VectorSet>{
-
+    pointsInner: VectorSet,
+    pointsInnerBorder: VectorSet,
+    iterationCallback: (island: VectorSet) => Promise<void>,
+    iterationLevel = 0,
+): Promise<VectorSet> {
     //const pointsProcessed = pointsInner.length;
     //await percentCallback(pointsProcessed/pointsTotal,[pointsInner]);
-    
-    if(iterationLevel%1===0){
+
+    if (iterationLevel % 1 === 0) {
         await iterationCallback(pointsInnerBorder);
     }
 
-    const pointsOuterUnuniqueBorder= new VectorSet(pointsInnerBorder.points.map((point)=>
-        [
-            point,
-            new Vector2(point.x+1,point.y),
-            new Vector2(point.x-1,point.y),
-            new Vector2(point.x,point.y+1),
-            new Vector2(point.x,point.y-1)
-        ]
-            .filter(point2=>image.isPoint(point2))
-            //.filter(point2=>!island.points.some(point3=>point2.equals(point3)))
-            .filter(point2=>image.areExactNeighbors(point,point2))
-    )
-    .reduce((pointsOuter,newPoints)=>[...pointsOuter,...newPoints],[]));
-    
+    const pointsOuterUnuniqueBorder = new VectorSet(
+        pointsInnerBorder.points
+            .map((point) =>
+                [
+                    point,
+                    new Vector2(point.x + 1, point.y),
+                    new Vector2(point.x - 1, point.y),
+                    new Vector2(point.x, point.y + 1),
+                    new Vector2(point.x, point.y - 1),
+                ]
+                    .filter((point2) => image.isPoint(point2))
+                    //.filter(point2=>!island.points.some(point3=>point2.equals(point3)))
+                    .filter((point2) => image.areExactNeighbors(point, point2)),
+            )
+            .reduce(
+                (pointsOuter, newPoints) => [...pointsOuter, ...newPoints],
+                [],
+            ),
+    );
 
-    const pointsOuter = pointsInner.clone().addUnique(...pointsOuterUnuniqueBorder.points);
+    const pointsOuter = pointsInner
+        .clone()
+        .addUnique(...pointsOuterUnuniqueBorder.points);
 
     //console.log(pointsOuter.length);
 
-    if(pointsOuter.length === pointsInner.length){
+    if (pointsOuter.length === pointsInner.length) {
         return pointsOuter;
-    }else{
+    } else {
         return await floodIteration(
             image,
             pointsOuter,
             pointsOuter.substract(pointsInner),
             iterationCallback,
-            iterationLevel+1
+            iterationLevel + 1,
         );
     }
 }

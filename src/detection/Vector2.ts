@@ -1,49 +1,41 @@
-export interface ISerializedVector2{
+export interface ISerializedVector2 {
     x: number;
     y: number;
 }
 
+export class Vector2 {
+    static ZERO = new Vector2(0, 0);
+    static ONE = new Vector2(1, 1);
 
-export default class Vector2 {
+    static UP = new Vector2(0, 1);
+    static DOWN = new Vector2(0, -1);
+    static LEFT = new Vector2(-1, 0);
+    static RIGHT = new Vector2(1, 0);
 
-    static ZERO = new Vector2(0,0)
-    static ONE = new Vector2(1,1)
-    
-    static UP = new Vector2(0,1)
-    static DOWN = new Vector2(0,-1)
-    static LEFT = new Vector2(-1,0)
-    static RIGHT = new Vector2(1,0)
+    static UP_LEFT = new Vector2(-1, 1);
+    static DOWN_LEFT = new Vector2(-1, -1);
+    static UP_RIGHT = new Vector2(1, 1);
+    static DOWN_RIGHT = new Vector2(1, -1);
 
-    static UP_LEFT = new Vector2(-1,1)
-    static DOWN_LEFT = new Vector2(-1,-1)
-    static UP_RIGHT = new Vector2(1,1)
-    static DOWN_RIGHT= new Vector2(1,-1)
-
-    static deserialize(serializedVector2: ISerializedVector2): Vector2{
-        return new Vector2(
-            serializedVector2.x,
-            serializedVector2.y
-        );
+    static deserialize(serializedVector2: ISerializedVector2): Vector2 {
+        return new Vector2(serializedVector2.x, serializedVector2.y);
     }
 
     constructor(public x: number, public y: number) {}
 
-    serialize(): ISerializedVector2{
+    serialize(): ISerializedVector2 {
         return {
             x: this.x,
-            y: this.y
-        }
+            y: this.y,
+        };
     }
 
     get clone(): Vector2 {
         return new Vector2(this.x, this.y);
     }
 
-    equals(vector: Vector2):boolean{
-        return(
-            this.x === vector.x &&
-            this.y === vector.y
-        );
+    equals(vector: Vector2): boolean {
+        return this.x === vector.x && this.y === vector.y;
     }
 
     //todo consolidate 2 add methods and 1 static method

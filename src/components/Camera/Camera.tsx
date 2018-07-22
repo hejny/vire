@@ -5,12 +5,11 @@ import { observer } from 'mobx-react';
 import { DataModel } from '../../model/DataModel';
 import * as Detection from '../../detection';
 
-
 console.log(Detection);
 console.log(typeof Detection);
-console.log("ahoj");
+console.log('ahoj');
 
-
+const SCREEN_RECT = new Detection.Vector2(100, 200);
 
 export const Camera = observer(
     class extends React.Component<{ dataModel: DataModel }, {}> {
@@ -24,7 +23,12 @@ export const Camera = observer(
             //console.log(this.webcam)
 
             const ctx = this.webcam.getCanvas()!.getContext('2d')!;
-            var frame = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+            var frame = ctx.getImageData(
+                0,
+                0,
+                ctx.canvas.width,
+                ctx.canvas.height,
+            );
             const table: Detection.Color[][] = [];
             for (let y = 0; y < ctx.canvas.height; y++) {
                 const row: Detection.Color[] = [];
@@ -42,18 +46,14 @@ export const Camera = observer(
             }
             const image = new Detection.Image(table);
 
-
             //console.log(image);
 
             this.props.dataModel.processImage(image);
-
-            
         }
 
         render() {
             return (
                 <div className="Camera" onClick={() => this.snap()}>
-
                     <div className="screen real">
                         <Webcam
                             audio={false}
@@ -65,16 +65,42 @@ export const Camera = observer(
                     </div>
 
                     <div className="screen mock">
-                        <img src="/mock/IMG_2982.JPG"/>
+                        <img src="/mock/IMG_2982.JPG" />
                     </div>
 
-                    <div className="overlay">
+                    <div className="screen overlay">
+                        <canvas
+                            ref={(canvas) => {
+                                if (canvas) {
+                                    canvas.width = canvas.getBoundingClientRect().width;
+                                    canvas.height = canvas.getBoundingClientRect().height;
+
+                                    const ctx = canvas.getContext('2d');
+
+                                    if (ctx) {
+                                        ctx.beginPath();
+
+                                        ctx.rect(
+                                            (canvas.width - SCREEN_RECT.x) / 2,
+                                            (canvas.height - SCREEN_RECT.y) / 2,
+                                            SCREEN_RECT.x,
+                                            SCREEN_RECT.y,
+                                        );
+                                        ctx.strokeStyle = 'red';
+                                        ctx.stroke();
+                                    }
+                                }
+                            }}
+                        />
+                    </div>
+
+                    {/*<div className="overlay">
                         <div className="cover left"/> 
                         <div className="cover right"/> 
                         <div className="cover top"/> 
                         <div className="cover bottom"/> 
                         <div className="window"/>   
-                    </div>
+                    </div>*/}
 
                     <div className="snap" />
                 </div>

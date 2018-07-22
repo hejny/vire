@@ -1,3 +1,4 @@
+/*
 import { Color } from './Color';
 import Vector2 from './Vector2';
 
@@ -38,3 +39,4 @@ export function getAreaColor(
 
     return color1;
 }
+*/

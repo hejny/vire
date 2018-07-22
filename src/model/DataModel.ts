@@ -15,13 +15,11 @@ export class DataModel {
     @observable imageInput: Detection.Image;
     @observable imageProcessed: Detection.Image;
 
-
-    restart(){
+    restart() {
         this.screen = AppScreen.CAMERA;
     }
 
     async processImage(image: Detection.Image) {
-        
         this.percent = 0;
         this.imageInput = image;
         this.screen = AppScreen.PROCESSING;
@@ -29,20 +27,17 @@ export class DataModel {
         await nextFrame();
 
         const imageResizedPurged = image
+            /**/
+            .resizePurge(
+                image.size,
+                //image.size.scale(300 / image.size.x),
+            );
         /**/
-        .resizePurge(
-            image.size
-            //image.size.scale(300 / image.size.x),
-        );
-        /**/
- 
-
-
 
         const _ = Detection.Color.WHITE;
         const $ = Detection.Color.BLACK;
-        const imageResizedPurgedNoGaps = imageResizedPurged
-        
+        const imageResizedPurgedNoGaps = imageResizedPurged;
+
         /*
         .replacePatterns([new Detection.Image([
             [_,_,_],
@@ -67,13 +62,9 @@ export class DataModel {
             [_,$,_],
         ])],$);
         /**/
-  
-
 
         this.percent = 1;
         this.imageProcessed = imageResizedPurgedNoGaps;
         this.screen = AppScreen.RESULT;
-
-
     }
 }

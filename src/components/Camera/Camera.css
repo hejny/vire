@@ -9,13 +9,20 @@
 }
 
 .Camera .real{
+  z-index: 10;
   visibility: hidden; 
 }
 .Camera .mock{
+  z-index: 10;
   visibility: visible;  
 }
 
-.Camera .screen video,img{
+.Camera .overlay{
+  z-index: 20;
+  visibility: visible;  
+}
+
+.Camera .screen video,img,canvas{
   z-index: 10;
   position: fixed;
   top: 0;
@@ -27,6 +34,7 @@
 
 /*==================================================*/
 
+/*
 .Camera .overlay .cover{
   z-index: 40;
   position: fixed;
@@ -71,6 +79,7 @@
   right: calc( 50vw - 100px );
   left: calc( 50vw - 100px );
 }
+*/
 
 /*==================================================*/
 

@@ -1,10 +1,9 @@
 export class Color {
-
-    static BLACK = new Color(0,0,0)
-    static WHITE = new Color(255,255,255)
-    static RED = new Color(255,0,0)
-    static GREEN = new Color(0,255,0)
-    static BLUE = new Color(0,0,255)
+    static BLACK = new Color(0, 0, 0);
+    static WHITE = new Color(255, 255, 255);
+    static RED = new Color(255, 0, 0);
+    static GREEN = new Color(0, 255, 0);
+    static BLUE = new Color(0, 0, 255);
 
     static Random() {
         return new Color(
@@ -20,12 +19,8 @@ export class Color {
         public b: number = 0,
     ) {}
 
-    equals(color: Color):boolean{
-        return(
-            this.r === color.r &&
-            this.g === color.g &&
-            this.b === color.b
-        )
+    equals(color: Color): boolean {
+        return this.r === color.r && this.g === color.g && this.b === color.b;
     }
 
     distance(color2: Color) {

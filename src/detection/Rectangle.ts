@@ -1,45 +1,42 @@
-import Vector2, { ISerializedVector2 } from './Vector2';
+import { Vector2, ISerializedVector2 } from './Vector2';
 import { VectorSet } from './VectorSet';
 
-export interface ISerializedRectangle{
-    center: ISerializedVector2,
-    size: ISerializedVector2,
-    rotation: number,
-    borderRadius: number
-
+export interface ISerializedRectangle {
+    center: ISerializedVector2;
+    size: ISerializedVector2;
+    rotation: number;
+    borderRadius: number;
 }
 
-export default class Rectangle {
-    
-    static deserialize(serializedRectangle:ISerializedRectangle):Rectangle{
+export class Rectangle {
+    static deserialize(serializedRectangle: ISerializedRectangle): Rectangle {
         return new Rectangle(
             Vector2.deserialize(serializedRectangle.center),
             Vector2.deserialize(serializedRectangle.size),
             serializedRectangle.rotation,
             serializedRectangle.borderRadius,
-            null
-        )
+            null,
+        );
     }
-    
+
     constructor(
         public center: Vector2 = Vector2.ZERO,
         public size: Vector2 = Vector2.ONE,
         public rotation: number = 0,
         public borderRadius = 0,
-        public set: VectorSet|null = null
+        public set: VectorSet | null = null,
     ) {
         this.normalize();
     }
 
-    serialize():ISerializedRectangle{
+    serialize(): ISerializedRectangle {
         return {
             center: this.center,
             size: this.size,
             rotation: this.rotation,
-            borderRadius: this.borderRadius
-        }
+            borderRadius: this.borderRadius,
+        };
     }
-
 
     private normalize() {
         this.size = new Vector2(Math.abs(this.size.x), Math.abs(this.size.y));
@@ -64,7 +61,12 @@ export default class Rectangle {
     }
 
     get clone() {
-        return new Rectangle(this.center, this.size, this.rotation,this.borderRadius);
+        return new Rectangle(
+            this.center,
+            this.size,
+            this.rotation,
+            this.borderRadius,
+        );
     }
 
     cloneDeep() {
@@ -72,7 +74,7 @@ export default class Rectangle {
             this.center.clone,
             this.size.clone,
             this.rotation,
-            this.borderRadius
+            this.borderRadius,
         );
     }
 
@@ -155,9 +157,7 @@ export default class Rectangle {
     toSvg(): string {
         return `<rect x="${this.topLeft.x}" y="${this.topLeft.y}" width="${
             this.size.x
-        }" height="${
-            this.size.y
-        }"
+        }" height="${this.size.y}"
         rx="${this.borderRadius}" ry="${this.borderRadius}"
         style="fill:rgba(0,255,0,0.2);stroke-width:2;stroke:rgb(0,0,0)" />`;
     }

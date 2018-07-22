@@ -1,39 +1,40 @@
-import Vector2, { ISerializedVector2 } from './Vector2';
-import Rectangle, { ISerializedRectangle } from './Rectangle';
+import { Vector2, ISerializedVector2 } from './Vector2';
+import { Rectangle, ISerializedRectangle } from './Rectangle';
 import { Image } from './Image';
-import { setPointColor } from './getAreaColor';
+//import { setPointColor } from './getAreaColor';
 import { Color } from './Color';
 import { ITemplate } from './templates/ITemplate';
 import { GridTemplate } from './templates/GridTemplate';
 import { FlatDesignTemplate } from './templates/FlatDesignTemplate';
 
-export interface ISerializedWireframe{
-    size: ISerializedVector2,
-    rectangles: ISerializedRectangle[],
+export interface ISerializedWireframe {
+    size: ISerializedVector2;
+    rectangles: ISerializedRectangle[];
 }
 
 export class Wireframe {
-
-   
-    static deserialize(serializedWireframe:ISerializedWireframe):Wireframe{
+    static deserialize(serializedWireframe: ISerializedWireframe): Wireframe {
         return new Wireframe(
             Vector2.deserialize(serializedWireframe.size),
-            serializedWireframe.rectangles.map((serializedRectangle)=>Rectangle.deserialize(serializedRectangle))
-        )
+            serializedWireframe.rectangles.map((serializedRectangle) =>
+                Rectangle.deserialize(serializedRectangle),
+            ),
+        );
     }
 
-
-    private template:ITemplate;
+    private template: ITemplate;
 
     constructor(public size: Vector2, public rectangles: Rectangle[]) {
         this.template = new FlatDesignTemplate(this.size);
     }
 
-    serialize():ISerializedWireframe{
+    serialize(): ISerializedWireframe {
         return {
             size: this.size,
-            rectangles: this.rectangles.map((rectangle)=>rectangle.serialize())
-        }
+            rectangles: this.rectangles.map((rectangle) =>
+                rectangle.serialize(),
+            ),
+        };
     }
 
     /*static async fromImage(
@@ -66,17 +67,16 @@ export class Wireframe {
         
     }*/
 
-
-    snap():Wireframe {
-        
-
-
+    snap(): Wireframe {
         return new Wireframe(
             this.size,
-            this.rectangles.map((rectangle)=>this.template.snapRectangle(rectangle))
-        )
+            this.rectangles.map((rectangle) =>
+                this.template.snapRectangle(rectangle),
+            ),
+        );
     }
 
+    /*
     createDebugCanvas() {
         const debugDanvas = document.createElement('canvas');
         debugDanvas.width = this.size.x;
@@ -90,19 +90,16 @@ export class Wireframe {
                 ctx.fillStyle = color.css;
                 ctx.fillRect(point.x, point.y, 1, 1);
             }
-        }*/
+        }* /
 
         for (const rectangle of this.rectangles) {
-            
-            
-            const detectionColor = new Color(255, 255, 0);//Color.Random();
-            
-            if(rectangle.set){
+            const detectionColor = new Color(255, 255, 0); //Color.Random();
+
+            if (rectangle.set) {
                 for (const point of rectangle.set.points) {
                     setPointColor(ctx, point, detectionColor);
                 }
             }
-
 
             {
                 //-----------------------boundingPoints render
@@ -132,6 +129,7 @@ export class Wireframe {
 
         return debugDanvas;
     }
+    */
 
     toSvg(): string {
         return `
@@ -139,23 +137,28 @@ export class Wireframe {
             xmlns="http://www.w3.org/2000/svg">
 
 
-            ${(()=>{
-                const lines:string[] = [];
+            ${(() => {
+                const lines: string[] = [];
 
-                for(const coord1 of ['x','y'] as ('x'|'y')[]){
+                for (const coord1 of ['x', 'y'] as ('x' | 'y')[]) {
+                    const coord2: 'x' | 'y' = coord1 === 'x' ? 'y' : 'x';
 
-                    const coord2:'x'|'y' = coord1==='x'?'y':'x';
-        
-                    for(const edge of [0,1] as (0|1)[]){
+                    for (const edge of [0, 1] as (0 | 1)[]) {
                         lines.push(
-                            ...this.template.snappingValues(coord1,edge)
-                                .map((snappingValue)=>
-                                    `<line ${coord1}1="${snappingValue}" ${coord2}1="${0}" ${coord1}2="${snappingValue}" ${coord2}2="${this.size[coord2]}" style="stroke:${edge===0?'#cccc99':'#99cccc'};stroke-width:1" />`)
+                            ...this.template
+                                .snappingValues(coord1, edge)
+                                .map(
+                                    (snappingValue) =>
+                                        `<line ${coord1}1="${snappingValue}" ${coord2}1="${0}" ${coord1}2="${snappingValue}" ${coord2}2="${
+                                            this.size[coord2]
+                                        }" style="stroke:${
+                                            edge === 0 ? '#cccc99' : '#99cccc'
+                                        };stroke-width:1" />`,
+                                ),
                         );
                     }
                 }
 
-                
                 return lines.join('\n');
             })()}
 
