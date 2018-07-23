@@ -2,14 +2,11 @@ import * as React from 'react';
 import * as Webcam from 'react-webcam';
 import './Camera.css';
 import { observer } from 'mobx-react';
-import { DataModel } from '../../model/DataModel';
+import { DataModel, AppScreen } from '../../model/DataModel';
 import * as Detection from '../../detection';
+import { cloneCanvas } from '../../tools/cloneCanvas';
 
-console.log(Detection);
-console.log(typeof Detection);
-console.log('ahoj');
-
-const SCREEN_RECT = new Detection.Vector2(100, 200);
+const SCREEN_RECT = new Detection.Vector2(1125, 2436).scale(0.3);
 
 export const Camera = observer(
     class extends React.Component<{ dataModel: DataModel }, {}> {
@@ -19,10 +16,9 @@ export const Camera = observer(
 
         snap() {
             //const screenshot = this.webcam.getScreenshot();
-
             //console.log(this.webcam)
 
-            const ctx = this.webcam.getCanvas()!.getContext('2d')!;
+            /*const ctx = this.webcam.getCanvas()!.getContext('2d')!;
             var frame = ctx.getImageData(
                 0,
                 0,
@@ -47,8 +43,9 @@ export const Camera = observer(
             const image = new Detection.Image(table);
 
             //console.log(image);
+            */
 
-            this.props.dataModel.processImage(image);
+            this.props.dataModel.snapImage(cloneCanvas(this.webcam.getCanvas()!));
         }
 
         render() {
@@ -64,12 +61,15 @@ export const Camera = observer(
                         />
                     </div>
 
-                    <div className="screen mock">
+                    {/*<div className="screen mock">
                         <img src="/mock/IMG_2982.JPG" />
-                    </div>
+                    </div>*/}
+
+                    {}
 
                     <div className="screen overlay">
                         <canvas
+                            data-foo={[this.props.dataModel.screen,this.props.dataModel.imageInput]}
                             ref={(canvas) => {
                                 if (canvas) {
                                     canvas.width = canvas.getBoundingClientRect().width;
@@ -78,14 +78,27 @@ export const Camera = observer(
                                     const ctx = canvas.getContext('2d');
 
                                     if (ctx) {
-                                        ctx.beginPath();
+                                        
 
+
+                                        if(this.props.dataModel.screen === AppScreen.CAMERA_CONFIRM){
+
+                                            console.log('xxx',this.props.dataModel.imageInput);
+                                            ctx.drawImage(
+                                                this.props.dataModel.imageInput
+                                                ,0,0
+                                            )
+                                        }
+
+                                        ctx.beginPath();
                                         ctx.rect(
                                             (canvas.width - SCREEN_RECT.x) / 2,
                                             (canvas.height - SCREEN_RECT.y) / 2,
                                             SCREEN_RECT.x,
                                             SCREEN_RECT.y,
                                         );
+                                        ctx.lineCap = 'round';
+                                        ctx.lineWidth = 4;
                                         ctx.strokeStyle = 'red';
                                         ctx.stroke();
                                     }

@@ -5,6 +5,10 @@ import { Vector2 } from './Vector2';
 export class Image {
     //todo from canvas
 
+    static fromCanvas(canvas: HTMLCanvasElement): Image {
+        return Image.fromCtx(canvas.getContext('2d')!);
+    }
+
     static fromCtx(ctx: CanvasRenderingContext2D): Image {
         var frame = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
 

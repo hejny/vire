@@ -10,12 +10,12 @@
 
 .Camera .real{
   z-index: 10;
-  visibility: hidden; 
+  visibility: visible; 
 }
-.Camera .mock{
+/*.Camera .mock{
   z-index: 10;
   visibility: visible;  
-}
+}*/
 
 .Camera .overlay{
   z-index: 20;

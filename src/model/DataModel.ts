@@ -4,6 +4,7 @@ import { nextFrame } from '../tools/nextFrame';
 
 export enum AppScreen {
     CAMERA,
+    CAMERA_CONFIRM,
     PROCESSING,
     RESULT,
 }
@@ -12,19 +13,27 @@ export class DataModel {
     @observable screen: AppScreen = AppScreen.CAMERA;
     @observable percent: number;
 
-    @observable imageInput: Detection.Image;
+    @observable imageInput: HTMLCanvasElement;
     @observable imageProcessed: Detection.Image;
 
     restart() {
         this.screen = AppScreen.CAMERA;
     }
 
-    async processImage(image: Detection.Image) {
-        this.percent = 0;
+
+    snapImage(image: HTMLCanvasElement) {
         this.imageInput = image;
+        this.screen = AppScreen.CAMERA_CONFIRM;
+    }
+
+
+    async processImage() {
+        this.percent = 0;
         this.screen = AppScreen.PROCESSING;
 
         await nextFrame();
+
+        const image = Detection.Image.fromCanvas(this.imageInput);
 
         const imageResizedPurged = image
             /**/
