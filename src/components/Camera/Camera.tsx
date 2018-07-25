@@ -8,7 +8,7 @@ import { cloneCanvas } from '../../tools/cloneCanvas';
 import { fitToScreen, fitToScreenInfo } from '../../tools/fitToScreen';
 import { repeatRequest } from '../../tools/repeatRequest';
 
-interface ICameraProps{
+interface ICameraProps {
     dataModel: DataModel;
 }
 
@@ -17,7 +17,6 @@ export const Camera = observer(
         private webcam: Webcam;
         private drawCanvas: HTMLCanvasElement;
         private overlayElementImg: HTMLElement;
-
 
         snap() {
             //const screenshot = this.webcam.getScreenshot();
@@ -55,27 +54,41 @@ export const Camera = observer(
 
         render() {
             return (
-                <div className="Camera" onClick={() => {if(!this.props.dataModel.input)this.snap()}}>
-
-
+                <div
+                    className="Camera"
+                    onClick={() => {
+                        if (!this.props.dataModel.input) this.snap();
+                    }}
+                >
                     <div className="screen real">
                         <Webcam
                             audio={false}
                             width={window.innerWidth}
                             height={window.innerHeight}
-                            ref={(webcam: Webcam) =>{
+                            ref={(webcam: Webcam) => {
                                 this.webcam = webcam;
                             }}
-                            onUserMedia={async ()=>{
-                                this.props.dataModel.cameraSize = await repeatRequest(()=>{
-                                    const canvas = this.webcam.getCanvas();
-                                    if(canvas){
-                                        return new Detection.Vector2(canvas.width,canvas.height);
-                                    }else{
-                                        throw new Error(`Can not get camera size.`);
-                                    }
-                                });
-                                console.log(`Camera size set to ${this.props.dataModel.cameraSize}.`);
+                            onUserMedia={async () => {
+                                this.props.dataModel.cameraSize = await repeatRequest(
+                                    () => {
+                                        const canvas = this.webcam.getCanvas();
+                                        if (canvas) {
+                                            return new Detection.Vector2(
+                                                canvas.width,
+                                                canvas.height,
+                                            );
+                                        } else {
+                                            throw new Error(
+                                                `Can not get camera size.`,
+                                            );
+                                        }
+                                    },
+                                );
+                                console.log(
+                                    `Camera size set to ${
+                                        this.props.dataModel.cameraSize
+                                    }.`,
+                                );
                             }}
                             screenshotFormat="image/jpeg"
                         />
@@ -89,42 +102,45 @@ export const Camera = observer(
 
                     <div className="screen overlay">
                         <canvas
-                            data-foo={this.props.dataModel.input?1:0}
+                            data-foo={this.props.dataModel.input ? 1 : 0}
                             width={this.props.dataModel.screenSize.x}
                             height={this.props.dataModel.screenSize.y}
                             ref={(canvas) => {
-
                                 console.log('overlay rerender');
                                 if (canvas) {
-
-
                                     const ctx = canvas.getContext('2d');
 
                                     if (ctx) {
-                                        
-                                        ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+                                        ctx.clearRect(
+                                            0,
+                                            0,
+                                            ctx.canvas.width,
+                                            ctx.canvas.height,
+                                        );
 
-                                        if(this.props.dataModel.input){
+                                        if (this.props.dataModel.input) {
+                                            const inputSizeFitBounding = this
+                                                .props.dataModel
+                                                .inputSizeFitBounding;
 
-                                            const inputSizeFitBounding = this.props.dataModel.inputSizeFitBounding;
-                                            
                                             ctx.drawImage(
                                                 this.props.dataModel.input,
                                                 inputSizeFitBounding.topLeft.x,
                                                 inputSizeFitBounding.topLeft.y,
                                                 inputSizeFitBounding.size.x,
-                                                inputSizeFitBounding.size.y
-                                            )
+                                                inputSizeFitBounding.size.y,
+                                            );
                                         }
 
                                         ctx.beginPath();
 
-                                        const cropScreenFitBounding = this.props.dataModel.cropScreenFitBounding;
+                                        const cropScreenFitBounding = this.props
+                                            .dataModel.cropScreenFitBounding;
                                         ctx.rect(
                                             cropScreenFitBounding.size.x,
                                             cropScreenFitBounding.size.y,
                                             cropScreenFitBounding.topLeft.x,
-                                            cropScreenFitBounding.topLeft.y
+                                            cropScreenFitBounding.topLeft.y,
                                         );
                                         /*
                                         ctx.rect(
@@ -138,8 +154,6 @@ export const Camera = observer(
                                         ctx.lineWidth = 4;
                                         ctx.strokeStyle = '#0098ff';
                                         ctx.stroke();
-                                        
-
                                     }
                                 }
                             }}
@@ -154,13 +168,26 @@ export const Camera = observer(
                         <div className="window"/>   
                     </div>*/}
 
-                    {!this.props.dataModel.input&&<div className="snap" />}
-                    {this.props.dataModel.input&&
-                    <div className="buttons">
-                        <button onClick={(e)=>{e.stopPropagation();this.props.dataModel.input=null;}}>Again</button>
-                        <button onClick={()=>this.props.dataModel.processImage()}>Convert</button>
-                    </div>}
-                    
+                    {!this.props.dataModel.input && <div className="snap" />}
+                    {this.props.dataModel.input && (
+                        <div className="buttons">
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    this.props.dataModel.input = null;
+                                }}
+                            >
+                                Again
+                            </button>
+                            <button
+                                onClick={() =>
+                                    this.props.dataModel.processImage()
+                                }
+                            >
+                                Convert
+                            </button>
+                        </div>
+                    )}
                 </div>
             );
         }

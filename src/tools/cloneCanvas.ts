@@ -1,5 +1,4 @@
-export function cloneCanvas(oldCanvas:HTMLCanvasElement):HTMLCanvasElement {
-
+export function cloneCanvas(oldCanvas: HTMLCanvasElement): HTMLCanvasElement {
     //create a new canvas
     const newCanvas = document.createElement('canvas');
     const ctx = newCanvas.getContext('2d')!;

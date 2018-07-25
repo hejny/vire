@@ -15,56 +15,67 @@ export class DataModel {
     @observable screen: AppScreen = AppScreen.CAMERA;
     //@observable percent: number;
 
-    @observable screenSize:Detection.Vector2;
-    @observable cropScreenRatio = 1125/2436;
+    @observable screenSize: Detection.Vector2;
+    @observable cropScreenRatio = 1125 / 2436;
     @observable cropScreenMargin = 35;
-    @observable cameraSize:Detection.Vector2 = Detection.Vector2.ONE;
+    @observable cameraSize: Detection.Vector2 = Detection.Vector2.ONE;
 
-    @observable input: HTMLCanvasElement|null;
+    @observable input: HTMLCanvasElement | null;
     @observable inputParsed: Detection.Image;
-    @observable progress: {
-        percent: number,
-        images: Detection.Image[]
+    @observable
+    progress: {
+        percent: number;
+        images: Detection.Image[];
     };
     @observable output: Detection.Image;
 
-
-
-    @computed get cropScreenSize(){
-        const inputSizeMargins = this.inputSize.map((value)=>value-2*this.cropScreenMargin/this.inputSizeFitBounding.ratio);
-        if(inputSizeMargins.x>inputSizeMargins.y){
+    @computed
+    get cropScreenSize() {
+        const inputSizeMargins = this.inputSize.map(
+            (value) =>
+                value -
+                2 * this.cropScreenMargin / this.inputSizeFitBounding.ratio,
+        );
+        if (inputSizeMargins.x > inputSizeMargins.y) {
             return new Detection.Vector2(
-                inputSizeMargins.y*this.cropScreenRatio,
-                inputSizeMargins.y
+                inputSizeMargins.y * this.cropScreenRatio,
+                inputSizeMargins.y,
             ).floor;
-        }else{
+        } else {
             return new Detection.Vector2(
                 inputSizeMargins.x,
-                inputSizeMargins.x/this.cropScreenRatio
+                inputSizeMargins.x / this.cropScreenRatio,
             ).floor;
         }
     }
-    @computed get inputSize():Detection.Vector2{if(!this.input) return this.cameraSize; else return new Detection.Vector2(this.input.width,this.input.height); }
-    @computed get inputSizeFitBounding(){return fitToScreenInfo(this.screenSize,this.inputSize);}
-    @computed get cropScreenFitBounding(){
+    @computed
+    get inputSize(): Detection.Vector2 {
+        if (!this.input) return this.cameraSize;
+        else return new Detection.Vector2(this.input.width, this.input.height);
+    }
+    @computed
+    get inputSizeFitBounding() {
+        return fitToScreenInfo(this.screenSize, this.inputSize);
+    }
+    @computed
+    get cropScreenFitBounding() {
         const inputSizeFitInfo = this.inputSizeFitBounding;
         const cropScreenFit = this.cropScreenSize.scale(inputSizeFitInfo.ratio);
-        return({
-            size: this.screenSize.subtract(cropScreenFit).scale(.5),
-            topLeft: cropScreenFit
-        });
+        return {
+            size: this.screenSize.subtract(cropScreenFit).scale(0.5),
+            topLeft: cropScreenFit,
+        };
     }
-    @computed get cropScreenBounding(){
-        return({
+    @computed
+    get cropScreenBounding() {
+        return {
             size: this.cropScreenSize,
             topLeft: new Detection.Vector2(
-                (this.inputSize.x-this.cropScreenSize.x)/2,
-                (this.inputSize.y-this.cropScreenSize.y)/2
-            ).floor
-        });
+                (this.inputSize.x - this.cropScreenSize.x) / 2,
+                (this.inputSize.y - this.cropScreenSize.y) / 2,
+            ).floor,
+        };
     }
-
-
 
     /*@computed get cropScreenFitInfo(){
 
@@ -82,28 +93,25 @@ export class DataModel {
         
     }*/
 
-
-    constructor(){
+    constructor() {
         this.startWithMockedInputImage();
 
         this.screenSize = this.detectScreenSize();
-        window.addEventListener('resize',()=>{
+        window.addEventListener('resize', () => {
             //todo lodash debounce
             this.screenSize = this.detectScreenSize();
         });
     }
 
-    private detectScreenSize(){
-        const size = window.document.getElementById('size')!.getBoundingClientRect();
+    private detectScreenSize() {
+        const size = window.document
+            .getElementById('size')!
+            .getBoundingClientRect();
         //console.log(size);
-        return(new Detection.Vector2(
-            size.width,
-            size.height
-        ));
+        return new Detection.Vector2(size.width, size.height);
     }
 
-
-    private async startWithMockedInputImage(){
+    private async startWithMockedInputImage() {
         const image = await canvasFromSrc('/mock/IMG_2982.JPG');
         this.input = image;
         this.screen = AppScreen.CAMERA;
@@ -114,15 +122,13 @@ export class DataModel {
         this.screen = AppScreen.CAMERA;
     }
 
-
     async processImage() {
-
-        if(!this.input){
+        if (!this.input) {
             throw new Error(`"imageInput" must be set before processing.`);
         }
         this.progress = {
             percent: 0,
-            images: []
+            images: [],
         };
         this.screen = AppScreen.PROCESSING;
 
@@ -132,13 +138,15 @@ export class DataModel {
 
         const cropScreenBounding = this.cropScreenBounding;
         const image = Detection.Image.fromImageData(
-            this.input.getContext('2d')!.getImageData(
-                cropScreenBounding.topLeft.x,
-                cropScreenBounding.topLeft.y,
-                cropScreenBounding.size.x,
-                cropScreenBounding.size.y
-            )
-        )
+            this.input
+                .getContext('2d')!
+                .getImageData(
+                    cropScreenBounding.topLeft.x,
+                    cropScreenBounding.topLeft.y,
+                    cropScreenBounding.size.x,
+                    cropScreenBounding.size.y,
+                ),
+        );
 
         const imageResizedPurged = image
             /**/
@@ -150,49 +158,43 @@ export class DataModel {
 
         const _ = Detection.Color.WHITE;
         const $ = Detection.Color.BLACK;
-        const imageResizedPurgedNoGaps = imageResizedPurged;
+        const imageResizedPurgedNoGaps = imageResizedPurged
 
-        /*
-        .replacePatterns([new Detection.Image([
-            [_,_,_],
-            [_,$,_],
-            [_,_,_],
-        ]),new Detection.Image([
-            [_,_,_],
-            [_,$,_],
-            [_,$,_],
-        ]),new Detection.Image([
-            [_,_,_],
-            [_,$,_],
-            [_,_,$],
-        ])],_)
-        .replacePatterns([new Detection.Image([
-            [$,_,_],
-            [_,_,_],
-            [_,_,$],
-        ]),new Detection.Image([
-            [_,$,_],
-            [_,_,_],
-            [_,$,_],
-        ])],$);
+            .replacePatterns(
+                [
+                    new Detection.Image([[_, _, _], [_, $, _], [_, _, _]]),
+                    new Detection.Image([[_, _, _], [_, $, _], [_, $, _]]),
+                    new Detection.Image([[_, _, _], [_, $, _], [_, _, $]]),
+                ],
+                _,
+            )
+            .replacePatterns(
+                [
+                    new Detection.Image([[$, _, _], [_, _, _], [_, _, $]]),
+                    new Detection.Image([[_, $, _], [_, _, _], [_, $, _]]),
+                ],
+                $,
+            );
         /**/
 
-
-        const separateIslands = await imageResizedPurgedNoGaps.separateIslands(async (percent,islands)=>{
-            islands;
-            this.progress = {
-                percent,
-                images: [imageResizedPurgedNoGaps,imageResizedPurgedNoGaps.withIslands(islands)]
-            };
-            await nextFrame();
-        })
-
-
-
+        const separateIslands = await imageResizedPurgedNoGaps.separateIslands(
+            async (percent, islands) => {
+                islands;
+                this.progress = {
+                    percent,
+                    images: [
+                        imageResizedPurged,
+                        imageResizedPurgedNoGaps,
+                        imageResizedPurgedNoGaps.withIslands(islands),
+                    ],
+                };
+                await nextFrame();
+            },
+        );
 
         this.progress = {
             percent: 1,
-            images: []
+            images: [],
         };
         this.output = imageResizedPurgedNoGaps.withIslands(separateIslands);
         this.screen = AppScreen.RESULT;
