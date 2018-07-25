@@ -7,7 +7,7 @@ export const Result = observer((props: { dataModel: DataModel }) => {
     return (
         <div className="Result">
             <button onClick={() => props.dataModel.restart()}>Again</button>
-            <img src={props.dataModel.output.toDataURL()} />
+            <img src={props.dataModel.output.dataURL} />
         </div>
     );
 });

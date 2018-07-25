@@ -3,6 +3,7 @@ import * as Detection from '../detection';
 import { nextFrame } from '../tools/wait';
 import { canvasFromSrc } from '../tools/canvasFromSrc';
 import { fitToScreenInfo } from '../tools/fitToScreen';
+import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
 
 export enum AppScreen {
     CAMERA,
@@ -12,7 +13,7 @@ export enum AppScreen {
 
 export class DataModel {
     @observable screen: AppScreen = AppScreen.CAMERA;
-    @observable percent: number;
+    //@observable percent: number;
 
     @observable screenSize:Detection.Vector2;
     @observable cropScreenRatio = 1125/2436;
@@ -20,6 +21,11 @@ export class DataModel {
     @observable cameraSize:Detection.Vector2 = Detection.Vector2.ONE;
 
     @observable input: HTMLCanvasElement|null;
+    @observable inputParsed: Detection.Image;
+    @observable progress: {
+        percent: number,
+        images: Detection.Image[]
+    };
     @observable output: Detection.Image;
 
 
@@ -114,7 +120,10 @@ export class DataModel {
         if(!this.input){
             throw new Error(`"imageInput" must be set before processing.`);
         }
-        this.percent = 0;
+        this.progress = {
+            percent: 0,
+            images: []
+        };
         this.screen = AppScreen.PROCESSING;
 
         await nextFrame();
@@ -135,7 +144,7 @@ export class DataModel {
             /**/
             .resizePurge(
                 //image.size,
-                image.size.scale(300 / image.size.x),
+                image.size.scale(100 / image.size.x),
             );
         /**/
 
@@ -168,8 +177,24 @@ export class DataModel {
         ])],$);
         /**/
 
-        this.percent = 1;
-        this.output = imageResizedPurgedNoGaps;
+
+        const separateIslands = await imageResizedPurgedNoGaps.separateIslands(async (percent,islands)=>{
+            islands;
+            this.progress = {
+                percent,
+                images: [imageResizedPurgedNoGaps,imageResizedPurgedNoGaps.withIslands(islands)]
+            };
+            await nextFrame();
+        })
+
+
+
+
+        this.progress = {
+            percent: 1,
+            images: []
+        };
+        this.output = imageResizedPurgedNoGaps.withIslands(separateIslands);
         this.screen = AppScreen.RESULT;
     }
 }

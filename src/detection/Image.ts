@@ -66,7 +66,7 @@ export class Image {
         return true;
     }
 
-    createCanvas(islands: VectorSet[] = []) {
+    get canvas():HTMLCanvasElement{
         const canvasElement = document.createElement('canvas');
         canvasElement.width = this.size.x;
         canvasElement.height = this.size.y;
@@ -79,23 +79,12 @@ export class Image {
                 ctx.fillRect(point.x, point.y, 1, 1);
             }
         }
-
-        //todo maybe to other method
-        for (const island of islands) {
-            const detectionColor = Color.Random(); //new Color(0, 255, 0);//Color.Random();
-            for (const point of island.points) {
-                //const color = this.getPointColor(point);
-                ctx.fillStyle = detectionColor.css;
-                ctx.fillRect(point.x, point.y, 1, 1);
-            }
-        }
-
         return canvasElement;
     }
 
-    //todo fromDataUrl without canvas
-    toDataURL(): string {
-        return this.createCanvas().toDataURL(); //todo without canvas
+    get dataURL(): string {
+        //todo fromDataUrl without canvas if possible
+        return this.canvas.toDataURL(); //todo without canvas
     }
 
     get size() {
@@ -788,6 +777,22 @@ export class Image {
         return [island]
     }
     */
+
+
+   withIslands(islands: VectorSet[]):Image{
+    const image = this.clone;
+    //todo maybe to other method
+    for (const island of islands) {
+        const detectionColor = Color.Random(); //new Color(0, 255, 0);//Color.Random();
+        for (const point of island.points) {
+            //const color = this.getPointColor(point);
+            image.setPointColor(point,detectionColor);
+            //ctx.fillStyle = detectionColor.css;
+            //ctx.fillRect(point.x, point.y, 1, 1);
+        }
+    }
+    return image;
+}
 }
 
 async function floodIteration(
