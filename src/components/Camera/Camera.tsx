@@ -5,14 +5,51 @@ import { observer } from 'mobx-react';
 import { DataModel, AppScreen } from '../../model/DataModel';
 import * as Detection from '../../detection';
 import { cloneCanvas } from '../../tools/cloneCanvas';
+import { fitToScreen } from '../../tools/fitToScreen';
 
 const SCREEN_RECT = new Detection.Vector2(1125, 2436).scale(0.3);
 
+interface ICameraProps{
+    dataModel: DataModel;
+}
+
+interface ICameraState{
+    width: number;
+    height: number;
+}
+
 export const Camera = observer(
-    class extends React.Component<{ dataModel: DataModel }, {}> {
+    class extends React.Component<ICameraProps,ICameraState> {
         private webcam: Webcam;
         private drawCanvas: HTMLCanvasElement;
         private overlayElementImg: HTMLElement;
+
+        constructor(props: ICameraProps){
+            super(props);
+            this.state = this.size;
+        }
+
+        //todo react lifecycle and component unmount
+        componentDidMount(){
+            //console.log('resize listener');
+            window.addEventListener('resize',()=>{
+                //todo lodash debounce
+                this.resize();
+            });
+        }
+
+        get size(){
+            const size = window.document.getElementById('size')!.getBoundingClientRect();
+            //console.log(size);
+            return({
+                width: size.width,
+                height: size.height
+            });
+        }
+
+        resize(){
+            this.setState(this.size)
+        }
 
         snap() {
             //const screenshot = this.webcam.getScreenshot();
@@ -51,6 +88,8 @@ export const Camera = observer(
         render() {
             return (
                 <div className="Camera" onClick={() => this.snap()}>
+
+
                     <div className="screen real">
                         <Webcam
                             audio={false}
@@ -70,10 +109,11 @@ export const Camera = observer(
                     <div className="screen overlay">
                         <canvas
                             data-foo={[this.props.dataModel.screen,this.props.dataModel.imageInput]}
+                            width={this.state.width}
+                            height={this.state.height}
                             ref={(canvas) => {
                                 if (canvas) {
-                                    canvas.width = canvas.getBoundingClientRect().width;
-                                    canvas.height = canvas.getBoundingClientRect().height;
+
 
                                     const ctx = canvas.getContext('2d');
 
@@ -83,10 +123,15 @@ export const Camera = observer(
 
                                         if(this.props.dataModel.screen === AppScreen.CAMERA_CONFIRM){
 
-                                            console.log('xxx',this.props.dataModel.imageInput);
+                                            const screenSize = new Detection.Vector2(ctx.canvas.width,ctx.canvas.height);
+                                            const contentSize = new Detection.Vector2(this.props.dataModel.imageInput.width,this.props.dataModel.imageInput.height);
+                                            const contentSizeFit = fitToScreen(screenSize,contentSize);
                                             ctx.drawImage(
                                                 this.props.dataModel.imageInput
-                                                ,0,0
+                                                ,(screenSize.x-contentSizeFit.x)/2
+                                                ,(screenSize.y-contentSizeFit.y)/2
+                                                ,contentSizeFit.x
+                                                ,contentSizeFit.y
                                             )
                                         }
 

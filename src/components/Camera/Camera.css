@@ -10,7 +10,7 @@
 
 .Camera .real{
   z-index: 10;
-  visibility: visible; 
+  /*visibility: hidden; */
 }
 /*.Camera .mock{
   z-index: 10;
@@ -22,7 +22,9 @@
   visibility: visible;  
 }
 
-.Camera .screen video,img,canvas{
+.Camera .screen video,
+.Camera .screen img,
+.Camera .screen canvas{
   z-index: 10;
   position: fixed;
   top: 0;
@@ -30,6 +32,10 @@
 
   width: 100vw;
   height: 100vh;
+}
+
+.Camera .screen canvas{
+    visibility: visible;
 }
 
 /*==================================================*/
@@ -87,7 +93,7 @@
   z-index: 50;
   position: fixed;
   bottom: calc( 30px + 10px);
-  left: calc( 50vw - 50px - 10px);
+  left: calc( 50vw - 50px - 20px);
 
   width: 100px;
   height: 100px;

@@ -1,6 +1,7 @@
 import { observable, computed } from 'mobx';
 import * as Detection from '../detection';
 import { nextFrame } from '../tools/nextFrame';
+import { canvasFromSrc } from '../tools/canvasFromSrc';
 
 export enum AppScreen {
     CAMERA,
@@ -15,6 +16,18 @@ export class DataModel {
 
     @observable imageInput: HTMLCanvasElement;
     @observable imageProcessed: Detection.Image;
+
+
+    constructor(){
+        this.mockInputImage();
+    }
+
+
+    async mockInputImage(){
+        const image = await canvasFromSrc('/mock/IMG_2982.JPG');
+        this.imageInput = image;
+        this.screen = AppScreen.CAMERA_CONFIRM;
+    }
 
     restart() {
         this.screen = AppScreen.CAMERA;
