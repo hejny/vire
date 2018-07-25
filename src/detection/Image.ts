@@ -10,33 +10,26 @@ export class Image {
     }
 
     static fromCtx(ctx: CanvasRenderingContext2D): Image {
-        var frame = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+        var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+        return Image.fromImageData(imageData);
+    }
 
-        //let color1 = new Color();
-
-        //var length = frame.data.length / 4;
-        /*for (var i = 0; i < length; i++) {
-            color1.r += frame.data[i * 4 + 0];
-            color1.g += frame.data[i * 4 + 1];
-            color1.b += frame.data[i * 4 + 2];
-        }*/
-
+    static fromImageData(imageData: ImageData): Image {
         const table: Color[][] = [];
-        for (let y = 0; y < ctx.canvas.height; y++) {
+        for (let y = 0; y < imageData.height; y++) {
             const row: Color[] = [];
             table.push(row);
-            for (let x = 0; x < ctx.canvas.width; x++) {
-                const i = y * ctx.canvas.width + x;
+            for (let x = 0; x < imageData.width; x++) {
+                const i = y * imageData.width + x;
                 row.push(
                     new Color(
-                        frame.data[i * 4 + 0],
-                        frame.data[i * 4 + 1],
-                        frame.data[i * 4 + 2],
+                        imageData.data[i * 4 + 0],
+                        imageData.data[i * 4 + 1],
+                        imageData.data[i * 4 + 2],
                     ),
                 );
             }
         }
-
         return new Image(table);
     }
 

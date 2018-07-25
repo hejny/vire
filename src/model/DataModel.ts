@@ -5,7 +5,6 @@ import { canvasFromSrc } from '../tools/canvasFromSrc';
 
 export enum AppScreen {
     CAMERA,
-    CAMERA_CONFIRM,
     PROCESSING,
     RESULT,
 }
@@ -14,7 +13,8 @@ export class DataModel {
     @observable screen: AppScreen = AppScreen.CAMERA;
     @observable percent: number;
 
-    @observable imageInput: HTMLCanvasElement;
+    @observable cropScreen:Detection.Vector2 =  new Detection.Vector2(1125, 2436).scale(0.3).floor;
+    @observable imageInput: HTMLCanvasElement|null;
     @observable imageProcessed: Detection.Image;
 
 
@@ -26,27 +26,29 @@ export class DataModel {
     async mockInputImage(){
         const image = await canvasFromSrc('/mock/IMG_2982.JPG');
         this.imageInput = image;
-        this.screen = AppScreen.CAMERA_CONFIRM;
+        this.screen = AppScreen.CAMERA;
     }
 
     restart() {
+        this.imageInput = null;
         this.screen = AppScreen.CAMERA;
     }
 
 
-    snapImage(image: HTMLCanvasElement) {
-        this.imageInput = image;
-        this.screen = AppScreen.CAMERA_CONFIRM;
-    }
-
-
     async processImage() {
+
+        if(!this.imageInput){
+            throw new Error(`"imageInput" must be set before processing.`);
+        }
         this.percent = 0;
         this.screen = AppScreen.PROCESSING;
 
         await nextFrame();
 
-        const image = Detection.Image.fromCanvas(this.imageInput);
+        //const image = Detection.Image.fromCanvas(this.imageInput);
+        const image = Detection.Image.fromImageData(
+            this.imageInput.getContext('2d')!.getImageData(0, 0, 500,500)//...this.cropScreen.toArray()
+        )
 
         const imageResizedPurged = image
             /**/

@@ -111,3 +111,16 @@
   border: 20px solid rgba(30,30,30,20%);
 
 }
+
+/*==================================================*/
+
+.Camera .buttons{
+  z-index: 50;
+  position: fixed;
+  bottom: calc( 30px + 63px);
+  left: calc( 50vw - 200px);
+
+  width: 400px;
+
+  text-align: center;
+}

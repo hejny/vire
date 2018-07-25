@@ -7,8 +7,6 @@ import * as Detection from '../../detection';
 import { cloneCanvas } from '../../tools/cloneCanvas';
 import { fitToScreen } from '../../tools/fitToScreen';
 
-const SCREEN_RECT = new Detection.Vector2(1125, 2436).scale(0.3);
-
 interface ICameraProps{
     dataModel: DataModel;
 }
@@ -82,12 +80,12 @@ export const Camera = observer(
             //console.log(image);
             */
 
-            this.props.dataModel.snapImage(cloneCanvas(this.webcam.getCanvas()!));
+            this.props.dataModel.imageInput = cloneCanvas(this.webcam.getCanvas()!);
         }
 
         render() {
             return (
-                <div className="Camera" onClick={() => this.snap()}>
+                <div className="Camera" onClick={() => {if(!this.props.dataModel.imageInput)this.snap()}}>
 
 
                     <div className="screen real">
@@ -108,10 +106,12 @@ export const Camera = observer(
 
                     <div className="screen overlay">
                         <canvas
-                            data-foo={[this.props.dataModel.screen,this.props.dataModel.imageInput]}
+                            data-foo={this.props.dataModel.imageInput?1:0}
                             width={this.state.width}
                             height={this.state.height}
                             ref={(canvas) => {
+
+                                console.log('overlay rerender');
                                 if (canvas) {
 
 
@@ -119,9 +119,9 @@ export const Camera = observer(
 
                                     if (ctx) {
                                         
+                                        ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
 
-
-                                        if(this.props.dataModel.screen === AppScreen.CAMERA_CONFIRM){
+                                        if(this.props.dataModel.imageInput){
 
                                             const screenSize = new Detection.Vector2(ctx.canvas.width,ctx.canvas.height);
                                             const contentSize = new Detection.Vector2(this.props.dataModel.imageInput.width,this.props.dataModel.imageInput.height);
@@ -137,10 +137,10 @@ export const Camera = observer(
 
                                         ctx.beginPath();
                                         ctx.rect(
-                                            (canvas.width - SCREEN_RECT.x) / 2,
-                                            (canvas.height - SCREEN_RECT.y) / 2,
-                                            SCREEN_RECT.x,
-                                            SCREEN_RECT.y,
+                                            (canvas.width - this.props.dataModel.cropScreen.x) / 2,
+                                            (canvas.height - this.props.dataModel.cropScreen.y) / 2,
+                                            this.props.dataModel.cropScreen.x,
+                                            this.props.dataModel.cropScreen.y,
                                         );
                                         ctx.lineCap = 'round';
                                         ctx.lineWidth = 4;
@@ -160,7 +160,13 @@ export const Camera = observer(
                         <div className="window"/>   
                     </div>*/}
 
-                    <div className="snap" />
+                    {!this.props.dataModel.imageInput&&<div className="snap" />}
+                    {this.props.dataModel.imageInput&&
+                    <div className="buttons">
+                        <button onClick={(e)=>{e.stopPropagation();this.props.dataModel.imageInput=null;}}>Again</button>
+                        <button onClick={()=>this.props.dataModel.processImage()}>Convert</button>
+                    </div>}
+                    
                 </div>
             );
         }

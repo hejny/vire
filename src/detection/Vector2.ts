@@ -100,6 +100,29 @@ export class Vector2 {
         ).add(vector2);
     }
 
+    get area():number{
+        return this.x * this.y;
+    }
+
+    map(axisCallback: (value:number)=>number):Vector2{
+        return new Vector2(
+            axisCallback(this.x),
+            axisCallback(this.y)
+        )
+    }
+
+    get round():Vector2{
+        return this.map(Math.round);
+    }
+
+    get ceil():Vector2{
+        return this.map(Math.ceil);
+    }
+
+    get floor():Vector2{
+        return this.map(Math.floor);
+    }
+
     toArray(): [number, number] {
         return [this.x, this.y];
     }
