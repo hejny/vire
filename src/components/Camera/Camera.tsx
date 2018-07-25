@@ -6,6 +6,7 @@ import { DataModel, AppScreen } from '../../model/DataModel';
 import * as Detection from '../../detection';
 import { cloneCanvas } from '../../tools/cloneCanvas';
 import { fitToScreen, fitToScreenInfo } from '../../tools/fitToScreen';
+import { repeatRequest } from '../../tools/repeatRequest';
 
 interface ICameraProps{
     dataModel: DataModel;
@@ -62,7 +63,20 @@ export const Camera = observer(
                             audio={false}
                             width={window.innerWidth}
                             height={window.innerHeight}
-                            ref={(webcam: Webcam) => (this.webcam = webcam)}
+                            ref={(webcam: Webcam) =>{
+                                this.webcam = webcam;
+                            }}
+                            onUserMedia={async ()=>{
+                                this.props.dataModel.cameraSize = await repeatRequest(()=>{
+                                    const canvas = this.webcam.getCanvas();
+                                    if(canvas){
+                                        return new Detection.Vector2(canvas.width,canvas.height);
+                                    }else{
+                                        throw new Error(`Can not get camera size.`);
+                                    }
+                                });
+                                console.log(`Camera size set to ${this.props.dataModel.cameraSize}.`);
+                            }}
                             screenshotFormat="image/jpeg"
                         />
                     </div>
@@ -101,7 +115,7 @@ export const Camera = observer(
                                                 inputSizeFitBounding.size.x,
                                                 inputSizeFitBounding.size.y
                                             )
-                                        
+                                        }
 
                                         ctx.beginPath();
 
@@ -126,7 +140,6 @@ export const Camera = observer(
                                         ctx.stroke();
                                         
 
-                                        }
                                     }
                                 }
                             }}

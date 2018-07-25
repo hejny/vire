@@ -1,6 +1,6 @@
 import { observable, computed } from 'mobx';
 import * as Detection from '../detection';
-import { nextFrame } from '../tools/nextFrame';
+import { nextFrame } from '../tools/wait';
 import { canvasFromSrc } from '../tools/canvasFromSrc';
 import { fitToScreenInfo } from '../tools/fitToScreen';
 
@@ -17,6 +17,7 @@ export class DataModel {
     @observable screenSize:Detection.Vector2;
     @observable cropScreenRatio = 1125/2436;
     @observable cropScreenMargin = 35;
+    @observable cameraSize:Detection.Vector2 = Detection.Vector2.ONE;
 
     @observable input: HTMLCanvasElement|null;
     @observable output: Detection.Image;
@@ -37,7 +38,7 @@ export class DataModel {
             ).floor;
         }
     }
-    @computed get inputSize():Detection.Vector2{if(!this.input) return Detection.Vector2.ONE; else return new Detection.Vector2(this.input.width,this.input.height); }
+    @computed get inputSize():Detection.Vector2{if(!this.input) return this.cameraSize; else return new Detection.Vector2(this.input.width,this.input.height); }
     @computed get inputSizeFitBounding(){return fitToScreenInfo(this.screenSize,this.inputSize);}
     @computed get cropScreenFitBounding(){
         const inputSizeFitInfo = this.inputSizeFitBounding;
