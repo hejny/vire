@@ -117,7 +117,7 @@
 .Camera .buttons{
   z-index: 50;
   position: fixed;
-  bottom: calc( 30px + 63px);
+  bottom: 20px;
   left: calc( 50vw - 200px);
 
   width: 400px;

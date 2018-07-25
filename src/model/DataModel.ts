@@ -15,34 +15,48 @@ export class DataModel {
     @observable percent: number;
 
     @observable screenSize:Detection.Vector2;
-    @observable cropScreenSize:Detection.Vector2 =  new Detection.Vector2(1125, 2436).scale(0.3).floor;
-
+    @observable cropScreenRatio = 1125/2436;
+    @observable cropScreenMargin = 35;
 
     @observable input: HTMLCanvasElement|null;
     @observable output: Detection.Image;
 
 
+
+    @computed get cropScreenSize(){
+        const inputSizeMargins = this.inputSize.map((value)=>value-2*this.cropScreenMargin/this.inputSizeFitBounding.ratio);
+        if(inputSizeMargins.x>inputSizeMargins.y){
+            return new Detection.Vector2(
+                inputSizeMargins.y*this.cropScreenRatio,
+                inputSizeMargins.y
+            ).floor;
+        }else{
+            return new Detection.Vector2(
+                inputSizeMargins.x,
+                inputSizeMargins.x/this.cropScreenRatio
+            ).floor;
+        }
+    }
     @computed get inputSize():Detection.Vector2{if(!this.input) return Detection.Vector2.ONE; else return new Detection.Vector2(this.input.width,this.input.height); }
     @computed get inputSizeFitBounding(){return fitToScreenInfo(this.screenSize,this.inputSize);}
     @computed get cropScreenFitBounding(){
-        
         const inputSizeFitInfo = this.inputSizeFitBounding;
         const cropScreenFit = this.cropScreenSize.scale(inputSizeFitInfo.ratio);
-
         return({
             size: this.screenSize.subtract(cropScreenFit).scale(.5),
             topLeft: cropScreenFit
         });
-        /*
-        ctx.rect(
-            (canvas.width - cropScreenFit.x) / 2,
-            (canvas.height - cropScreenFit.y) / 2,
-            cropScreenFit.x,
-            cropScreenFit.y,
-        );
-        */
-        
     }
+    @computed get cropScreenBounding(){
+        return({
+            size: this.cropScreenSize,
+            topLeft: new Detection.Vector2(
+                (this.inputSize.x-this.cropScreenSize.x)/2,
+                (this.inputSize.y-this.cropScreenSize.y)/2
+            ).floor
+        });
+    }
+
 
 
     /*@computed get cropScreenFitInfo(){
@@ -106,16 +120,21 @@ export class DataModel {
 
         //const image = Detection.Image.fromCanvas(this.imageInput);
 
- 
+        const cropScreenBounding = this.cropScreenBounding;
         const image = Detection.Image.fromImageData(
-            this.input.getContext('2d')!.getImageData(0, 0, this.cropScreenSize.x, this.cropScreenSize.y)
+            this.input.getContext('2d')!.getImageData(
+                cropScreenBounding.topLeft.x,
+                cropScreenBounding.topLeft.y,
+                cropScreenBounding.size.x,
+                cropScreenBounding.size.y
+            )
         )
 
         const imageResizedPurged = image
             /**/
             .resizePurge(
-                image.size,
-                //image.size.scale(300 / image.size.x),
+                //image.size,
+                image.size.scale(300 / image.size.x),
             );
         /**/
 
