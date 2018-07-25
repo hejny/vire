@@ -25,5 +25,15 @@ export function fitToScreen(screenSize: Detection.Vector2,contentSize: Detection
     }
 }
 
-
+export function fitToScreenInfo(screenSize: Detection.Vector2,contentSize: Detection.Vector2){
+    const contentSizeFit = fitToScreen(screenSize,contentSize);
+    return({
+        ratio: contentSizeFit.x/contentSize.x,
+        size: contentSizeFit,
+        topLeft: new Detection.Vector2(
+            (screenSize.x-contentSizeFit.x)/2,
+            (screenSize.y-contentSizeFit.y)/2
+        )
+    });
+}
 
