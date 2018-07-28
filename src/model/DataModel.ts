@@ -4,6 +4,7 @@ import { nextFrame } from '../tools/wait';
 import { canvasFromSrc } from '../tools/canvasFromSrc';
 import { fitToScreenInfo } from '../tools/fitToScreen';
 import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
+import { detectLines } from '../detection/genetics/Unit';
 
 export enum AppScreen {
     CAMERA,
@@ -94,7 +95,11 @@ export class DataModel {
     }*/
 
     constructor() {
-        this.startWithMockedInputImage();
+
+        (async ()=>{
+            await this.startWithMockedInputImage();
+            await this.processImage();
+        })()
 
         this.screenSize = this.detectScreenSize();
         window.addEventListener('resize', () => {
@@ -152,14 +157,19 @@ export class DataModel {
             /**/
             .resizePurge(
                 //image.size,
-                image.size.scale(100 / image.size.x),
+                image.size.scale(200 / image.size.x),
             );
         /**/
 
+        
         const _ = Detection.Color.WHITE;
         const $ = Detection.Color.BLACK;
         const imageResizedPurgedNoGaps = imageResizedPurged
 
+        .replacePattern(
+             new Detection.Image([[_, _, _], [_, $, _], [_, _, _]]),_,
+        );
+            /*
             .replacePatterns(
                 [
                     new Detection.Image([[_, _, _], [_, $, _], [_, _, _]]),
@@ -177,7 +187,7 @@ export class DataModel {
             );
         /**/
 
-        const separateIslands = await imageResizedPurgedNoGaps.separateIslands(
+        /*const separateIslands = await imageResizedPurgedNoGaps.separateIslands(
             async (percent, islands) => {
                 islands;
                 this.progress = {
@@ -190,13 +200,19 @@ export class DataModel {
                 };
                 await nextFrame();
             },
-        );
+        );*/
+
+        const lines = detectLines(imageResizedPurgedNoGaps);
+        console.log('lines',lines);
+        for(const line of lines){
+            line.draw(imageResizedPurgedNoGaps,Detection.Color.RED);
+        }
 
         this.progress = {
             percent: 1,
             images: [],
         };
-        this.output = imageResizedPurgedNoGaps.withIslands(separateIslands);
+        this.output = imageResizedPurgedNoGaps;//.withIslands(separateIslands);
         this.screen = AppScreen.RESULT;
     }
 }

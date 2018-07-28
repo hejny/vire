@@ -1,5 +1,5 @@
-import { Vector2, ISerializedVector2 } from './Vector2';
-import { Rectangle, ISerializedRectangle } from './Rectangle';
+import { Vector2, ISerializedVector2 } from './geometry/Vector2';
+import { Rectangle, ISerializedRectangle } from './geometry/Rectangle';
 import { Image } from './Image';
 //import { setPointColor } from './getAreaColor';
 import { Color } from './Color';

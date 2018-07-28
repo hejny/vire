@@ -1,6 +1,6 @@
 import { Color } from './Color';
-import { VectorSet } from './VectorSet';
-import { Vector2 } from './Vector2';
+import { VectorSet } from './geometry/VectorSet';
+import { Vector2 } from './geometry/Vector2';
 
 export class Image {
     //todo from canvas
@@ -145,6 +145,18 @@ export class Image {
         return points;
     }
     /**/
+
+    get firstBlackPoint():Vector2|null{
+        for (let y = 0; y < this.size.y; y++) {
+            for (let x = 0; x < this.size.x; x++) {
+                const point = new Vector2(x, y);
+                if (this.getPointColor(point) === Color.BLACK) {
+                    return point;
+                }
+            }
+        }
+        return null;
+    }
 
     get blackPoints(): VectorSet {
         const points = new VectorSet();
@@ -732,7 +744,7 @@ export class Image {
                         [...islands, island],
                     ),
             );
-            unassignedPoints = unassignedPoints.substract(island);
+            unassignedPoints = unassignedPoints.subtract(island);
             islands.push(island);
         }
 
@@ -845,7 +857,7 @@ async function floodIteration(
         return await floodIteration(
             image,
             pointsOuter,
-            pointsOuter.substract(pointsInner),
+            pointsOuter.subtract(pointsInner),
             iterationCallback,
             iterationLevel + 1,
         );

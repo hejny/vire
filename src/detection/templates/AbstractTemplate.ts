@@ -1,6 +1,6 @@
 import { ITemplate } from './ITemplate';
-import { Vector2 } from '../Vector2';
-import { Rectangle } from '../Rectangle';
+import { Vector2 } from '../geometry/Vector2';
+import { Rectangle } from '../geometry/Rectangle';
 
 export class AbstractTemplate implements ITemplate {
     constructor(public size: Vector2) {}

@@ -34,6 +34,14 @@ export class Vector2 {
         return new Vector2(this.x, this.y);
     }
 
+    get normalized():Vector2{
+        return this.scale(1/this.length);
+    }
+
+    get length(){
+        return this.distance();
+    }
+
     equals(vector: Vector2): boolean {
         return this.x === vector.x && this.y === vector.y;
     }
@@ -74,13 +82,13 @@ export class Vector2 {
         this.y *= scale;
     }
 
-    length(vector2: Vector2 = Vector2.ZERO): number {
+    distance(vector2: Vector2 = Vector2.ZERO): number {
         return Math.sqrt(
             Math.pow(this.x - vector2.x, 2) + Math.pow(this.y - vector2.y, 2),
         );
     }
 
-    lengthFast(vector2: Vector2 = Vector2.ZERO): number {
+    distanceFast(vector2: Vector2 = Vector2.ZERO): number {
         return (
             (Math.abs(this.x - vector2.x) + Math.abs(this.y - vector2.y)) / 1
         );
@@ -92,7 +100,7 @@ export class Vector2 {
 
     rotate(radians: number, vector2: Vector2 = Vector2.ZERO) {
         const base = this.subtract(vector2);
-        const length = base.length();
+        const length = base.distance();
         const rotation = base.rotation();
         return new Vector2(
             Math.cos(rotation + radians) * length,

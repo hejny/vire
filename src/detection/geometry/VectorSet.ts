@@ -1,7 +1,7 @@
 import { Vector2 } from './Vector2';
 import { Rectangle } from './Rectangle';
-import { nextFrame } from './nextFrame';
-import { Color } from './Color';
+import { nextFrame } from '../nextFrame';
+import { Color } from '../Color';
 
 export class VectorSet {
     private outerPoints: Vector2[] = [];
@@ -9,8 +9,9 @@ export class VectorSet {
         this.outerPoints.push(points[0]);
     }
 
-    add(...points: Vector2[]) {
+    add(...points: Vector2[]):this {
         this.points.push(...points);
+        return this;
     }
 
     clone(): VectorSet {
@@ -26,7 +27,7 @@ export class VectorSet {
         if (geomentry instanceof Vector2) {
             return Math.min(
                 ...this.points.map((pointInSet) =>
-                    pointInSet.length(geomentry),
+                    pointInSet.distance(geomentry),
                 ),
             );
         } else {
@@ -43,7 +44,7 @@ export class VectorSet {
         if (geomentry instanceof Vector2) {
             return Math.min(
                 ...this.points.map((pointInSet) =>
-                    pointInSet.lengthFast(geomentry),
+                    pointInSet.distanceFast(geomentry),
                 ),
             );
         } else {
@@ -58,7 +59,7 @@ export class VectorSet {
     distanceOptimized(geomentry: Vector2 | VectorSet): number {
         //todo DRY
         if (geomentry instanceof Vector2) {
-            return this.points[0].length(geomentry);
+            return this.points[0].distance(geomentry);
             /*return Math.min(
                 ...this.points.map((pointInSet) =>
                     pointInSet.length(geomentry),
@@ -106,12 +107,26 @@ export class VectorSet {
         return vectorSet2;
     }
 
-    substract(vectorSetNegative: VectorSet): VectorSet {
+    subtract(vectorSetNegative: VectorSet): VectorSet {
         const vectorSet = new VectorSet();
         for (const point of this.points) {
             if (
                 !vectorSetNegative.points.some((pointNegative) =>
                     pointNegative.equals(point),
+                )
+            ) {
+                vectorSet.add(point);
+            }
+        }
+        return vectorSet;
+    }
+
+    subtractWithArea(vectorSetNegative: VectorSet,radius:number): VectorSet {
+        const vectorSet = new VectorSet();
+        for (const point of this.points) {
+            if (
+                !vectorSetNegative.points.some((pointNegative) =>
+                    pointNegative.distance(point)<=radius,
                 )
             ) {
                 vectorSet.add(point);
@@ -196,8 +211,8 @@ export class VectorSet {
             real = real.map((originalpoint, i) => {
                 const IDEAL_POINT = IDEAL[i];
                 if (
-                    originalpoint!.length(IDEAL_POINT) >
-                    point.length(IDEAL_POINT)
+                    originalpoint!.distance(IDEAL_POINT) >
+                    point.distance(IDEAL_POINT)
                 ) {
                     return point;
                 } else {

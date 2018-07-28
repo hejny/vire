@@ -1,4 +1,4 @@
-import { Rectangle } from '../Rectangle';
+import { Rectangle } from '../geometry/Rectangle';
 
 export interface ITemplate {
     snappingValues: (coord: 'x' | 'y', edge: 0 | 1) => number[];
