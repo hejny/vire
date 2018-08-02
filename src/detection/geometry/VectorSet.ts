@@ -9,8 +9,13 @@ export class VectorSet {
         this.outerPoints.push(points[0]);
     }
 
-    add(...points: Vector2[]):this {
+    add(...points: Vector2[]): this {
         this.points.push(...points);
+        return this;
+    }
+
+    addAtBegining(...points: Vector2[]): this {
+        this.points.unshift(...points);
         return this;
     }
 
@@ -121,12 +126,12 @@ export class VectorSet {
         return vectorSet;
     }
 
-    subtractWithArea(vectorSetNegative: VectorSet,radius:number): VectorSet {
+    subtractWithArea(vectorSetNegative: VectorSet, radius: number): VectorSet {
         const vectorSet = new VectorSet();
         for (const point of this.points) {
             if (
-                !vectorSetNegative.points.some((pointNegative) =>
-                    pointNegative.distance(point)<=radius,
+                !vectorSetNegative.points.some(
+                    (pointNegative) => pointNegative.distance(point) <= radius,
                 )
             ) {
                 vectorSet.add(point);

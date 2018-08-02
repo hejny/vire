@@ -146,7 +146,7 @@ export class Image {
     }
     /**/
 
-    get firstBlackPoint():Vector2|null{
+    get firstBlackPoint(): Vector2 | null {
         for (let y = 0; y < this.size.y; y++) {
             for (let x = 0; x < this.size.x; x++) {
                 const point = new Vector2(x, y);
@@ -704,54 +704,6 @@ export class Image {
     }
     */
 
-    areNeighbors(point1: Vector2, point2: Vector2) {
-        return (
-            Math.abs(
-                this.getPointColor(point1).lightness -
-                    this.getPointColor(point2).lightness,
-            ) < 0.07
-        );
-    }
-
-    areExactNeighbors(point1: Vector2, point2: Vector2) {
-        return this.getPointColor(point1) === this.getPointColor(point2);
-    }
-
-    async separateIslands(
-        percentCallback: (
-            percent: number,
-            islands: VectorSet[],
-        ) => Promise<void>,
-    ): Promise<VectorSet[]> {
-        await percentCallback(0, []);
-
-        const pointsTotal = this.size.x * this.size.y;
-
-        const islands: VectorSet[] = [];
-        let unassignedPoints = this.blackPoints;
-
-        while (unassignedPoints.length !== 0) {
-            const landingPoint = unassignedPoints.points[0];
-            const island = await floodIteration(
-                this,
-                new VectorSet([landingPoint]),
-                new VectorSet([landingPoint]),
-                async (island) =>
-                    await percentCallback(
-                        (island.length +
-                            (pointsTotal - unassignedPoints.length)) /
-                            pointsTotal,
-                        [...islands, island],
-                    ),
-            );
-            unassignedPoints = unassignedPoints.subtract(island);
-            islands.push(island);
-        }
-
-        await percentCallback(1, islands);
-        return islands;
-    }
-
     /*
     async separateIslands(
         percentCallback: (percent: number, islands: VectorSet[]) => Promise<void>,
@@ -808,58 +760,5 @@ export class Image {
             }
         }
         return image;
-    }
-}
-
-async function floodIteration(
-    image: Image,
-    pointsInner: VectorSet,
-    pointsInnerBorder: VectorSet,
-    iterationCallback: (island: VectorSet) => Promise<void>,
-    iterationLevel = 0,
-): Promise<VectorSet> {
-    //const pointsProcessed = pointsInner.length;
-    //await percentCallback(pointsProcessed/pointsTotal,[pointsInner]);
-
-    if (iterationLevel % 1 === 0) {
-        await iterationCallback(pointsInnerBorder);
-    }
-
-    const pointsOuterUnuniqueBorder = new VectorSet(
-        pointsInnerBorder.points
-            .map((point) =>
-                [
-                    point,
-                    new Vector2(point.x + 1, point.y),
-                    new Vector2(point.x - 1, point.y),
-                    new Vector2(point.x, point.y + 1),
-                    new Vector2(point.x, point.y - 1),
-                ]
-                    .filter((point2) => image.isPoint(point2))
-                    //.filter(point2=>!island.points.some(point3=>point2.equals(point3)))
-                    .filter((point2) => image.areExactNeighbors(point, point2)),
-            )
-            .reduce(
-                (pointsOuter, newPoints) => [...pointsOuter, ...newPoints],
-                [],
-            ),
-    );
-
-    const pointsOuter = pointsInner
-        .clone()
-        .addUnique(...pointsOuterUnuniqueBorder.points);
-
-    //console.log(pointsOuter.length);
-
-    if (pointsOuter.length === pointsInner.length) {
-        return pointsOuter;
-    } else {
-        return await floodIteration(
-            image,
-            pointsOuter,
-            pointsOuter.subtract(pointsInner),
-            iterationCallback,
-            iterationLevel + 1,
-        );
     }
 }

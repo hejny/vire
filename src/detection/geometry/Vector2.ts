@@ -34,11 +34,11 @@ export class Vector2 {
         return new Vector2(this.x, this.y);
     }
 
-    get normalized():Vector2{
-        return this.scale(1/this.length);
+    get normalized(): Vector2 {
+        return this.scale(1 / this.length);
     }
 
-    get length(){
+    get length() {
         return this.distance();
     }
 
