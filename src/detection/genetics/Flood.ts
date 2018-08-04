@@ -2,6 +2,7 @@
 import { VectorSet } from '../geometry/VectorSet';
 import { Image } from '../Image';
 import { Vector2 } from '..';
+import { access } from 'fs';
 
 export async function imageSeparateIslands(
     image: Image,
@@ -14,7 +15,8 @@ export async function imageSeparateIslands(
 
     const islands: VectorSet[] = [];
     let unassignedPoints = image.blackPoints;
-    const pointsTotal = unassignedPoints.length;
+    const pointsTotalCount = unassignedPoints.length;
+    let pointsAssinnedCount = 0;
 
     while (unassignedPoints.length !== 0) {
         const landingPoint = unassignedPoints.points[0];
@@ -22,15 +24,23 @@ export async function imageSeparateIslands(
             image,
             new VectorSet([landingPoint]),
             new VectorSet([landingPoint]),
-            async (island) =>
+            async (island) => {}
+            /*async (island) =>
                 await percentCallback(
-                    (island.length + (pointsTotal - unassignedPoints.length)) /
-                        pointsTotal,
+                    (island.length + pointsAssinnedCount) /
+                    pointsTotalCount,
                     [...islands, island],
                 ),
+            */
         );
         unassignedPoints = unassignedPoints.subtract(island);
         islands.push(island);
+        pointsAssinnedCount += island.length;
+
+        await percentCallback(
+            pointsAssinnedCount / pointsTotalCount,
+            islands
+        )
     }
 
     await percentCallback(1, islands);

@@ -156,7 +156,7 @@ export class DataModel {
             /**/
             .resizePurge(
                 //image.size,
-                image.size.scale(200 / image.size.x),
+                image.size.scale(100 / image.size.x),
             );
         /**/
 
@@ -208,12 +208,13 @@ export class DataModel {
         const separateIslands = await imageSeparateIslands(
             imageResizedPurgedNoGaps,
             async (percent,islands)=>{
+                console.log(Math.round(percent*100*10)/10+'%');
                 this.progress = {
                     percent,
                     images: [imageResizedPurgedNoGaps,imageResizedPurgedNoGaps.withIslands(islands)],
                 };
                 await nextFrame();
-                //await sleep(1000);
+                await sleep(1);
             }
         )
         
