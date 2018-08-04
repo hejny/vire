@@ -33,14 +33,22 @@ export async function imageSeparateIslands(
                 ),
             */
         );
-        unassignedPoints = unassignedPoints.subtract(island);
-        islands.push(island);
-        pointsAssinnedCount += island.length;
 
-        await percentCallback(
-            pointsAssinnedCount / pointsTotalCount,
-            islands
-        )
+        pointsAssinnedCount += island.length;
+        unassignedPoints = unassignedPoints.subtract(island);
+
+        if(island.length>10){
+            islands.push(island);
+
+            await percentCallback(
+                pointsAssinnedCount / pointsTotalCount,
+                islands
+            )
+            
+        }
+
+
+
     }
 
     await percentCallback(1, islands);
