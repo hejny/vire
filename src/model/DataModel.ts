@@ -25,6 +25,7 @@ export class DataModel {
     @observable screenSize: Detection.Vector2;
     @observable cropScreenRatio = 1125 / 2436;
     @observable cropScreenMargin = 35;
+    @observable processingQuality = 200;
     @observable cameraSize: Detection.Vector2 = Detection.Vector2.ONE;
 
     @observable input: HTMLCanvasElement | null;
@@ -99,7 +100,7 @@ export class DataModel {
     constructor() {
         (async () => {
             await this.startWithMockedInputImage();
-            await this.processImage();
+            //await this.processImage();
         })();
 
         this.screenSize = this.detectScreenSize();
@@ -164,7 +165,7 @@ export class DataModel {
 
             this.output = await createWireframe(
                 image,
-                200,
+                this.processingQuality,
                 async (progressFrame) => {
                     if (this.shouldStopProcessing) {
                         throw new Error('STOPPED'); //todo better extend error

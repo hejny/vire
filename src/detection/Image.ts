@@ -751,7 +751,7 @@ export class Image {
         const image = this.clone;
         //todo maybe to other method
         for (const island of islands) {
-            const detectionColor = Color.Random(); //new Color(0, 255, 0);//Color.Random();
+            const detectionColor = Color.RED; //new Color(0, 255, 0);//Color.Random();
             for (const point of island.points) {
                 //const color = this.getPointColor(point);
                 image.setPointColor(point, detectionColor);

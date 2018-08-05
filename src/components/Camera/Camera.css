@@ -114,7 +114,7 @@
 
 /*==================================================*/
 
-.Camera .buttons{
+.Camera .tools{
   z-index: 50;
   position: fixed;
   bottom: 20px;

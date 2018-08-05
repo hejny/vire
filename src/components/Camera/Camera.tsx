@@ -170,6 +170,16 @@ export const Camera = observer(
 
                     {!this.props.dataModel.input && <div className="snap" />}
                     {this.props.dataModel.input && (
+                         <div className="tools">
+                          <div className="options">
+
+                                <select value={this.props.dataModel.processingQuality} onChange={(event)=>this.props.dataModel.processingQuality=parseInt(event.target.value)}>
+                                    {[100,200,300,400,500].map((value,i)=>(
+                                        <option key={i} value={value}>{value}</option>
+                                    ))}
+                                </select>
+
+                          </div>
                         <div className="buttons">
                             <button
                                 onClick={(e) => {
@@ -186,6 +196,7 @@ export const Camera = observer(
                             >
                                 Convert
                             </button>
+                        </div>
                         </div>
                     )}
                 </div>

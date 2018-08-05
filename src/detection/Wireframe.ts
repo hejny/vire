@@ -131,13 +131,13 @@ export class Wireframe {
     }
     */
 
-    toSvg(): string {
+    toSvg(snappingLines=false): string {
         return `
             <svg width="${this.size.x}" height="${this.size.y}"
             xmlns="http://www.w3.org/2000/svg">
 
 
-            ${(() => {
+            ${!snappingLines?'':(() => {
                 const lines: string[] = [];
 
                 for (const coord1 of ['x', 'y'] as ('x' | 'y')[]) {
