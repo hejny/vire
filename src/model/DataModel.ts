@@ -156,7 +156,7 @@ export class DataModel {
             /**/
             .resizePurge(
                 //image.size,
-                image.size.scale(250 / image.size.x),
+                image.size.scale(350 / image.size.x),
             );
         /**/
 

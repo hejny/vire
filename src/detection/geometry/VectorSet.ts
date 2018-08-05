@@ -83,6 +83,14 @@ export class VectorSet {
         return new VectorSet([...this.points, ...vectorSet2.points]);
     }
 
+    static union(...vectorSets: VectorSet[]): VectorSet {
+        const newVectorSet = new VectorSet();
+        for(const vectorSet of vectorSets){
+            newVectorSet.add(...vectorSet.points);
+        }
+        return newVectorSet;
+    }
+
     isThisSubset(vectorSet2: VectorSet): boolean {
         for (const point1 of vectorSet2.points) {
             if (this.points.some((point2) => !point1.equals(point2))) {

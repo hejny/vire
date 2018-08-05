@@ -22,8 +22,8 @@ export async function imageSeparateIslands(
         const landingPoint = unassignedPoints.points[0];
         const island = await floodIteration(
             image,
-            new VectorSet([landingPoint]),
-            new VectorSet([landingPoint]),
+            [new VectorSet([landingPoint])],
+            //new VectorSet([landingPoint]),
             async (island) => {}
             /*async (island) =>
                 await percentCallback(
@@ -44,7 +44,7 @@ export async function imageSeparateIslands(
                 pointsAssinnedCount / pointsTotalCount,
                 islands
             )
-            
+
         }
 
 
@@ -70,20 +70,21 @@ function areExactNeighbors(image: Image,point1: Vector2, point2: Vector2) {
 
 async function floodIteration(
     image: Image,
-    pointsInner: VectorSet,
-    pointsInnerBorder: VectorSet,
+    pointsLayers: VectorSet[],
     iterationCallback: (island: VectorSet) => Promise<void>,
     iterationLevel = 0,
 ): Promise<VectorSet> {
     //const pointsProcessed = pointsInner.length;
     //await percentCallback(pointsProcessed/pointsTotal,[pointsInner]);
+    
+    //console.log('pointsLayers',pointsLayers);
 
     if (iterationLevel % 1 === 0) {
-        await iterationCallback(pointsInnerBorder);
+        await iterationCallback(pointsLayers[pointsLayers.length-1]);
     }
 
-    const pointsOuterUnuniqueBorder = new VectorSet(
-        pointsInnerBorder.points
+    const pointsNextLayerUnpure = new VectorSet(
+        pointsLayers[pointsLayers.length-1].points
             .map((point) =>
                 [
                     point,
@@ -99,22 +100,26 @@ async function floodIteration(
             .reduce(
                 (pointsOuter, newPoints) => [...pointsOuter, ...newPoints],
                 [],
-            ),
-    );
+            )
+    ).unique;
 
-    const pointsOuter = pointsInner
-        .clone()
-        .addUnique(...pointsOuterUnuniqueBorder.points);
 
-    //console.log(pointsOuter.length);
+    let pointsNextLayer = pointsNextLayerUnpure
+        .subtract(pointsLayers[pointsLayers.length-1])
 
-    if (pointsOuter.length === pointsInner.length) {
-        return pointsOuter;
+    if(pointsLayers[pointsLayers.length-2]){
+        pointsNextLayer = pointsNextLayer.subtract(pointsLayers[pointsLayers.length-2]);
+    }
+
+
+
+    if (pointsNextLayer.length === 0) {
+        return VectorSet.union(...pointsLayers);
     } else {
+        pointsLayers.push(pointsNextLayer);
         return await floodIteration(
             image,
-            pointsOuter,
-            pointsOuter.subtract(pointsInner),
+            pointsLayers,
             iterationCallback,
             iterationLevel + 1,
         );
