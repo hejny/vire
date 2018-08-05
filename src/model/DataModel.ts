@@ -9,6 +9,8 @@ import { createWireframe } from '../detection/processing/createWireframe';
 import {
     CROP_SCREEN_RATIO_OPTIONS,
     PROCESSING_QUALITY_OPTIONS,
+    CROP_SCREEN_RATIO_OPTIONS_DEFAULT,
+    PROCESSING_QUALITY_OPTIONS_DEFAULT,
 } from '../config';
 
 export enum AppScreen {
@@ -27,9 +29,9 @@ export class DataModel {
     //@observable percent: number;
 
     @observable screenSize: Detection.Vector2;
-    @observable cropScreenRatio = CROP_SCREEN_RATIO_OPTIONS[0].value;
+    @observable cropScreenRatio = CROP_SCREEN_RATIO_OPTIONS_DEFAULT.value;
     @observable cropScreenMargin = 35;
-    @observable processingQuality = PROCESSING_QUALITY_OPTIONS[0];
+    @observable processingQuality = PROCESSING_QUALITY_OPTIONS_DEFAULT;
     @observable cameraSize: Detection.Vector2 = Detection.Vector2.ONE;
 
     @observable input: HTMLCanvasElement | null;

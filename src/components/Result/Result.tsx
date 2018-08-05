@@ -24,11 +24,11 @@ export const Result = observer((props: { dataModel: DataModel }) => {
                     __html: props.dataModel.output.toSvg(),
                 }}
             />
-            <div
+            {/*<div
                 dangerouslySetInnerHTML={{
                     __html: props.dataModel.output.snap().toSvg(true),
                 }}
-            />
+            />*/}
         </div>
     );
 });
