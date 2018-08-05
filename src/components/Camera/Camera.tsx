@@ -7,6 +7,10 @@ import * as Detection from '../../detection';
 import { cloneCanvas } from '../../tools/cloneCanvas';
 import { fitToScreen, fitToScreenInfo } from '../../tools/fitToScreen';
 import { repeatRequest } from '../../tools/repeatRequest';
+import {
+    PROCESSING_QUALITY_OPTIONS,
+    CROP_SCREEN_RATIO_OPTIONS,
+} from '../../config';
 
 interface ICameraProps {
     dataModel: DataModel;
@@ -56,9 +60,6 @@ export const Camera = observer(
             return (
                 <div
                     className="Camera"
-                    onClick={() => {
-                        if (!this.props.dataModel.input) this.snap();
-                    }}
                 >
                     <div className="screen real">
                         <Webcam
@@ -168,36 +169,75 @@ export const Camera = observer(
                         <div className="window"/>   
                     </div>*/}
 
-                    {!this.props.dataModel.input && <div className="snap" />}
-                    {this.props.dataModel.input && (
-                         <div className="tools">
-                          <div className="options">
-
-                                <select value={this.props.dataModel.processingQuality} onChange={(event)=>this.props.dataModel.processingQuality=parseInt(event.target.value)}>
-                                    {[100,200,300,400,500].map((value,i)=>(
-                                        <option key={i} value={value}>{value}</option>
-                                    ))}
+                    {!this.props.dataModel.input && (
+                        <>
+                            <div className="snap"/>
+                            <div className="snap-click-overlay" onClick={() => this.snap()}/>
+                            <div className="header">
+                                <select
+                                    value={this.props.dataModel.cropScreenRatio}
+                                    onChange={(event) =>
+                                        (this.props.dataModel.cropScreenRatio = parseFloat(
+                                            event.target.value,
+                                        ))
+                                    }
+                                >
+                                    {CROP_SCREEN_RATIO_OPTIONS.map(
+                                        (value, i) => (
+                                            <option key={i} value={value.value}>
+                                                {value.label}
+                                            </option>
+                                        ),
+                                    )}
                                 </select>
+                            </div>
+                        </>
+                    )}
+                    {this.props.dataModel.input && (
+                        <>
+                        <div className="snap-effect" ref={(element) => {
 
-                          </div>
-                        <div className="buttons">
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    this.props.dataModel.input = null;
-                                }}
-                            >
-                                Again
-                            </button>
-                            <button
-                                onClick={() =>
-                                    this.props.dataModel.processImage()
-                                }
-                            >
-                                Convert
-                            </button>
+                        }}/>
+                        <div className="tools">
+                            <div className="options">
+                                <select
+                                    value={
+                                        this.props.dataModel.processingQuality
+                                    }
+                                    onChange={(event) =>
+                                        (this.props.dataModel.processingQuality = parseFloat(
+                                            event.target.value,
+                                        ))
+                                    }
+                                >
+                                    {PROCESSING_QUALITY_OPTIONS.map(
+                                        (value, i) => (
+                                            <option key={i} value={value}>
+                                                {value}
+                                            </option>
+                                        ),
+                                    )}
+                                </select>
+                            </div>
+                            <div className="buttons">
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        this.props.dataModel.input = null;
+                                    }}
+                                >
+                                    Again
+                                </button>
+                                <button
+                                    onClick={() =>
+                                        this.props.dataModel.processImage()
+                                    }
+                                >
+                                    Convert
+                                </button>
+                            </div>
                         </div>
-                        </div>
+                        </>
                     )}
                 </div>
             );

@@ -22,6 +22,32 @@
   visibility: visible;  
 }
 
+.Camera .snap-click-overlay{
+  z-index: 40;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right:0;
+}
+
+.Camera .snap-effect{
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right:0;
+  pointer-events: none;
+  animation-name: snap-effect;
+  animation-duration: .2s;
+}
+@keyframes snap-effect {
+  from {background-color: white;}
+  to {background-color: transparent;}
+}
+
+
 .Camera .screen video,
 .Camera .screen img,
 .Camera .screen canvas{
@@ -90,7 +116,7 @@
 /*==================================================*/
 
 .Camera .snap{
-  z-index: 50;
+  z-index: 30;
   position: fixed;
   bottom: calc( 30px + 10px);
   left: calc( 50vw - 50px - 20px);
@@ -119,6 +145,21 @@
   position: fixed;
   bottom: 20px;
   left: calc( 50vw - 200px);
+
+  width: 400px;
+
+  text-align: center;
+}
+
+
+.Camera .header{
+  z-index: 50;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right:0;
+  
+  background-color: aquamarine;
 
   width: 400px;
 

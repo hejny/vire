@@ -9,12 +9,10 @@ export async function createWireframe(
     quality = 200,
     progressCallback: (progressFrame: IProgressFrame) => Promise<void>,
 ): Promise<Wireframe> {
-
     await progressCallback({
         percent: 0,
         image: null,
     });
-
 
     const imageResizedPurged = image
         /**/

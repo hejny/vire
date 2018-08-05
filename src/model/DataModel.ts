@@ -6,6 +6,10 @@ import { fitToScreenInfo } from '../tools/fitToScreen';
 import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
 import { imageSeparateIslands } from '../detection/';
 import { createWireframe } from '../detection/processing/createWireframe';
+import {
+    CROP_SCREEN_RATIO_OPTIONS,
+    PROCESSING_QUALITY_OPTIONS,
+} from '../config';
 
 export enum AppScreen {
     CAMERA,
@@ -23,9 +27,9 @@ export class DataModel {
     //@observable percent: number;
 
     @observable screenSize: Detection.Vector2;
-    @observable cropScreenRatio = 1125 / 2436;
+    @observable cropScreenRatio = CROP_SCREEN_RATIO_OPTIONS[0].value;
     @observable cropScreenMargin = 35;
-    @observable processingQuality = 200;
+    @observable processingQuality = PROCESSING_QUALITY_OPTIONS[0];
     @observable cameraSize: Detection.Vector2 = Detection.Vector2.ONE;
 
     @observable input: HTMLCanvasElement | null;

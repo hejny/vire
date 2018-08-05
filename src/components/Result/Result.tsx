@@ -8,7 +8,17 @@ export const Result = observer((props: { dataModel: DataModel }) => {
     return (
         <div className="Result">
             <button onClick={() => props.dataModel.restart()}>Again</button>
-            <button onClick={() => download(props.dataModel.output.toSvg(),'wireframe.svg','image/svg+xml')}>Get SVG</button>
+            <button
+                onClick={() =>
+                    download(
+                        props.dataModel.output.toSvg(),
+                        'wireframe.svg',
+                        'image/svg+xml',
+                    )
+                }
+            >
+                Get SVG
+            </button>
             <div
                 dangerouslySetInnerHTML={{
                     __html: props.dataModel.output.toSvg(),

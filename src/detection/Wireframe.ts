@@ -131,36 +131,43 @@ export class Wireframe {
     }
     */
 
-    toSvg(snappingLines=false): string {
+    toSvg(snappingLines = false): string {
         return `
             <svg width="${this.size.x}" height="${this.size.y}"
             xmlns="http://www.w3.org/2000/svg">
 
 
-            ${!snappingLines?'':(() => {
-                const lines: string[] = [];
+            ${
+                !snappingLines
+                    ? ''
+                    : (() => {
+                          const lines: string[] = [];
 
-                for (const coord1 of ['x', 'y'] as ('x' | 'y')[]) {
-                    const coord2: 'x' | 'y' = coord1 === 'x' ? 'y' : 'x';
+                          for (const coord1 of ['x', 'y'] as ('x' | 'y')[]) {
+                              const coord2: 'x' | 'y' =
+                                  coord1 === 'x' ? 'y' : 'x';
 
-                    for (const edge of [0, 1] as (0 | 1)[]) {
-                        lines.push(
-                            ...this.template
-                                .snappingValues(coord1, edge)
-                                .map(
-                                    (snappingValue) =>
-                                        `<line ${coord1}1="${snappingValue}" ${coord2}1="${0}" ${coord1}2="${snappingValue}" ${coord2}2="${
-                                            this.size[coord2]
-                                        }" style="stroke:${
-                                            edge === 0 ? '#cccc99' : '#99cccc'
-                                        };stroke-width:1" />`,
-                                ),
-                        );
-                    }
-                }
+                              for (const edge of [0, 1] as (0 | 1)[]) {
+                                  lines.push(
+                                      ...this.template
+                                          .snappingValues(coord1, edge)
+                                          .map(
+                                              (snappingValue) =>
+                                                  `<line ${coord1}1="${snappingValue}" ${coord2}1="${0}" ${coord1}2="${snappingValue}" ${coord2}2="${
+                                                      this.size[coord2]
+                                                  }" style="stroke:${
+                                                      edge === 0
+                                                          ? '#cccc99'
+                                                          : '#99cccc'
+                                                  };stroke-width:1" />`,
+                                          ),
+                                  );
+                              }
+                          }
 
-                return lines.join('\n');
-            })()}
+                          return lines.join('\n');
+                      })()
+            }
 
             ${this.rectangles.map((rect) => rect.toSvg()).join('\n')}
             

@@ -36,7 +36,7 @@ export async function imageSeparateIslands(
         pointsAssinnedCount += island.length;
         unassignedPoints = unassignedPoints.subtract(island);
 
-        if (island.length > image.size.area/2000) {
+        if (island.length > image.size.area / 2000) {
             islands.push(island);
 
             await progressCallback(
