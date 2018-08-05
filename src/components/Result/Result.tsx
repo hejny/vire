@@ -7,7 +7,16 @@ export const Result = observer((props: { dataModel: DataModel }) => {
     return (
         <div className="Result">
             <button onClick={() => props.dataModel.restart()}>Again</button>
-            <img src={props.dataModel.output.dataURL} />
+            <div
+                dangerouslySetInnerHTML={{
+                    __html: props.dataModel.output.toSvg(),
+                }}
+            />
+            <div
+                dangerouslySetInnerHTML={{
+                    __html: props.dataModel.output.snap().toSvg(),
+                }}
+            />
         </div>
     );
 });

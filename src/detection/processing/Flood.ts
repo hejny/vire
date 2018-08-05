@@ -1,4 +1,3 @@
-
 import { VectorSet } from '../geometry/VectorSet';
 import { Image } from '../Image';
 import { Vector2 } from '..';
@@ -6,10 +5,10 @@ import { access } from 'fs';
 
 export async function imageSeparateIslands(
     image: Image,
-    percentCallback: (percent: number, islands: VectorSet[]) => Promise<void>,
+    progressCallback: (percent: number, islands: VectorSet[]) => Promise<void>,
     //todo maybe detection color
 ): Promise<VectorSet[]> {
-    await percentCallback(0, []);
+    await progressCallback(0, []);
 
     //const pointsTotal = image.size.x * image.size.y;
 
@@ -24,7 +23,7 @@ export async function imageSeparateIslands(
             image,
             [new VectorSet([landingPoint])],
             //new VectorSet([landingPoint]),
-            async (island) => {}
+            async (island) => {},
             /*async (island) =>
                 await percentCallback(
                     (island.length + pointsAssinnedCount) /
@@ -37,25 +36,21 @@ export async function imageSeparateIslands(
         pointsAssinnedCount += island.length;
         unassignedPoints = unassignedPoints.subtract(island);
 
-        if(island.length>10){
+        if (island.length > 10) {
             islands.push(island);
 
-            await percentCallback(
+            await progressCallback(
                 pointsAssinnedCount / pointsTotalCount,
-                islands
-            )
-
+                islands,
+            );
         }
-
-
-
     }
 
-    await percentCallback(1, islands);
+    await progressCallback(1, islands);
     return islands;
 }
 
-function areNeighbors(image: Image,point1: Vector2, point2: Vector2) {
+function areNeighbors(image: Image, point1: Vector2, point2: Vector2) {
     return (
         Math.abs(
             image.getPointColor(point1).lightness -
@@ -64,7 +59,7 @@ function areNeighbors(image: Image,point1: Vector2, point2: Vector2) {
     );
 }
 
-function areExactNeighbors(image: Image,point1: Vector2, point2: Vector2) {
+function areExactNeighbors(image: Image, point1: Vector2, point2: Vector2) {
     return image.getPointColor(point1) === image.getPointColor(point2);
 }
 
@@ -76,15 +71,15 @@ async function floodIteration(
 ): Promise<VectorSet> {
     //const pointsProcessed = pointsInner.length;
     //await percentCallback(pointsProcessed/pointsTotal,[pointsInner]);
-    
+
     //console.log('pointsLayers',pointsLayers);
 
     if (iterationLevel % 1 === 0) {
-        await iterationCallback(pointsLayers[pointsLayers.length-1]);
+        await iterationCallback(pointsLayers[pointsLayers.length - 1]);
     }
 
     const pointsNextLayerUnpure = new VectorSet(
-        pointsLayers[pointsLayers.length-1].points
+        pointsLayers[pointsLayers.length - 1].points
             .map((point) =>
                 [
                     point,
@@ -95,23 +90,25 @@ async function floodIteration(
                 ]
                     .filter((point2) => image.isPoint(point2))
                     //.filter(point2=>!island.points.some(point3=>point2.equals(point3)))
-                    .filter((point2) => areExactNeighbors(image,point, point2)),
+                    .filter((point2) =>
+                        areExactNeighbors(image, point, point2),
+                    ),
             )
             .reduce(
                 (pointsOuter, newPoints) => [...pointsOuter, ...newPoints],
                 [],
-            )
+            ),
     ).unique;
 
+    let pointsNextLayer = pointsNextLayerUnpure.subtract(
+        pointsLayers[pointsLayers.length - 1],
+    );
 
-    let pointsNextLayer = pointsNextLayerUnpure
-        .subtract(pointsLayers[pointsLayers.length-1])
-
-    if(pointsLayers[pointsLayers.length-2]){
-        pointsNextLayer = pointsNextLayer.subtract(pointsLayers[pointsLayers.length-2]);
+    if (pointsLayers[pointsLayers.length - 2]) {
+        pointsNextLayer = pointsNextLayer.subtract(
+            pointsLayers[pointsLayers.length - 2],
+        );
     }
-
-
 
     if (pointsNextLayer.length === 0) {
         return VectorSet.union(...pointsLayers);

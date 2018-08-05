@@ -85,7 +85,7 @@ export class VectorSet {
 
     static union(...vectorSets: VectorSet[]): VectorSet {
         const newVectorSet = new VectorSet();
-        for(const vectorSet of vectorSets){
+        for (const vectorSet of vectorSets) {
             newVectorSet.add(...vectorSet.points);
         }
         return newVectorSet;

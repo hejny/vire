@@ -5,11 +5,17 @@ import { canvasFromSrc } from '../tools/canvasFromSrc';
 import { fitToScreenInfo } from '../tools/fitToScreen';
 import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
 import { imageSeparateIslands } from '../detection/';
+import { createWireframe } from '../detection/processing/createWireframe';
 
 export enum AppScreen {
     CAMERA,
     PROCESSING,
     RESULT,
+}
+
+export interface IProgressFrame {
+    percent: number;
+    image: Detection.Image | null;
 }
 
 export class DataModel {
@@ -23,12 +29,8 @@ export class DataModel {
 
     @observable input: HTMLCanvasElement | null;
     @observable inputParsed: Detection.Image;
-    @observable
-    progress: {
-        percent: number;
-        images: Detection.Image[];
-    };
-    @observable output: Detection.Image;
+    @observable progress: IProgressFrame;
+    @observable output: Detection.Wireframe;
 
     @computed
     get cropScreenSize() {
@@ -126,104 +128,61 @@ export class DataModel {
         this.screen = AppScreen.CAMERA;
     }
 
+    private shouldStopProcessing = false;
+
+    async stopProcessing() {
+        this.shouldStopProcessing = true;
+    }
+
     async processImage() {
         if (!this.input) {
             throw new Error(`"imageInput" must be set before processing.`);
         }
-        this.progress = {
-            percent: 0,
-            images: [],
-        };
-        this.screen = AppScreen.PROCESSING;
 
-        await nextFrame();
+        try {
+            this.progress = {
+                percent: 0,
+                image: null,
+            };
+            this.screen = AppScreen.PROCESSING;
 
-        //const image = Detection.Image.fromCanvas(this.imageInput);
+            await nextFrame();
 
-        const cropScreenBounding = this.cropScreenBounding;
-        const image = Detection.Image.fromImageData(
-            this.input
-                .getContext('2d')!
-                .getImageData(
-                    cropScreenBounding.topLeft.x,
-                    cropScreenBounding.topLeft.y,
-                    cropScreenBounding.size.x,
-                    cropScreenBounding.size.y,
-                ),
-        );
+            //const image = Detection.Image.fromCanvas(this.imageInput);
 
-        const imageResizedPurged = image
-            /**/
-            .resizePurge(
-                //image.size,
-                image.size.scale(350 / image.size.x),
+            const cropScreenBounding = this.cropScreenBounding;
+            const image = Detection.Image.fromImageData(
+                this.input
+                    .getContext('2d')!
+                    .getImageData(
+                        cropScreenBounding.topLeft.x,
+                        cropScreenBounding.topLeft.y,
+                        cropScreenBounding.size.x,
+                        cropScreenBounding.size.y,
+                    ),
             );
-        /**/
 
-        const _ = Detection.Color.WHITE;
-        const $ = Detection.Color.BLACK;
-        const imageResizedPurgedNoGaps = imageResizedPurged.replacePattern(
-            new Detection.Image([[_, _, _], [_, $, _], [_, _, _]]),
-            _,
-        );
-        /*
-            .replacePatterns(
-                [
-                    new Detection.Image([[_, _, _], [_, $, _], [_, _, _]]),
-                    new Detection.Image([[_, _, _], [_, $, _], [_, $, _]]),
-                    new Detection.Image([[_, _, _], [_, $, _], [_, _, $]]),
-                ],
-                _,
-            )
-            .replacePatterns(
-                [
-                    new Detection.Image([[$, _, _], [_, _, _], [_, _, $]]),
-                    new Detection.Image([[_, $, _], [_, _, _], [_, $, _]]),
-                ],
-                $,
+            this.output = await createWireframe(
+                image,
+                200,
+                async (progressFrame) => {
+                    if (this.shouldStopProcessing) {
+                        throw new Error('STOPPED'); //todo better extend error
+                    }
+                    this.progress = progressFrame;
+                    await nextFrame();
+                    await sleep(1);
+                },
             );
-        /**/
 
-        /*const separateIslands = await imageResizedPurgedNoGaps.separateIslands(
-            async (percent, islands) => {
-                islands;
-                this.progress = {
-                    percent,
-                    images: [
-                        imageResizedPurged,
-                        imageResizedPurgedNoGaps,
-                        imageResizedPurgedNoGaps.withIslands(islands),
-                    ],
-                };
-                await nextFrame();
-            },
-        );*/
-
-        /*const lines = detectLines(imageResizedPurgedNoGaps);
-        console.log('lines', lines);
-        for (const line of lines) {
-            line.draw(imageResizedPurgedNoGaps, Detection.Color.RED);
-        }*/
-
-        const separateIslands = await imageSeparateIslands(
-            imageResizedPurgedNoGaps,
-            async (percent,islands)=>{
-                console.log(Math.round(percent*100*10)/10+'%');
-                this.progress = {
-                    percent,
-                    images: [imageResizedPurgedNoGaps,imageResizedPurgedNoGaps.withIslands(islands)],
-                };
-                await nextFrame();
-                await sleep(1);
+            this.screen = AppScreen.RESULT;
+        } catch (error) {
+            if (error.message === 'STOPPED') {
+                this.shouldStopProcessing = false;
+                this.screen = AppScreen.CAMERA;
+            } else {
+                throw error;
             }
-        )
-        
-
-        this.progress = {
-            percent: 1,
-            images: [],
-        };
-        this.output = imageResizedPurgedNoGaps.withIslands(separateIslands);
-        this.screen = AppScreen.RESULT;
+        }
     }
 }

@@ -2,7 +2,7 @@ import { Image } from './Image';
 import { Color } from './Color';
 import { Vector2 } from './geometry/Vector2';
 import { Wireframe } from './Wireframe';
-import { imageSeparateIslands } from './genetics/Flood';
+import { imageSeparateIslands } from './processing/Flood';
 
 /*const space = (global as any) || (window as any);
 
