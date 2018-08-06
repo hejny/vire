@@ -11,6 +11,7 @@ import {
     PROCESSING_QUALITY_OPTIONS,
     CROP_SCREEN_RATIO_OPTIONS,
 } from '../../config';
+import { drawHighlightedRect } from '../../tools/canvasTools';
 
 interface ICameraProps {
     dataModel: DataModel;
@@ -104,10 +105,11 @@ export const Camera = observer(
                     <div className="screen overlay">
                         <canvas
                             data-foo={this.props.dataModel.input ? 1 : 0}
+                            data-camera-width={this.props.dataModel.cameraSize.x}
+                            data-camera-height={this.props.dataModel.cameraSize.y}
                             width={this.props.dataModel.screenSize.x}
                             height={this.props.dataModel.screenSize.y}
                             ref={(canvas) => {
-                                console.log('overlay rerender');
                                 if (canvas) {
                                     const ctx = canvas.getContext('2d');
 
@@ -137,24 +139,18 @@ export const Camera = observer(
 
                                         const cropScreenFitBounding = this.props
                                             .dataModel.cropScreenFitBounding;
-                                        ctx.rect(
+
+
+                                            drawHighlightedRect(
+                                            ctx,
                                             cropScreenFitBounding.size.x,
                                             cropScreenFitBounding.size.y,
                                             cropScreenFitBounding.topLeft.x,
                                             cropScreenFitBounding.topLeft.y,
+                                            ['#0f0','#fff','#000'],
+                                            2
                                         );
-                                        /*
-                                        ctx.rect(
-                                            (canvas.width - this.props.dataModel.cropScreen.x) / 2,
-                                            (canvas.height - this.props.dataModel.cropScreen.y) / 2,
-                                            this.props.dataModel.cropScreen.x,
-                                            this.props.dataModel.cropScreen.y,
-                                        );*/
-
-                                        ctx.lineCap = 'round';
-                                        ctx.lineWidth = 4;
-                                        ctx.strokeStyle = '#0098ff';
-                                        ctx.stroke();
+                
                                     }
                                 }
                             }}

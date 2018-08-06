@@ -1,10 +1,10 @@
 import { observable, computed } from 'mobx';
 import * as Detection from '../detection';
 import { nextFrame, sleep } from '../tools/wait';
-import { canvasFromSrc } from '../tools/canvasFromSrc';
+import { canvasFromSrc } from '../tools/canvasTools';
 import { fitToScreenInfo } from '../tools/fitToScreen';
 import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
-import { imageSeparateIslands } from '../detection/';
+import { imageSeparateIslands } from '../detection';
 import { createWireframe } from '../detection/processing/createWireframe';
 import {
     CROP_SCREEN_RATIO_OPTIONS,
