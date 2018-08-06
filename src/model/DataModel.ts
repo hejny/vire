@@ -107,6 +107,11 @@ export class DataModel {
         (async () => {
             //await this.startWithMockedInputImage();
             //await this.processImage();
+            /*this.screen = AppScreen.PROCESSING;
+            this.progress = {
+                percent: .5,
+                image: null
+            }*/
         })();
 
         this.screenSize = this.detectScreenSize();

@@ -1,4 +1,37 @@
-.Processing{
+.Processing .tools{
+    z-index: 200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right:0;
+    background-color: white;
 
+    text-align: center;
+}
+
+.Processing .percent{
+    display: inline-block;
+    z-index: 200;
+    font-size: 1.5em;
+  
+}
+
+.Processing .abort{
+    position: fixed;
+    z-index: 200;
+    left: 50vw;
+    bottom: 0;
+    transform: translate(-50%,0);
+}
+
+.Processing .image{
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right:0;
+    background-color: black;
+    
   
 }

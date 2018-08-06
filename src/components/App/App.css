@@ -20,6 +20,10 @@ button, .button, input[type="submit"] {
     cursor: pointer;
 }
 
+.abort{
+    background-color: red!important;
+}
+
 .App{
 
     width: 100%;

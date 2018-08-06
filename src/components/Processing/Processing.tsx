@@ -6,7 +6,26 @@ import { observer } from 'mobx-react';
 export const Processing = observer((props: { dataModel: DataModel }) => {
     return (
         <div className="Processing">
+            <div className="tools">
+                <div className="percent">
+                    {Math.round(props.dataModel.progress.percent * 100 * 10) /
+                        10}%
+                </div>
+            </div>
+
+            {props.dataModel.progress.image && (
+                <div
+                    className="image"
+                    style={{
+                        background: `url(${
+                            props.dataModel.progress.image.dataURL
+                        })`,
+                    }}
+                />
+            )}
+
             <button
+                className="abort"
                 onClick={() => {
                     if (confirm(`Do you really want to stop processing?`)) {
                         props.dataModel.stopProcessing();
@@ -15,10 +34,6 @@ export const Processing = observer((props: { dataModel: DataModel }) => {
             >
                 Stop
             </button>
-            {Math.round(props.dataModel.progress.percent * 100 * 10) / 10}%
-            {props.dataModel.progress.image && (
-                <img src={props.dataModel.progress.image.dataURL} />
-            )}
         </div>
     );
 });
