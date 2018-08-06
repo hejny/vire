@@ -22,7 +22,7 @@ export async function createWireframe(
         );
 
     await progressCallback({
-        percent: 0,//todo better not zero
+        percent: 0, //todo better not zero
         image: imageResizedPurged,
     });
 

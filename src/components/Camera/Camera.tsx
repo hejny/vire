@@ -59,9 +59,7 @@ export const Camera = observer(
 
         render() {
             return (
-                <div
-                    className="Camera"
-                >
+                <div className="Camera">
                     <div className="screen real">
                         <Webcam
                             audio={false}
@@ -105,8 +103,12 @@ export const Camera = observer(
                     <div className="screen overlay">
                         <canvas
                             data-foo={this.props.dataModel.input ? 1 : 0}
-                            data-camera-width={this.props.dataModel.cameraSize.x}
-                            data-camera-height={this.props.dataModel.cameraSize.y}
+                            data-camera-width={
+                                this.props.dataModel.cameraSize.x
+                            }
+                            data-camera-height={
+                                this.props.dataModel.cameraSize.y
+                            }
                             width={this.props.dataModel.screenSize.x}
                             height={this.props.dataModel.screenSize.y}
                             ref={(canvas) => {
@@ -140,17 +142,15 @@ export const Camera = observer(
                                         const cropScreenFitBounding = this.props
                                             .dataModel.cropScreenFitBounding;
 
-
-                                            drawHighlightedRect(
+                                        drawHighlightedRect(
                                             ctx,
                                             cropScreenFitBounding.size.x,
                                             cropScreenFitBounding.size.y,
                                             cropScreenFitBounding.topLeft.x,
                                             cropScreenFitBounding.topLeft.y,
-                                            ['#0f0','#fff','#000'],
-                                            2
+                                            ['#0f0', '#fff', '#000'],
+                                            2,
                                         );
-                
                                     }
                                 }
                             }}
@@ -167,8 +167,11 @@ export const Camera = observer(
 
                     {!this.props.dataModel.input && (
                         <>
-                            <div className="snap"/>
-                            <div className="snap-click-overlay" onClick={() => this.snap()}/>
+                            <div className="snap" />
+                            <div
+                                className="snap-click-overlay"
+                                onClick={() => this.snap()}
+                            />
                             <div className="header">
                                 <select
                                     value={this.props.dataModel.cropScreenRatio}
@@ -191,50 +194,59 @@ export const Camera = observer(
                     )}
                     {this.props.dataModel.input && (
                         <>
-                        <div className="snap-effect" ref={(element) => {
-
-                        }}/>
-                        <div className="tools">
-                            <div className="options">
-                                <select
-                                    value={
-                                        this.props.dataModel.processingQuality
-                                    }
-                                    onChange={(event) =>
-                                        (this.props.dataModel.processingQuality = parseFloat(
-                                            event.target.value,
-                                        ))
-                                    }
-                                >
-                                    {PROCESSING_QUALITY_OPTIONS.map(
-                                        (value, i) => (
-                                            <option key={i} value={value.value}>
-                                                 {value.label}
-                                            </option>
-                                        ),
-                                    )}
-                                </select>
-                            </div>
-                            <div className="buttons">
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (confirm(`Do you really want to discard image?`)) {
-                                            this.props.dataModel.input = null;
+                            <div
+                                className="snap-effect"
+                                ref={(element) => {}}
+                            />
+                            <div className="tools">
+                                <div className="options">
+                                    <select
+                                        value={
+                                            this.props.dataModel
+                                                .processingQuality
                                         }
-                                    }}
-                                >
-                                    Again
-                                </button>
-                                <button
-                                    onClick={() =>
-                                        this.props.dataModel.processImage()
-                                    }
-                                >
-                                    Convert
-                                </button>
+                                        onChange={(event) =>
+                                            (this.props.dataModel.processingQuality = parseFloat(
+                                                event.target.value,
+                                            ))
+                                        }
+                                    >
+                                        {PROCESSING_QUALITY_OPTIONS.map(
+                                            (value, i) => (
+                                                <option
+                                                    key={i}
+                                                    value={value.value}
+                                                >
+                                                    {value.label}
+                                                </option>
+                                            ),
+                                        )}
+                                    </select>
+                                </div>
+                                <div className="buttons">
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (
+                                                confirm(
+                                                    `Do you really want to discard image?`,
+                                                )
+                                            ) {
+                                                this.props.dataModel.input = null;
+                                            }
+                                        }}
+                                    >
+                                        Again
+                                    </button>
+                                    <button
+                                        onClick={() =>
+                                            this.props.dataModel.processImage()
+                                        }
+                                    >
+                                        Convert
+                                    </button>
+                                </div>
                             </div>
-                        </div>
                         </>
                     )}
                 </div>

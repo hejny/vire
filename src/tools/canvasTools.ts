@@ -16,31 +16,23 @@ export function canvasFromSrc(src: string): Promise<HTMLCanvasElement> {
 
 export function drawHighlightedRect(
     ctx: CanvasRenderingContext2D,
-    x:number,
-    y:number,
-    width:number,
-    height:number,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
     colors: string[],
-    lineWidth: number = 1
-){
-    for(const color of colors){
-
-
-    
+    lineWidth: number = 1,
+) {
+    for (const color of colors) {
         ctx.lineCap = 'round';
         ctx.lineWidth = lineWidth;
         ctx.strokeStyle = color;
-        ctx.strokeRect(
-            x,
-            y,
-            width,
-            height,
-        );
+        ctx.strokeRect(x, y, width, height);
         //ctx.strokeRect
 
-        x-=lineWidth;
-        y-=lineWidth;
-        width+=lineWidth*2;
-        height+=lineWidth*2;
+        x -= lineWidth;
+        y -= lineWidth;
+        width += lineWidth * 2;
+        height += lineWidth * 2;
     }
 }
