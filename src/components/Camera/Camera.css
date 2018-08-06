@@ -159,9 +159,14 @@
   left: 0;
   right:0;
   
-  background-color: aquamarine;
+  background-color: white;
 
-  width: 400px;
+  /*transform: rotate(90deg) translate(50%,calc(50vw - 20px));*/
 
-  text-align: center;
+  text-align: left;
+}
+
+.Camera .header select{
+  
+  width: 100%;
 }
