@@ -212,8 +212,8 @@ export const Camera = observer(
                                 >
                                     {PROCESSING_QUALITY_OPTIONS.map(
                                         (value, i) => (
-                                            <option key={i} value={value}>
-                                                {value}
+                                            <option key={i} value={value.value}>
+                                                 {value.label}
                                             </option>
                                         ),
                                     )}
@@ -223,7 +223,9 @@ export const Camera = observer(
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        this.props.dataModel.input = null;
+                                        if (confirm(`Do you really want to discard image?`)) {
+                                            this.props.dataModel.input = null;
+                                        }
                                     }}
                                 >
                                     Again

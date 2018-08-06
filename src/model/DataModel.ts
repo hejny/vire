@@ -30,8 +30,8 @@ export class DataModel {
 
     @observable screenSize: Detection.Vector2;
     @observable cropScreenRatio = CROP_SCREEN_RATIO_OPTIONS_DEFAULT.value;
-    @observable cropScreenMargin = 35;
-    @observable processingQuality = PROCESSING_QUALITY_OPTIONS_DEFAULT;
+    @observable cropScreenMargin = 40;
+    @observable processingQuality = PROCESSING_QUALITY_OPTIONS_DEFAULT.value;
     @observable cameraSize: Detection.Vector2 = Detection.Vector2.ONE;
 
     @observable input: HTMLCanvasElement | null;
@@ -105,7 +105,7 @@ export class DataModel {
 
     constructor() {
         (async () => {
-            await this.startWithMockedInputImage();
+            //await this.startWithMockedInputImage();
             //await this.processImage();
         })();
 

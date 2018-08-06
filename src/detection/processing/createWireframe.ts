@@ -21,6 +21,11 @@ export async function createWireframe(
             image.size.scale(quality / image.size.x),
         );
 
+    await progressCallback({
+        percent: 0,//todo better not zero
+        image: imageResizedPurged,
+    });
+
     /*/
         const _ = Detection.Color.WHITE;
         const $ = Detection.Color.BLACK;

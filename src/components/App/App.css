@@ -24,3 +24,14 @@ button, .button, input[type="submit"] {
 
     width: 100%;
 }
+
+select{
+    display: inline-block;
+    outline: none;
+    border: none;
+    padding: 10px;
+    font-size: 1.1em;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}

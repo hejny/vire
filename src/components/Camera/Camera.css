@@ -119,14 +119,14 @@
   z-index: 30;
   position: fixed;
   bottom: calc( 30px + 10px);
-  left: calc( 50vw - 50px - 20px);
+  left: calc( 50vw - 30px - 10px);
 
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   border-radius: 1000px;
 
   background: #eeeeee;
-  border: 20px solid rgba(30,30,30,50%);
+  border: 10px solid rgba(30,30,30,50%);
 
   transition: 100ms all;
 
@@ -134,8 +134,8 @@
 }
 
 .Camera:active .snap{
-  border: 20px solid rgba(30,30,30,20%);
-
+  border: 10px solid rgba(30,30,30,20%);
+  /*box-shadow: white 0 0 10px;*/
 }
 
 /*==================================================*/
