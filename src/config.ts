@@ -16,19 +16,19 @@ export const CROP_SCREEN_RATIO_OPTIONS_DEFAULT = CROP_SCREEN_RATIO_OPTIONS[1];
 
 export const PROCESSING_QUALITY_OPTIONS = [
     {
-        label: 'Poor quality (100px)',
+        label: 'Poor quality',
         value: 100,
     },
     {
-        label: 'Normal quality (200px)',
+        label: 'Normal quality',
         value: 200,
     },
     {
-        label: 'Good quality (300px)',
+        label: 'Good quality',
         value: 300,
     },
     {
-        label: 'High quality (500px)',
+        label: 'High quality',
         value: 500,
     },
 ];

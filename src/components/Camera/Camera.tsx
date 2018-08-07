@@ -217,7 +217,7 @@ export const Camera = observer(
                                                     key={i}
                                                     value={value.value}
                                                 >
-                                                    {value.label}
+                                                    {`${value.label} ( ${value.value} x ${Math.ceil(value.value/this.props.dataModel.cropScreenRatio)} )`}
                                                 </option>
                                             ),
                                         )}
