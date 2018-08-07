@@ -4,7 +4,7 @@ export const CROP_SCREEN_RATIO_OPTIONS = [
         value: 1,
     },
     {
-        label: 'IPhone 10 ( 1125 x 2436 )',
+        label: 'IPhoneX ( 1125 x 2436 )',
         value: Math.round(1125 / 2436 * 1000) / 1000,
     },
     {
