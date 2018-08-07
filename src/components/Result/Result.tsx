@@ -4,29 +4,51 @@ import { DataModel } from '../../model/DataModel';
 import * as download from 'downloadjs';
 import './Result.css';
 import { textToDataURL } from '../../tools/dataTools';
+import { SNAPPING_OPTIONS } from '../../config';
+import { FlatDesignTemplate } from '../../detection/templates/FlatDesignTemplate';
 
 export const Result = observer((props: { dataModel: DataModel }) => {
+
+    let snappedOutput = props.dataModel.output;
+
+    if(props.dataModel.snapping==='MATERIAL'){
+        snappedOutput = snappedOutput.snap(new FlatDesignTemplate(snappedOutput.size));
+    }
+
     return (
         <div className="Result">
-            <div
+            {/*<div
                 dangerouslySetInnerHTML={{
                     __html: props.dataModel.output.toSvg(),
                 }}
-            />
+            />*/}
             {/*<div
                 dangerouslySetInnerHTML={{
                     __html: props.dataModel.output.snap().toSvg(true),
                 }}
             />*/}
 
-            <div
+            {/*<div
                 className="fullscreen-image"
                 style={{
-                    background: `url(${
-                        textToDataURL(props.dataModel.output.toSvg(),'image/svg+xml')
-                    })`,
+                    background: `url(${textToDataURL(
+                        snappedOutput.toSvg(true),
+                        'image/svg+xml',
+                    )})`,
                 }}
+            />*/}
+
+            <div className="mobile">
+            <img
+             className="screen"
+                src={textToDataURL(
+                    snappedOutput.toSvg(true),
+                    'image/svg+xml',
+                )}
             />
+             </div>
+
+
 
             <div className="toolbar-bottom">
                 <button
@@ -39,7 +61,7 @@ export const Result = observer((props: { dataModel: DataModel }) => {
                     className="blue"
                     onClick={() =>
                         download(
-                            props.dataModel.output.toSvg(),
+                            snappedOutput.toSvg(),
                             'wireframe.svg',
                             'image/svg+xml',
                         )
@@ -47,6 +69,23 @@ export const Result = observer((props: { dataModel: DataModel }) => {
                 >
                     Get SVG
                 </button>
+            </div>
+
+            <div className="toolbar-top">
+                <div className="options">
+                    <select
+                        value={props.dataModel.snapping}
+                        onChange={(event) =>
+                            (props.dataModel.snapping = event.target.value)
+                        }
+                    >
+                        {SNAPPING_OPTIONS.map((value, i) => (
+                            <option key={i} value={value.value}>
+                                {value.label}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
         </div>
     );

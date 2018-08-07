@@ -16,4 +16,3 @@ export function textToDataURL(text: string, mimeType: string): string {
     );*/
     return `data:${mimeType};base64,${btoa(text)}`;
 }
-

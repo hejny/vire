@@ -33,3 +33,15 @@ export const PROCESSING_QUALITY_OPTIONS = [
     },
 ];
 export const PROCESSING_QUALITY_OPTIONS_DEFAULT = PROCESSING_QUALITY_OPTIONS[1];
+
+export const SNAPPING_OPTIONS = [
+    {
+        label: 'No Snapping',
+        value: 'NONE',
+    },
+    {
+        label: 'Material Design',
+        value: 'MATERIAL',
+    },
+];
+export const SNAPPING_OPTIONS_DEFAULT = SNAPPING_OPTIONS[1];

@@ -11,6 +11,7 @@ import {
     PROCESSING_QUALITY_OPTIONS,
     CROP_SCREEN_RATIO_OPTIONS_DEFAULT,
     PROCESSING_QUALITY_OPTIONS_DEFAULT,
+    SNAPPING_OPTIONS_DEFAULT,
 } from '../config';
 
 export enum AppScreen {
@@ -33,6 +34,7 @@ export class DataModel {
     @observable cropScreenMargin = 85;
     @observable processingQuality = PROCESSING_QUALITY_OPTIONS_DEFAULT.value;
     @observable cameraSize: Detection.Vector2 = Detection.Vector2.ONE;
+    @observable snapping = SNAPPING_OPTIONS_DEFAULT.value;
 
     @observable input: HTMLCanvasElement | null;
     @observable inputParsed: Detection.Image;
@@ -105,8 +107,8 @@ export class DataModel {
 
     constructor() {
         (async () => {
-            await this.startWithMockedInputImage();
-            await this.processImage();
+            //await this.startWithMockedInputImage();
+            //await this.processImage();
             /*this.screen = AppScreen.PROCESSING;
             this.progress = {
                 percent: .5,

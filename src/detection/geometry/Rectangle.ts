@@ -159,6 +159,6 @@ export class Rectangle {
             this.size.x
         }" height="${this.size.y}"
         rx="${this.borderRadius}" ry="${this.borderRadius}"
-        style="fill:rgba(0,255,0,0.2);stroke-width:2;stroke:rgb(0,0,0)" />`;
+        style="fill:rgba(0,0,255,0.2);stroke-width:2;stroke:rgb(255,0,0)" />`;
     }
 }

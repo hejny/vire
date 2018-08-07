@@ -22,10 +22,10 @@ export class Wireframe {
         );
     }
 
-    private template: ITemplate;
+    //private template: ITemplate|null;
 
-    constructor(public size: Vector2, public rectangles: Rectangle[]) {
-        this.template = new FlatDesignTemplate(this.size);
+    constructor(public size: Vector2, public rectangles: Rectangle[],public template:ITemplate|null = null) {
+        //this.template = null;//new FlatDesignTemplate(this.size);
     }
 
     serialize(): ISerializedWireframe {
@@ -67,12 +67,14 @@ export class Wireframe {
         
     }*/
 
-    snap(): Wireframe {
+    snap(template:ITemplate): Wireframe {
+        //todo maybe snap in constructor
         return new Wireframe(
             this.size,
             this.rectangles.map((rectangle) =>
-                this.template.snapRectangle(rectangle),
+                template.snapRectangle(rectangle),
             ),
+            template
         );
     }
 
@@ -138,7 +140,7 @@ export class Wireframe {
 
 
             ${
-                !snappingLines
+                (!snappingLines||!this.template)
                     ? ''
                     : (() => {
                           const lines: string[] = [];
@@ -157,8 +159,8 @@ export class Wireframe {
                                                       this.size[coord2]
                                                   }" style="stroke:${
                                                       edge === 0
-                                                          ? '#cccc99'
-                                                          : '#99cccc'
+                                                          ? '#211'
+                                                          : '#112'
                                                   };stroke-width:1" />`,
                                           ),
                                   );

@@ -2,6 +2,7 @@ body{
     font-family: 'Roboto', sans-serif;
     color: white;
     background-color: black;
+    margin: 0;
 }
 
 button:hover, .button:hover, input[type="submit"]:hover {
@@ -58,6 +59,7 @@ select{
     background-color: white;
     border: 1px solod red;
     text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 5px;
     color: black;
 }
 .toolbar-bottom{
@@ -69,20 +71,22 @@ select{
     background-color: white;
     border: 1px solod red;
     text-align: center;
+    padding-top: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 5px;
     color: black;
 }
 
 .fullscreen-image{
     z-index: 100;
     position: fixed;
-    top: 0;
-    bottom: 0;
+    top: 40px;
+    bottom: 40px;
     left: 0;
     right:0;
 
     background-repeat: no-repeat!important;
     background-position: center!important;
-    background-size: contain!important;
+    background-size: cover!important;
     
   
 }
