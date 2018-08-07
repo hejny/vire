@@ -6,6 +6,7 @@ import './Result.css';
 import { textToDataURL } from '../../tools/dataTools';
 import { SNAPPING_OPTIONS } from '../../config';
 import { FlatDesignTemplate } from '../../detection/templates/FlatDesignTemplate';
+import { Mobile } from '../Mobile/Mobile';
 
 export const Result = observer((props: { dataModel: DataModel }) => {
 
@@ -38,17 +39,11 @@ export const Result = observer((props: { dataModel: DataModel }) => {
                 }}
             />*/}
 
-            <div className="mobile">
-            <img
-             className="screen"
-                src={textToDataURL(
+
+            <Mobile src={textToDataURL(
                     snappedOutput.toSvg(true),
                     'image/svg+xml',
-                )}
-            />
-             </div>
-
-
+                )} />
 
             <div className="toolbar-bottom">
                 <button

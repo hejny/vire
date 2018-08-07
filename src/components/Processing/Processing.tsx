@@ -2,6 +2,7 @@ import * as React from 'react';
 import './Processing.css';
 import { DataModel } from '../../model/DataModel';
 import { observer } from 'mobx-react';
+import { Mobile } from '../Mobile/Mobile';
 
 export const Processing = observer((props: { dataModel: DataModel }) => {
     return (
@@ -14,14 +15,7 @@ export const Processing = observer((props: { dataModel: DataModel }) => {
             </div>
 
             {props.dataModel.progress.image && (
-                <div
-                    className="fullscreen-image"
-                    style={{
-                        background: `url(${
-                            props.dataModel.progress.image.negative.dataURL
-                        })`,
-                    }}
-                />
+                <Mobile src={props.dataModel.progress.image.negative.dataURL} />
             )}
 
             <div className="toolbar-bottom">
