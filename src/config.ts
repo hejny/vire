@@ -8,6 +8,10 @@ export const CROP_SCREEN_RATIO_OPTIONS = [
         value: Math.round(1125 / 2436 * 1000) / 1000,
     },
     {
+        label: 'IPhone 8 ( 750 x 1334 )',
+        value: Math.round(750 / 1334 * 1000) / 1000,
+    },
+    {
         label: 'FullHD ( 1080 x 1920 )',
         value: Math.round(1080 / 1920 * 1000) / 1000,
     },
