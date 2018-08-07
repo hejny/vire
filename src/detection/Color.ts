@@ -1,4 +1,4 @@
-import { Vector2 } from ".";
+import { Vector2 } from '.';
 
 export class Color {
     static BLACK = new Color(0, 0, 0);
@@ -51,9 +51,9 @@ export class Color {
         return new Color(callback(this.r), callback(this.g), callback(this.b));
     }
 
-    get negative(): Color{
-        if(this===Color.WHITE)return Color.BLACK;
-        if(this===Color.BLACK)return Color.WHITE;
-        return this.map((value)=>255-value);
+    get negative(): Color {
+        if (this === Color.WHITE) return Color.BLACK;
+        if (this === Color.BLACK) return Color.WHITE;
+        return this.map((value) => 255 - value);
     }
 }

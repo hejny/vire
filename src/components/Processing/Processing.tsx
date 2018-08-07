@@ -15,7 +15,7 @@ export const Processing = observer((props: { dataModel: DataModel }) => {
 
             {props.dataModel.progress.image && (
                 <div
-                    className="image"
+                    className="fullscreen-image"
                     style={{
                         background: `url(${
                             props.dataModel.progress.image.negative.dataURL
@@ -24,17 +24,17 @@ export const Processing = observer((props: { dataModel: DataModel }) => {
                 />
             )}
 
-<           div className="toolbar-bottom">
-            <button
-                className="red"
-                onClick={() => {
-                    if (confirm(`Do you really want to stop processing?`)) {
-                        props.dataModel.stopProcessing();
-                    }
-                }}
-            >
-                Stop
-            </button>
+            <div className="toolbar-bottom">
+                <button
+                    className="red"
+                    onClick={() => {
+                        if (confirm(`Do you really want to stop processing?`)) {
+                            props.dataModel.stopProcessing();
+                        }
+                    }}
+                >
+                    Stop
+                </button>
             </div>
         </div>
     );

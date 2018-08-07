@@ -105,8 +105,8 @@ export class DataModel {
 
     constructor() {
         (async () => {
-            //await this.startWithMockedInputImage();
-            //await this.processImage();
+            await this.startWithMockedInputImage();
+            await this.processImage();
             /*this.screen = AppScreen.PROCESSING;
             this.progress = {
                 percent: .5,

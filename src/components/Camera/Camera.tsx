@@ -217,14 +217,20 @@ export const Camera = observer(
                                                     key={i}
                                                     value={value.value}
                                                 >
-                                                    {`${value.label} ( ${value.value} x ${Math.ceil(value.value/this.props.dataModel.cropScreenRatio)} )`}
+                                                    {`${value.label} ( ${
+                                                        value.value
+                                                    } x ${Math.ceil(
+                                                        value.value /
+                                                            this.props.dataModel
+                                                                .cropScreenRatio,
+                                                    )} )`}
                                                 </option>
                                             ),
                                         )}
                                     </select>
                                 </div>
-                                </div>
-                                <div className="toolbar-bottom">
+                            </div>
+                            <div className="toolbar-bottom">
                                 <div className="buttons">
                                     <button
                                         className="red"

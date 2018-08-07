@@ -53,7 +53,7 @@ export class Image {
         return new Image(table);
     }
 
-    map(callback:(color:Color)=>Color): Image {
+    map(callback: (color: Color) => Color): Image {
         const table: Color[][] = [];
         for (let y = 0; y < this.size.y; y++) {
             const row: Color[] = [];
@@ -66,7 +66,7 @@ export class Image {
     }
 
     get negative(): Image {
-        return this.map((color)=>color.negative);
+        return this.map((color) => color.negative);
     }
 
     equals(image: Image): boolean {
@@ -778,7 +778,4 @@ export class Image {
         }
         return image;
     }
-
-
-
 }
