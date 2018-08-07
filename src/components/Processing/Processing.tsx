@@ -18,7 +18,7 @@ export const Processing = observer((props: { dataModel: DataModel }) => {
                     className="image"
                     style={{
                         background: `url(${
-                            props.dataModel.progress.image.dataURL
+                            props.dataModel.progress.image.negative.dataURL
                         })`,
                     }}
                 />
@@ -26,7 +26,7 @@ export const Processing = observer((props: { dataModel: DataModel }) => {
 
 <           div className="toolbar-bottom">
             <button
-                className="abort"
+                className="red"
                 onClick={() => {
                     if (confirm(`Do you really want to stop processing?`)) {
                         props.dataModel.stopProcessing();

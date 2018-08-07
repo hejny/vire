@@ -227,6 +227,7 @@ export const Camera = observer(
                                 <div className="toolbar-bottom">
                                 <div className="buttons">
                                     <button
+                                        className="red"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             if (
@@ -241,6 +242,7 @@ export const Camera = observer(
                                         Again
                                     </button>
                                     <button
+                                        className="green"
                                         onClick={() =>
                                             this.props.dataModel.processImage()
                                         }

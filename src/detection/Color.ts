@@ -1,3 +1,5 @@
+import { Vector2 } from ".";
+
 export class Color {
     static BLACK = new Color(0, 0, 0);
     static WHITE = new Color(255, 255, 255);
@@ -43,5 +45,15 @@ export class Color {
 
     get lightness(): number {
         return (this.r + this.g + this.b) / 255 / 3;
+    }
+
+    map(callback: (value: number) => number): Color {
+        return new Color(callback(this.r), callback(this.g), callback(this.b));
+    }
+
+    get negative(): Color{
+        if(this===Color.WHITE)return Color.BLACK;
+        if(this===Color.BLACK)return Color.WHITE;
+        return this.map((value)=>255-value);
     }
 }

@@ -1,6 +1,7 @@
 import { Color } from './Color';
 import { VectorSet } from './geometry/VectorSet';
 import { Vector2 } from './geometry/Vector2';
+import { throws } from 'assert';
 
 export class Image {
     //todo from canvas
@@ -50,6 +51,22 @@ export class Image {
             }
         }
         return new Image(table);
+    }
+
+    map(callback:(color:Color)=>Color): Image {
+        const table: Color[][] = [];
+        for (let y = 0; y < this.size.y; y++) {
+            const row: Color[] = [];
+            table.push(row);
+            for (let x = 0; x < this.size.x; x++) {
+                row.push(callback(this.pixels[y][x]));
+            }
+        }
+        return new Image(table);
+    }
+
+    get negative(): Image {
+        return this.map((color)=>color.negative);
     }
 
     equals(image: Image): boolean {
@@ -761,4 +778,7 @@ export class Image {
         }
         return image;
     }
+
+
+
 }

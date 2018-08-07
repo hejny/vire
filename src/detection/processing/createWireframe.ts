@@ -26,6 +26,7 @@ export async function createWireframe(
         image: imageResizedPurged,
     });
 
+
     /*/
         const _ = Detection.Color.WHITE;
         const $ = Detection.Color.BLACK;

@@ -23,7 +23,11 @@
     bottom: 0;
     left: 0;
     right:0;
-    background-color: black;
+
+    background-repeat: no-repeat!important;
+    background-position: center!important;
+    background-size: contain!important;
+    background-color: black!important;
     
   
 }
