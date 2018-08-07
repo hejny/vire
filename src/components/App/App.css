@@ -39,3 +39,26 @@ select{
     color: black;
     cursor: pointer;
 }
+
+
+
+.toolbar-top{
+    z-index: 200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right:0;
+    background-color: white;
+    border: 1px solod red;
+    text-align: center;
+}
+.toolbar-bottom{
+    z-index: 200;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right:0;
+    background-color: white;
+    border: 1px solod red;
+    text-align: center;
+}

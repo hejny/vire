@@ -140,6 +140,12 @@
 
 /*==================================================*/
 
+.Camera select{
+  
+  width: 80%;
+}
+
+/*
 .Camera .tools{
   z-index: 50;
   position: fixed;
@@ -161,12 +167,12 @@
   
   background-color: white;
 
-  /*transform: rotate(90deg) translate(50%,calc(50vw - 20px));*/
 
   text-align: left;
 }
 
-.Camera .header select{
-  
-  width: 100%;
-}
+
+
+
+
+*/

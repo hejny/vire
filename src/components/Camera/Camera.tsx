@@ -172,7 +172,7 @@ export const Camera = observer(
                                 className="snap-click-overlay"
                                 onClick={() => this.snap()}
                             />
-                            <div className="header">
+                            <div className="toolbar-top">
                                 <select
                                     value={this.props.dataModel.cropScreenRatio}
                                     onChange={(event) =>
@@ -198,7 +198,7 @@ export const Camera = observer(
                                 className="snap-effect"
                                 ref={(element) => {}}
                             />
-                            <div className="tools">
+                            <div className="toolbar-top">
                                 <div className="options">
                                     <select
                                         value={
@@ -223,6 +223,8 @@ export const Camera = observer(
                                         )}
                                     </select>
                                 </div>
+                                </div>
+                                <div className="toolbar-bottom">
                                 <div className="buttons">
                                     <button
                                         onClick={(e) => {
