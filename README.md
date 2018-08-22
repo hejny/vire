@@ -1,4 +1,4 @@
-# Election calculator frontend
+# VireApp demo
 
 
 
@@ -15,4 +15,4 @@ npm install
 
 ```bash
 npm run
-```
+```a
