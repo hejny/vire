@@ -14,5 +14,5 @@ npm install
 ### 2) Run
 
 ```bash
-npm run
-```a
+npm start
+```

@@ -2,7 +2,7 @@
   "name": "web-demo",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://...",
+  "homepage": "https://vire.app/",
   "dependencies": {
     "@types/downloadjs": "^1.4.0",
     "@types/react-webcam": "^0.3.0",
