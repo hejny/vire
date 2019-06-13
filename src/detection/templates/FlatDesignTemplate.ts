@@ -4,8 +4,8 @@ import { AbstractSymetricTemplate } from './AbstractSymetricTemplate';
 export class FlatDesignTemplate extends AbstractSymetricTemplate
     implements ITemplate {
     snappingValuesHalf(coord: 'x' | 'y'): number[] {
-        const pad = this.size.x/400*30;
-        const step = this.size.x/400*20;
+        const pad = this.size.x / 400 * 30;
+        const step = this.size.x / 400 * 20;
 
         const snappingValues: number[] = [pad];
 

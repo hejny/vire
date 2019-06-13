@@ -9,11 +9,12 @@ import { FlatDesignTemplate } from '../../detection/templates/FlatDesignTemplate
 import { Mobile } from '../Mobile/Mobile';
 
 export const Result = observer((props: { dataModel: DataModel }) => {
-
     let snappedOutput = props.dataModel.output;
 
-    if(props.dataModel.snapping==='MATERIAL'){
-        snappedOutput = snappedOutput.snap(new FlatDesignTemplate(snappedOutput.size));
+    if (props.dataModel.snapping === 'MATERIAL') {
+        snappedOutput = snappedOutput.snap(
+            new FlatDesignTemplate(snappedOutput.size),
+        );
     }
 
     return (
@@ -39,11 +40,9 @@ export const Result = observer((props: { dataModel: DataModel }) => {
                 }}
             />*/}
 
-
-            <Mobile src={textToDataURL(
-                    snappedOutput.toSvg(true),
-                    'image/svg+xml',
-                )} />
+            <Mobile
+                src={textToDataURL(snappedOutput.toSvg(true), 'image/svg+xml')}
+            />
 
             <div className="toolbar-bottom">
                 <button

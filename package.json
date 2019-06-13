@@ -19,7 +19,6 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "deploy-from-cache": "gh-pages -d build",
@@ -33,6 +32,7 @@
     "@types/react-dom": "^16.0.5",
     "gh-pages": "^1.1.0",
     "prettier": "^1.12.1",
+    "onchange": "^5.0.2",
     "typescript": "^2.8.3"
   }
 }

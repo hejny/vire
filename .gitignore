@@ -21,3 +21,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # src/detection
+
+# IDEs
+.idea
+.vscode/*
+!.vscode/terminals.json

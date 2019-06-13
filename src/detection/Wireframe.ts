@@ -24,7 +24,11 @@ export class Wireframe {
 
     //private template: ITemplate|null;
 
-    constructor(public size: Vector2, public rectangles: Rectangle[],public template:ITemplate|null = null) {
+    constructor(
+        public size: Vector2,
+        public rectangles: Rectangle[],
+        public template: ITemplate | null = null,
+    ) {
         //this.template = null;//new FlatDesignTemplate(this.size);
     }
 
@@ -67,14 +71,14 @@ export class Wireframe {
         
     }*/
 
-    snap(template:ITemplate): Wireframe {
+    snap(template: ITemplate): Wireframe {
         //todo maybe snap in constructor
         return new Wireframe(
             this.size,
             this.rectangles.map((rectangle) =>
                 template.snapRectangle(rectangle),
             ),
-            template
+            template,
         );
     }
 
@@ -140,7 +144,7 @@ export class Wireframe {
 
 
             ${
-                (!snappingLines||!this.template)
+                !snappingLines || !this.template
                     ? ''
                     : (() => {
                           const lines: string[] = [];
