@@ -35,5 +35,6 @@
     "onchange": "5.0.2",
     "typescript": "2.8.3"
   },
-  "license": "SEE LICENSE IN LICENSE"
+  "license": "SEE LICENSE IN LICENSE",
+  "description": "VireApp demo"
 }
