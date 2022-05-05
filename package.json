@@ -36,5 +36,9 @@
     "typescript": "2.8.3"
   },
   "license": "SEE LICENSE IN LICENSE",
-  "description": "VireApp demo"
+  "description": "VireApp demo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hejny/vire"
+  }
 }
