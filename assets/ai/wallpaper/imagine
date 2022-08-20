@@ -1,34 +1,146 @@
 # Note: Each part is new input for imagine command
 #       And every first line will be searched during the harvesting phase
 
-VireApp demo
+Banner for social media for project that VireApp demo
 --aspect 2:1
---seed 4771022
+--seed 3590904
 
-Banner for VireApp demo
+VireApp demo in minimalistic style
 --aspect 2:1
---seed 4771022
+--seed 3590904
 
-VireApp demo
+VireApp demo by Kazimir Malevich
+--aspect 2:1
+--seed 3590904
+
+VireApp demo by Vincent van Gogh
+--aspect 2:1
+--seed 3590904
+
+VireApp demo by Pablo Picasso
+--aspect 2:1
+--seed 3590904
+
+VireApp demo by Leonardo da Vinci
+--aspect 2:1
+--seed 3590904
+
+VireApp demo by Michelangelo
+--aspect 2:1
+--seed 3590904
+
+VireApp demo as a realistic photography
+--aspect 2:1
+--seed 3590904
+
+VireApp demo as a realistic painting
+--aspect 2:1
+--seed 3590904
+
+Banner for social media for project that VireApp demo
 --aspect 2:1 --hd
---seed 4771022
+--seed 3590904
 
-Banner for VireApp demo
+VireApp demo in minimalistic style
 --aspect 2:1 --hd
---seed 4771022
+--seed 3590904
 
-VireApp demo
+VireApp demo by Kazimir Malevich
+--aspect 2:1 --hd
+--seed 3590904
+
+VireApp demo by Vincent van Gogh
+--aspect 2:1 --hd
+--seed 3590904
+
+VireApp demo by Pablo Picasso
+--aspect 2:1 --hd
+--seed 3590904
+
+VireApp demo by Leonardo da Vinci
+--aspect 2:1 --hd
+--seed 3590904
+
+VireApp demo by Michelangelo
+--aspect 2:1 --hd
+--seed 3590904
+
+VireApp demo as a realistic photography
+--aspect 2:1 --hd
+--seed 3590904
+
+VireApp demo as a realistic painting
+--aspect 2:1 --hd
+--seed 3590904
+
+Banner for social media for project that VireApp demo
 --aspect 2:1 --quality 2
---seed 4771022
+--seed 3590904
 
-Banner for VireApp demo
+VireApp demo in minimalistic style
 --aspect 2:1 --quality 2
---seed 4771022
+--seed 3590904
 
-VireApp demo
---aspect 2:1 --hd --quality 2
---seed 4771022
+VireApp demo by Kazimir Malevich
+--aspect 2:1 --quality 2
+--seed 3590904
 
-Banner for VireApp demo
+VireApp demo by Vincent van Gogh
+--aspect 2:1 --quality 2
+--seed 3590904
+
+VireApp demo by Pablo Picasso
+--aspect 2:1 --quality 2
+--seed 3590904
+
+VireApp demo by Leonardo da Vinci
+--aspect 2:1 --quality 2
+--seed 3590904
+
+VireApp demo by Michelangelo
+--aspect 2:1 --quality 2
+--seed 3590904
+
+VireApp demo as a realistic photography
+--aspect 2:1 --quality 2
+--seed 3590904
+
+VireApp demo as a realistic painting
+--aspect 2:1 --quality 2
+--seed 3590904
+
+Banner for social media for project that VireApp demo
 --aspect 2:1 --hd --quality 2
---seed 4771022
+--seed 3590904
+
+VireApp demo in minimalistic style
+--aspect 2:1 --hd --quality 2
+--seed 3590904
+
+VireApp demo by Kazimir Malevich
+--aspect 2:1 --hd --quality 2
+--seed 3590904
+
+VireApp demo by Vincent van Gogh
+--aspect 2:1 --hd --quality 2
+--seed 3590904
+
+VireApp demo by Pablo Picasso
+--aspect 2:1 --hd --quality 2
+--seed 3590904
+
+VireApp demo by Leonardo da Vinci
+--aspect 2:1 --hd --quality 2
+--seed 3590904
+
+VireApp demo by Michelangelo
+--aspect 2:1 --hd --quality 2
+--seed 3590904
+
+VireApp demo as a realistic photography
+--aspect 2:1 --hd --quality 2
+--seed 3590904
+
+VireApp demo as a realistic painting
+--aspect 2:1 --hd --quality 2
+--seed 3590904
