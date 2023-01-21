@@ -12,7 +12,7 @@
         "mobx-react": "4.3.5",
         "react": "16.4.0",
         "react-dom": "16.14.0",
-        "react-scripts-ts": "2.16.0",
+        "react-scripts-ts": "4.0.8",
         "react-webcam": "0.5.0"
     },
     "scripts": {
