@@ -1,17 +1,15 @@
+import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as Webcam from 'react-webcam';
-import './Camera.css';
-import { observer } from 'mobx-react';
-import { DataModel, AppScreen } from '../../model/DataModel';
-import * as Detection from '../../detection';
-import { cloneCanvas } from '../../tools/cloneCanvas';
-import { fitToScreen, fitToScreenInfo } from '../../tools/fitToScreen';
-import { repeatRequest } from '../../tools/repeatRequest';
 import {
-    PROCESSING_QUALITY_OPTIONS,
-    CROP_SCREEN_RATIO_OPTIONS,
+  CROP_SCREEN_RATIO_OPTIONS, PROCESSING_QUALITY_OPTIONS
 } from '../../config';
+import * as Detection from '../../detection';
+import { DataModel } from '../../model/DataModel';
 import { drawHighlightedRect } from '../../tools/canvasTools';
+import { cloneCanvas } from '../../tools/cloneCanvas';
+import { repeatRequest } from '../../tools/repeatRequest';
+import './Camera.css';
 
 interface ICameraProps {
     dataModel: DataModel;

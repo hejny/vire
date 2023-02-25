@@ -1,10 +1,10 @@
-import * as React from 'react';
 import { observer } from 'mobx-react';
-import { DataModel, AppScreen } from '../../model/DataModel';
-import './App.css';
+import * as React from 'react';
+import { AppScreen, DataModel } from '../../model/DataModel';
 import { Camera } from '../Camera/Camera';
 import { Processing } from '../Processing/Processing';
 import { Result } from '../Result/Result';
+import './App.css';
 
 export const App = observer((props: { dataModel: DataModel }) => {
     return (

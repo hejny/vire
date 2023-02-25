@@ -1,5 +1,5 @@
-import { ITemplate } from './ITemplate';
 import { AbstractTemplate } from './AbstractTemplate';
+import { ITemplate } from './ITemplate';
 
 export class AbstractSymetricTemplate extends AbstractTemplate
     implements ITemplate {

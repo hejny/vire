@@ -1,7 +1,6 @@
-import { VectorSet } from '../geometry/VectorSet';
 import { Wireframe } from '..';
-import { Image } from '../Image';
 import { IProgressFrame } from '../../model/DataModel';
+import { Image } from '../Image';
 import { imageSeparateIslands } from './Flood';
 
 export async function createWireframe(

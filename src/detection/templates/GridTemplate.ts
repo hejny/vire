@@ -1,5 +1,5 @@
-import { ITemplate } from './ITemplate';
 import { AbstractTemplate } from './AbstractTemplate';
+import { ITemplate } from './ITemplate';
 
 export class GridTemplate extends AbstractTemplate implements ITemplate {
     snappingValues(coord: 'x' | 'y', edge: 0 | 1): number[] {

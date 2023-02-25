@@ -1,11 +1,7 @@
-import { Vector2, ISerializedVector2 } from './geometry/Vector2';
-import { Rectangle, ISerializedRectangle } from './geometry/Rectangle';
-import { Image } from './Image';
+import { ISerializedRectangle, Rectangle } from './geometry/Rectangle';
+import { ISerializedVector2, Vector2 } from './geometry/Vector2';
 //import { setPointColor } from './getAreaColor';
-import { Color } from './Color';
 import { ITemplate } from './templates/ITemplate';
-import { GridTemplate } from './templates/GridTemplate';
-import { FlatDesignTemplate } from './templates/FlatDesignTemplate';
 
 export interface ISerializedWireframe {
     size: ISerializedVector2;

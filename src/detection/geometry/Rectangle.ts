@@ -1,4 +1,4 @@
-import { Vector2, ISerializedVector2 } from './Vector2';
+import { ISerializedVector2, Vector2 } from './Vector2';
 import { VectorSet } from './VectorSet';
 
 export interface ISerializedRectangle {

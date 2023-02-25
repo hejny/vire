@@ -1,6 +1,6 @@
 import { Image, Vector2 } from '..';
-import { Line } from '../geometry/Line';
 import { Color } from '../Color';
+import { Line } from '../geometry/Line';
 import { VectorSet } from '../geometry/VectorSet';
 
 const DIRECTIONS = [

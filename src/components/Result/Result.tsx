@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
-import { DataModel } from '../../model/DataModel';
 import * as download from 'downloadjs';
-import './Result.css';
-import { textToDataURL } from '../../tools/dataTools';
+import { observer } from 'mobx-react';
+import * as React from 'react';
 import { SNAPPING_OPTIONS } from '../../config';
 import { FlatDesignTemplate } from '../../detection/templates/FlatDesignTemplate';
+import { DataModel } from '../../model/DataModel';
+import { textToDataURL } from '../../tools/dataTools';
 import { Mobile } from '../Mobile/Mobile';
+import './Result.css';
 
 export const Result = observer((props: { dataModel: DataModel }) => {
     let snappedOutput = props.dataModel.output;

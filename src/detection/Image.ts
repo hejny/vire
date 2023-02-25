@@ -1,7 +1,6 @@
 import { Color } from './Color';
-import { VectorSet } from './geometry/VectorSet';
 import { Vector2 } from './geometry/Vector2';
-import { throws } from 'assert';
+import { VectorSet } from './geometry/VectorSet';
 
 export class Image {
     //todo from canvas

@@ -1,4 +1,3 @@
-import { Vector2 } from '.';
 
 export class Color {
     static BLACK = new Color(0, 0, 0);

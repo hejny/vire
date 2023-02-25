@@ -1,7 +1,6 @@
+import { Vector2 } from '..';
 import { VectorSet } from '../geometry/VectorSet';
 import { Image } from '../Image';
-import { Vector2 } from '..';
-import { access } from 'fs';
 
 export async function imageSeparateIslands(
     image: Image,

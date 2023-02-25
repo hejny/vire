@@ -1,7 +1,7 @@
-import { Vector2 } from './Vector2';
-import { Rectangle } from './Rectangle';
-import { nextFrame } from '../nextFrame';
 import { Color } from '../Color';
+import { nextFrame } from '../nextFrame';
+import { Rectangle } from './Rectangle';
+import { Vector2 } from './Vector2';
 
 export class VectorSet {
     private outerPoints: Vector2[] = [];

@@ -1,18 +1,14 @@
-import { observable, computed } from 'mobx';
+import { computed, observable } from 'mobx';
+import {
+  CROP_SCREEN_RATIO_OPTIONS_DEFAULT,
+  PROCESSING_QUALITY_OPTIONS_DEFAULT,
+  SNAPPING_OPTIONS_DEFAULT
+} from '../config';
 import * as Detection from '../detection';
-import { nextFrame, sleep } from '../tools/wait';
+import { createWireframe } from '../detection/processing/createWireframe';
 import { canvasFromSrc } from '../tools/canvasTools';
 import { fitToScreenInfo } from '../tools/fitToScreen';
-import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from 'constants';
-import { imageSeparateIslands } from '../detection';
-import { createWireframe } from '../detection/processing/createWireframe';
-import {
-    CROP_SCREEN_RATIO_OPTIONS,
-    PROCESSING_QUALITY_OPTIONS,
-    CROP_SCREEN_RATIO_OPTIONS_DEFAULT,
-    PROCESSING_QUALITY_OPTIONS_DEFAULT,
-    SNAPPING_OPTIONS_DEFAULT,
-} from '../config';
+import { nextFrame, sleep } from '../tools/wait';
 
 export enum AppScreen {
     CAMERA,

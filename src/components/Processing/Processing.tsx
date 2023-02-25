@@ -1,8 +1,8 @@
-import * as React from 'react';
-import './Processing.css';
-import { DataModel } from '../../model/DataModel';
 import { observer } from 'mobx-react';
+import * as React from 'react';
+import { DataModel } from '../../model/DataModel';
 import { Mobile } from '../Mobile/Mobile';
+import './Processing.css';
 
 export const Processing = observer((props: { dataModel: DataModel }) => {
     return (

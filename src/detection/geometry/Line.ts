@@ -1,7 +1,7 @@
 import { Vector2 } from '..';
+import { Color } from '../Color';
 import { Image } from '../Image';
 import { VectorSet } from './VectorSet';
-import { Color } from '../Color';
 
 export class Line {
     constructor(public start: Vector2, public end: Vector2) {}
