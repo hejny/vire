@@ -1,6 +1,6 @@
 {
     "name": "web-demo",
-    "version": "0.2.8",
+    "version": "0.2.9",
     "private": true,
     "homepage": "https://vire.app/",
     "dependencies": {
