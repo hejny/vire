@@ -40,5 +40,15 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/hejny/vire"
-    }
+    },
+    "funding": [
+        {
+            "type": "individual",
+            "url": "https://buymeacoffee.com/hejny"
+        },
+        {
+            "type": "github",
+            "url": "https://github.com/hejny/vire/blob/main/README.md#%EF%B8%8F-contributing"
+        }
+    ]
 }
